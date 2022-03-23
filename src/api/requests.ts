@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import * as models from "./models";
 
 const instance = axios.create({
 	baseURL: "https://api.clovebook.com",
