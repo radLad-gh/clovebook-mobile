@@ -9,9 +9,10 @@ import { theme } from "../core/theme";
 
 type Props = React.ComponentProps<typeof Input> & { errorText?: string };
 
-
-const Input = ({ errorText, ...props }: Props, label : any) => {
+const Input = ({ errorText, ...props }: Props, label : string) => {
+  
   const [text, setText] = React.useState("");
+  
   return (
     // react-native-paper <HelperText> can be useful here.
     <TextInput
