@@ -61,8 +61,7 @@ const styles = StyleSheet.create({
   logo: {
     flex: 1,
     backgroundColor: theme.colors.background,
-    width: null,
-    height: null,
+    width: '100%',
     resizeMode: 'contain',
     paddingTop: 50,
   },

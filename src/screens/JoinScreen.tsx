@@ -3,6 +3,10 @@ import {
   StyleSheet,
   View,
   Image,
+  Keyboard,
+  ScrollView,
+  StatusBar,
+  Text
 } from "react-native";
 import {
   Button,
@@ -12,28 +16,40 @@ import Input from "../components/Input";
 import InputSecure from "../components/InputSecure"
 import { theme } from "../core/theme";
 
+const statusBarHeight = StatusBar.currentHeight;
+
 const JoinScreen = () => {
 
-    return (
-    <>
-    <Image source={require('../assets/logo-light.png')} style={styles.logo}/>
-    <View style={styles.inputContainer}>
-      <Input label="Firstname"></Input>
-      <Input label="Lastname"></Input>
-      <Input label="Email"></Input>
-      <Input label="Username"></Input>
-      <InputSecure label="Password"></InputSecure>
-      <View style={styles.inputOptionsContainer}></View>
+    const [keyboardStatus, setKeyboardStatus] = React.useState('flex');
+    React.useEffect(() => {
+      Keyboard.addListener("keyboardDidShow", () => {
+        setKeyboardStatus('none');
+      });
+      Keyboard.addListener("keyboardDidHide", () => {
+        setKeyboardStatus('flex');
+      });
+    })
 
-      <Button
-        mode="contained"
-        onPress={() => { console.log("Log In clicked"); }}
-        style={{alignSelf: 'center', width: 200, marginTop: 75}}
-      >
-        Log In
-      </Button>
-    </View>
-    </>
+    return (
+      <>
+      <Image source={require('../assets/logo-light.png')} style={[styles.logo, {display: keyboardStatus}]} />
+      <ScrollView style={styles.inputContainer} contentContainerStyle={{paddingVertical: 25,}}>
+        <Input label="Firstname"></Input>
+        <Input label="Lastname"></Input>
+        <Input label="Email"></Input>
+        <Input label="Username"></Input>
+        <InputSecure label="Password"></InputSecure>
+        <View style={styles.inputOptionsContainer}></View>
+
+        <Button
+          mode="contained"
+          onPress={() => { console.log("Log In clicked"); }}
+          style={{alignSelf: 'center', width: 200, marginTop: 25}}
+        >
+          Log In
+        </Button>
+      </ScrollView>
+      </>
   )
 };
 
@@ -41,16 +57,15 @@ const styles = StyleSheet.create({
   logo: {
     flex: 1,
     backgroundColor: theme.colors.background,
-    width: null,
-    height: null,
+    width: '100%',
     resizeMode: 'contain',
-    paddingTop: 50,
   },
   inputContainer: {
     backgroundColor: theme.colors.background,
-    flex: 2,
-    justifyContent: 'flex-start',
+    flex: 1,
     paddingHorizontal: 25,
+    // Hacky way to get this page the way it looks.
+    paddingBottom: 250,
   },
   inputOptionsContainer: {
     display: 'flex',
