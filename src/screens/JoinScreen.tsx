@@ -16,8 +16,6 @@ import Input from "../components/Input";
 import InputSecure from "../components/InputSecure"
 import { theme } from "../core/theme";
 
-const statusBarHeight = StatusBar.currentHeight;
-
 const JoinScreen = () => {
 
     const [keyboardStatus, setKeyboardStatus] = React.useState('flex');
