@@ -1,7 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, {  } from "react";
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomeScreen from '../screens/HomeScreen';
+import DiscoverScreen from '../screens/DiscoverScreen';
+import FavoritesScreen from "../screens/FavoritesScreen";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { SearchBar } from "../components/SearchBar";
-import { IngredientPanel } from "../components/IngredientPanel";
-import { SimpleRecipe } from "../api/models";
-import { RecipeStack } from "../components/RecipeStack";
-import RecipeModal from "../components/RecipeModal";
+const Tab = createBottomTabNavigator();
+
+function Tabs() {
+  return (
+      <Tab.Navigator screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+              
+              if (route.name === 'Discover') {
+                  iconName = focused
+                  ? 'compass'
+                  : 'compass-outline';
+              } else if (route.name === 'Home') {
+                  iconName = focused
+                  ? 'md-home'
+                  : 'home-outline';
+              } else if (route.name === 'Favorites') {
+                  iconName = focused
+                  ? 'star'
+                  : 'star-outline';
+              }
+              
+              return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTiltColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+      })}>
+          <Tab.Screen name="Discover" component={DiscoverScreen} />
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Favorites" component={FavoritesScreen} />
+      </Tab.Navigator>
+  );
+}
+
+function Home() {
+    return(
+        <NavigationContainer>
+            <Tabs />
+        </NavigationContainer>
+    );
+};
+
+export default Home;
+
