@@ -5,12 +5,13 @@ import HomeScreen from '../screens/HomeScreen';
 import DiscoverScreen from '../screens/DiscoverScreen';
 import FavoritesScreen from "../screens/FavoritesScreen";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import styles from "../themes/Theme";
 
 const Tab = createBottomTabNavigator();
 
 function Tabs() {
   return (
-      <Tab.Navigator screenOptions={({ route }) => ({
+      <Tab.Navigator initialRouteName="Home"  screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               
@@ -30,7 +31,7 @@ function Tabs() {
               
               return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTiltColor: 'tomato',
+          tabBarActiveTintColor: '#0c2245ff',
           tabBarInactiveTintColor: 'gray',
       })}>
           <Tab.Screen name="Discover" component={DiscoverScreen} />
