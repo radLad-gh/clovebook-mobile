@@ -9,12 +9,19 @@ import {
   Button,
   Switch,
 } from "react-native-paper"
+import { useNavigation } from '@react-navigation/native';
 
 import Input from "../components/Input";
 import InputSecure from "../components/InputSecure"
 import { theme } from "../core/theme";
+import { Navigation } from "../types";
 
-const LoginScreen = () => {
+type Props = {
+  navigation: Navigation,
+  screenName: string
+};
+
+const LoginTab = ({ navigation, screenName }: Props) => {
   // Watches the toggle switch for "Remember Me"
   const [rememberSwitch, setRememberSwitch] = React.useState(false);
   const onToggleSwitch = () => setRememberSwitch(!rememberSwitch);
@@ -37,9 +44,7 @@ const LoginScreen = () => {
           mode="text"
           compact={true}
           uppercase={false}
-          onPress={() => {
-            console.log("Forgot Password clicked.");
-          }}
+          onPress={() => { console.log("Forgot Password clicked."); }}
         >
           Forgot Password
         </Button>
@@ -47,7 +52,7 @@ const LoginScreen = () => {
 
       <Button
         mode="contained"
-        onPress={() => { console.log("Log In clicked"); }}
+        onPress={() => {navigation.navigate(screenName)}}
         style={{alignSelf: 'center', width: 200, marginTop: 75}}
       >
         Log In
@@ -89,4 +94,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default memo(LoginScreen);
+export default memo(LoginTab);

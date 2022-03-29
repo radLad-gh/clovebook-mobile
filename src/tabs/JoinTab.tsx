@@ -5,8 +5,6 @@ import {
   Image,
   Keyboard,
   ScrollView,
-  StatusBar,
-  Text
 } from "react-native";
 import {
   Button,
@@ -16,7 +14,7 @@ import Input from "../components/Input";
 import InputSecure from "../components/InputSecure"
 import { theme } from "../core/theme";
 
-const JoinScreen = () => {
+const JoinTab = () => {
 
     const [keyboardStatus, setKeyboardStatus] = React.useState('flex');
     React.useEffect(() => {
@@ -73,4 +71,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(JoinScreen);
+export default memo(JoinTab);
