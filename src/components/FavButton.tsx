@@ -5,7 +5,7 @@ import * as Theme from '../themes/Theme';
 export function FavButton() {
     return( 
         <Button>
-            <Ionicons name='star-outline' size={12} color={Theme.colors.backgroundColor} />
+            <Ionicons name='star-outline' size={12} color={Theme.theme.colors.background} />
         </Button>
     )
 }

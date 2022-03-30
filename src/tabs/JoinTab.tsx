@@ -12,39 +12,35 @@ import {
 
 import Input from "../components/Input";
 import InputSecure from "../components/InputSecure"
-import { theme } from "../core/theme";
+import { theme } from "../themes/Theme";
 
 const JoinTab = () => {
 
     const [keyboardStatus, setKeyboardStatus] = React.useState('flex');
     React.useEffect(() => {
-      Keyboard.addListener("keyboardDidShow", () => {
-        setKeyboardStatus('none');
-      });
-      Keyboard.addListener("keyboardDidHide", () => {
-        setKeyboardStatus('flex');
-      });
-    })
+      Keyboard.addListener("keyboardDidShow", () => { setKeyboardStatus('none'); });
+      Keyboard.addListener("keyboardDidHide", () => { setKeyboardStatus('flex'); });
+    });
 
     return (
       <>
-      <Image source={require('../assets/logo-light.png')} style={[styles.logo, {display: keyboardStatus}]} />
-      <ScrollView style={styles.inputContainer} contentContainerStyle={{paddingVertical: 25,}}>
-        <Input label="Firstname"></Input>
-        <Input label="Lastname"></Input>
-        <Input label="Email"></Input>
-        <Input label="Username"></Input>
-        <InputSecure label="Password"></InputSecure>
-        <View style={styles.inputOptionsContainer}></View>
-
-        <Button
-          mode="contained"
-          onPress={() => { console.log("Log In clicked"); }}
-          style={{alignSelf: 'center', width: 200, marginTop: 25}}
-        >
-          Log In
-        </Button>
-      </ScrollView>
+        <Image source={require('../assets/logo-light.png')} style={[styles.logo, {display: keyboardStatus}]} />
+        <ScrollView style={styles.inputContainer} contentContainerStyle={{paddingVertical: 25,}}>
+          <Input label="Firstname"></Input>
+          <Input label="Lastname"></Input>
+          <Input label="Email"></Input>
+          <Input label="Username"></Input>
+          <InputSecure label="Password"></InputSecure>
+          <View style={styles.inputOptionsContainer}></View>
+      
+          <Button
+            mode="contained"
+            onPress={() => { console.log("Send that info the backend 8^)"); }}
+            style={{alignSelf: 'center', width: 200, marginTop: 25}}
+          >
+            Join
+          </Button>
+        </ScrollView>
       </>
   )
 };

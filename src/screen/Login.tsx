@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import LoginTab from "../tabs/LoginTab";
 import JoinTab from "../tabs/JoinTab";
-import { theme } from "../core/theme";
+import { theme } from "../themes/Theme";
 
 type Props = {
   navigation: Navigation,
@@ -30,6 +30,7 @@ const LoginScreen = ({ navigation }: Props) => {
             backgroundColor: theme.colors.surface,
             borderTopColor: theme.colors.selected,
             height: 60,
+            
         },
         tabBarActiveBackgroundColor: theme.colors.selected,
       }}
@@ -39,25 +40,15 @@ const LoginScreen = ({ navigation }: Props) => {
         children={() => <LoginTab navigation={navigation} screenName={"Home"}/>}
         options={{
             tabBarIcon: ({size, color}: tabBarIcon) => (
-                <Icon 
-                  name={"login-variant"}
-                  color={color} 
-                  size={size} 
-                />
+                <Icon name={"login-variant"} color={color} size={size} />
             ),
             tabBarHideOnKeyboard : true,
         }}
       />
-      <Tab.Screen 
-        name="JOIN" 
-        component={JoinTab}
+      <Tab.Screen name="JOIN" component={JoinTab}
         options={{
           tabBarIcon: ({size, color}: tabBarIcon) => (
-              <Icon 
-                name={"account-plus"}
-                color={color} 
-                size={size} 
-              />
+              <Icon name={"account-plus"} color={color} size={size} />
           ),
           tabBarHideOnKeyboard : true,
         }}

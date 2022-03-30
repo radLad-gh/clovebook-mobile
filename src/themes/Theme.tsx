@@ -1,9 +1,21 @@
 import { StyleSheet } from 'react-native';
+import { DefaultTheme } from 'react-native-paper';
 
-export const colors = {
-    backgroundColor: '#e2ddf9',
-    accent: '#0c2245ff',
-    panel: '#bdaed4',
+export const theme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        primary: "#AB98C7",
+        primary_glow: "#79609F",
+        accent: "#101041",
+        background: "#E8E5E3",
+        surface: "#C7C0BB",
+        selected: "#AEA49E",
+        text: "#283332",
+        text_light: "#F1F4F3",
+
+        notifications: "#f13a59",
+    }
 };
 
 const styles = StyleSheet.create({
@@ -24,7 +36,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     homeScreen: {
-        backgroundColor: colors.backgroundColor,
+        backgroundColor: theme.colors.background,
         justifyContent: 'flex-start', 
         alignItems: 'center'   
     },
@@ -36,7 +48,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         borderRadius: 20,
-        backgroundColor: colors.panel,
+        backgroundColor: theme.colors.surface,
         marginTop: 15,
         elevation: 3,
     }

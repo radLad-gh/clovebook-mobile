@@ -5,7 +5,7 @@ import {
 import {
   TextInput
 } from "react-native-paper";
-import { theme } from "../core/theme";
+import { theme } from "../themes/Theme";
 
 type Props = React.ComponentProps<typeof Input> & { errorText?: string };
 

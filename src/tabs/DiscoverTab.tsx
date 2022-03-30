@@ -1,13 +1,13 @@
 import React from "react";
 import { View, Text, Dimensions } from "react-native";
-import styles from '../themes/Theme';
+import { theme } from '../themes/Theme';
 
 
 function DiscoverTab() {
     var width = Dimensions.get('window').width;
     var height = Dimensions.get('window').height;
     return (
-      <View style={{padding: 15, backgroundColor:styles.colors.backgroundColor ,height:height, justifyContent: 'flex-start', alignItems: 'center' }}>
+      <View style={{padding: 15, backgroundColor: theme.colors.background ,height:height, justifyContent: 'flex-start', alignItems: 'center' }}>
         <Text>Discover!</Text>
       </View>
     );

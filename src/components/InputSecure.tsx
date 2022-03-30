@@ -7,7 +7,7 @@ import {
 } from "react-native-paper"
 
 import Input from "./Input";
-import { theme } from "../core/theme";
+import { theme } from "../themes/Theme";
 
 type Props = {
   label : string;

@@ -9,11 +9,10 @@ import {
   Button,
   Switch,
 } from "react-native-paper"
-import { useNavigation } from '@react-navigation/native';
 
 import Input from "../components/Input";
 import InputSecure from "../components/InputSecure"
-import { theme } from "../core/theme";
+import { theme } from "../themes/Theme";
 import { Navigation } from "../types";
 
 type Props = {
@@ -30,34 +29,34 @@ const LoginTab = ({ navigation, screenName }: Props) => {
   // display -> none for the logo.
   return (
     <>
-    <Image source={require('../assets/logo-light.png')} style={styles.logo}/>
-    <View style={styles.inputContainer}>
-      <Input label="Username"></Input>
-      <InputSecure label={"Password"}></InputSecure>
-      <View style={styles.inputOptionsContainer}>
-        <View style={styles.inputOptionRememberContainer}>
-          <Text style={{paddingRight: 10, alignSelf: 'center',}}>Remember Me</Text>
-          <Switch value={rememberSwitch} onValueChange={onToggleSwitch}/>
+      <Image source={require('../assets/logo-light.png')} style={styles.logo}/>
+      <View style={styles.inputContainer}>
+        <Input label="Username"></Input>
+        <InputSecure label={"Password"}></InputSecure>
+        <View style={styles.inputOptionsContainer}>
+          <View style={styles.inputOptionRememberContainer}>
+            <Text style={{paddingRight: 10, alignSelf: 'center', color: theme.colors.text}}>Remember Me</Text>
+            <Switch value={rememberSwitch} onValueChange={onToggleSwitch}/>
+          </View>
+          <Button 
+            style={styles.inputOptionForgot}
+            mode="text"
+            compact={true}
+            uppercase={false}
+            onPress={() => { console.log("Forgot Password clicked."); }}
+          >
+            Forgot Password
+          </Button>
         </View>
-        <Button 
-          style={styles.inputOptionForgot}
-          mode="text"
-          compact={true}
-          uppercase={false}
-          onPress={() => { console.log("Forgot Password clicked."); }}
+
+        <Button
+          mode="contained"
+          onPress={() => {navigation.navigate(screenName)}}
+          style={{alignSelf: 'center', width: 200, marginTop: 75}}
         >
-          Forgot Password
+          Log In
         </Button>
       </View>
-
-      <Button
-        mode="contained"
-        onPress={() => {navigation.navigate(screenName)}}
-        style={{alignSelf: 'center', width: 200, marginTop: 75}}
-      >
-        Log In
-      </Button>
-    </View>
     </>
   )
 };
