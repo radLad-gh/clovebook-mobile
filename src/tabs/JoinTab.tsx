@@ -14,7 +14,14 @@ import Input from "../components/Input";
 import InputSecure from "../components/InputSecure"
 import { theme } from "../themes/Theme";
 
-const JoinTab = () => {
+import { Navigation } from '../types';
+
+type TabProps = {
+  navigation: Navigation,
+  screenName: string
+};
+
+const JoinTab = ({ navigation, screenName }: TabProps) => {
 
     const [keyboardStatus, setKeyboardStatus] = React.useState('flex');
     React.useEffect(() => {

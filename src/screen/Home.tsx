@@ -1,42 +1,54 @@
 import React, {  } from "react";
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Navigation } from "../types";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
 import HomeTab from '../tabs/HomeTab';
 import DiscoverTab from '../tabs/DiscoverTab';
 import FavoritesTab from "../tabs/FavoritesTab";
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { theme } from '../themes/Theme'
+
+import { Navigation } from "../types";
 
 const Tab = createBottomTabNavigator();
 
-type Props = {
+type ScreenProps = {
   navigation: Navigation,
 };
 
-function HomeScreen({ navigation }: Props) {
-  return (
-    <Tab.Navigator initialRouteName="Home"  screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
-        let iconName;
-        
-        if (route.name === 'Discover') {
-            iconName = focused
-            ? 'compass'
-            : 'compass-outline';
-        } else if (route.name === 'Home') {
-            iconName = focused
-            ? 'md-home'
-            : 'home-outline';
-        } else if (route.name === 'Favorites') {
-            iconName = focused
-            ? 'star'
-            : 'star-outline';
-        }
+const HomeScreen = ({ navigation }: ScreenProps) => {
 
-        return <Ionicons name={iconName} size={size} color={color} />;
-      },
-      tabBarActiveTintColor: '#0c2245ff',
-      tabBarInactiveTintColor: 'gray',
+  return (
+    <Tab.Navigator 
+      initialRouteName="Home"  
+      screenOptions={({ route }) => ({
+        tabBarLabelPosition: "beside-icon",
+        headerShown: false,
+        tabBarStyle: {
+            backgroundColor: theme.colors.surface,
+            borderTopColor: theme.colors.selected,
+            height: 60,
+        },
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Discover') {
+              iconName = focused
+              ? 'compass'
+              : 'compass-outline';
+          } else if (route.name === 'Home') {
+              iconName = focused
+              ? 'home'
+              : 'home-outline';
+          } else if (route.name === 'Favorites') {
+              iconName = focused
+              ? 'star'
+              : 'star-outline';
+          }
+
+          return <Icon name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveBackgroundColor: theme.colors.selected,
+        tabBarActiveTintColor: theme.colors.accent,
     })}>
       <Tab.Screen name="Discover" component={DiscoverTab} />
       <Tab.Screen name="Home" component={HomeTab} />

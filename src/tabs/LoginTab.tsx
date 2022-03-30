@@ -15,12 +15,12 @@ import InputSecure from "../components/InputSecure"
 import { theme } from "../themes/Theme";
 import { Navigation } from "../types";
 
-type Props = {
+type TabProps = {
   navigation: Navigation,
   screenName: string
 };
 
-const LoginTab = ({ navigation, screenName }: Props) => {
+const LoginTab = ({ navigation, screenName }: TabProps) => {
   // Watches the toggle switch for "Remember Me"
   const [rememberSwitch, setRememberSwitch] = React.useState(false);
   const onToggleSwitch = () => setRememberSwitch(!rememberSwitch);

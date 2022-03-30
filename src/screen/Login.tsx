@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import { Navigation } from "../types";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -7,7 +6,9 @@ import LoginTab from "../tabs/LoginTab";
 import JoinTab from "../tabs/JoinTab";
 import { theme } from "../themes/Theme";
 
-type Props = {
+import { Navigation } from "../types";
+
+type ScreenProps = {
   navigation: Navigation,
 };
 
@@ -18,7 +19,7 @@ type tabBarIcon = {
 
 const Tab = createBottomTabNavigator();
 
-const LoginScreen = ({ navigation }: Props) => {
+const LoginScreen = ({ navigation }: ScreenProps) => {
   // Our Homescreen consits of login and registering.
   // React navigation does magic to display the screen which you provide it.
   return (
@@ -33,24 +34,23 @@ const LoginScreen = ({ navigation }: Props) => {
             
         },
         tabBarActiveBackgroundColor: theme.colors.selected,
+        tabBarActiveTintColor: theme.colors.accent,
       }}
     >
       <Tab.Screen 
-        name="LOGIN" 
+        name="Login" 
         children={() => <LoginTab navigation={navigation} screenName={"Home"}/>}
         options={{
-            tabBarIcon: ({size, color}: tabBarIcon) => (
-                <Icon name={"login-variant"} color={color} size={size} />
-            ),
+            tabBarIcon: ({size, color}: tabBarIcon) => 
+            (<Icon name={"login-variant"} color={color} size={size} />),
             tabBarHideOnKeyboard : true,
         }}
       />
-      <Tab.Screen name="JOIN" component={JoinTab}
+      <Tab.Screen name="Join" component={JoinTab}
         options={{
-          tabBarIcon: ({size, color}: tabBarIcon) => (
-              <Icon name={"account-plus"} color={color} size={size} />
-          ),
-          tabBarHideOnKeyboard : true,
+          tabBarIcon: ({size, color}: tabBarIcon) => 
+            (<Icon name={"account-plus"} color={color} size={size} />),
+            tabBarHideOnKeyboard : true,
         }}
       />
     </Tab.Navigator>
