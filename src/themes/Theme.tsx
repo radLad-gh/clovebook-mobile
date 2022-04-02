@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export const colors = {
-    backgroundColor: '#e2ddf9',
+    background: '#e2ddf9',
     accent: '#0c2245ff',
     panel: '#bdaed4',
 };
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     homeScreen: {
-        backgroundColor: colors.backgroundColor,
+        backgroundColor: colors.background,
         justifyContent: 'flex-start', 
         alignItems: 'center'   
     },

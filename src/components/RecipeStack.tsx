@@ -1,20 +1,18 @@
-import { Stack } from "../components/Stack";
-import { Divider } from "react-native-paper";
 import { SimpleRecipe } from "../api/models";
-import { RecipeCard } from "../components/RecipeCard";
+import RecipeCard from "../components/RecipeCard";
+import React from "react";
+import { View } from 'react-native';
 
-interface RecipeGridProps {
+interface RecipeStackProps {
 	recipes: SimpleRecipe[];
 }
 
-export function RecipeStack({ recipes }: RecipeGridProps) {
+export default function RecipeStack({ recipes }: RecipeStackProps) {
 	return (
-		<Stack
-			divider={<Divider />}
-		>
-			{recipes.map((recipe, i) => (
-				<RecipeCard {...recipe} key={i} />
-			))}
-		</Stack>
+		<View>
+			{
+				recipes.map((recipe, i) => (<RecipeCard {...recipe} key={i} />))
+			}
+		</View>
 	);
 }

@@ -5,13 +5,29 @@ import HomeScreen from '../screens/HomeScreen';
 import DiscoverScreen from '../screens/DiscoverScreen';
 import FavoritesScreen from "../screens/FavoritesScreen";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import styles from "../themes/Theme";
+import * as Theme from "../themes/Theme";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import RecipeScreen from "../screens/RecipeScreen";
+
+const HomeStack = createNativeStackNavigator();
+
+function HomeStackScreen() {
+    return (
+        <HomeStack.Navigator>
+            <HomeStack.Screen name="Home" component={HomeScreen} />
+            <HomeStack.Screen name="Recipe" component={RecipeScreen} />
+        </HomeStack.Navigator>
+    )
+}
 
 const Tab = createBottomTabNavigator();
 
 function Tabs() {
   return (
-      <Tab.Navigator initialRouteName="Home"  screenOptions={({ route }) => ({
+      <Tab.Navigator 
+        initialRouteName="Home"  
+        screenOptions={
+            ({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               
@@ -31,23 +47,20 @@ function Tabs() {
               
               return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#0c2245ff',
+          tabBarActiveTintColor: Theme.colors.accent,
           tabBarInactiveTintColor: 'gray',
       })}>
           <Tab.Screen name="Discover" component={DiscoverScreen} />
-          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Home" component={HomeStackScreen} />
           <Tab.Screen name="Favorites" component={FavoritesScreen} />
       </Tab.Navigator>
   );
 }
 
-function Home() {
+export default function Home() {
     return(
         <NavigationContainer>
             <Tabs />
         </NavigationContainer>
     );
 };
-
-export default Home;
-
