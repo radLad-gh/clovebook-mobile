@@ -61,7 +61,7 @@ const DrawerNavigator = () => {
           options={{
             headerTintColor: theme.colors.text_light, 
               headerStyle: {
-              backgroundColor: theme.colors.selected,
+              backgroundColor: theme.colors.primary,
             }
           }}
         /> )
