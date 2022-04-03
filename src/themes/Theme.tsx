@@ -43,14 +43,6 @@ const styles = StyleSheet.create({
     searchBar: {
         top: 0,
         marginTop: 15,
-    },
-    card: {
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: 20,
-        backgroundColor: theme.colors.surface,
-        marginTop: 15,
-        elevation: 3,
     }
 });
 

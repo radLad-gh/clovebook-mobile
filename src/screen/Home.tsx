@@ -50,9 +50,9 @@ const HomeScreen = ({ navigation }: ScreenProps) => {
         tabBarActiveBackgroundColor: theme.colors.selected,
         tabBarActiveTintColor: theme.colors.accent,
     })}>
-      <Tab.Screen name="Discover" component={DiscoverTab} />
-      <Tab.Screen name="Home" component={HomeTab} />
-      <Tab.Screen name="Favorites" component={FavoritesTab} />
+      <Tab.Screen name="Discover" component={DiscoverTab} options={{tabBarHideOnKeyboard : true}}/>
+      <Tab.Screen name="Home" component={HomeTab} options={{tabBarHideOnKeyboard : true}}/>
+      <Tab.Screen name="Favorites" component={FavoritesTab} options={{tabBarHideOnKeyboard : true}}/>
     </Tab.Navigator>
   );
 }

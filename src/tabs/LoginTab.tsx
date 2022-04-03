@@ -29,7 +29,7 @@ const LoginTab = ({ navigation, screenName }: TabProps) => {
   // display -> none for the logo.
   return (
     <>
-      <Image source={require('../assets/logo-light.png')} style={styles.logo}/>
+      <Image source={require('../assets/logo-light.png')} style={styles.logo} />
       <View style={styles.inputContainer}>
         <Input label="Username"></Input>
         <InputSecure label={"Password"}></InputSecure>

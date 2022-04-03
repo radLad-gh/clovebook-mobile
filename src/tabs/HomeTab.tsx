@@ -19,7 +19,9 @@ function HomeTab({ navigation, screenName }: TabProps) {
       <ScrollView style={{flexGrow: 1, backgroundColor: theme.colors.background, paddingLeft: 15, paddingRight: 15, }}>
         <HomeSearchBar></HomeSearchBar>
         <Divider></Divider>
-        <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard>       
+        <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard>
+        <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard> 
+        <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard>        
       </ScrollView>
     );
   }
