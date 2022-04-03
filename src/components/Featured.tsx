@@ -1,28 +1,28 @@
 import React from "react";
 import {
   StyleSheet,
-  View,
-  Text
 } from "react-native";
 import { 
-  Button, 
   Card,
 } from 'react-native-paper';
 import { theme } from '../themes/Theme';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { color } from "react-native-reanimated";
 
+const cardDimentionConstant = 133;
 
-const loadScreen = () => {
-    
+type Props = {
+  title: string,
+  imageSrc: string,
+  loadScreen: any,
 }
 
-const cardDimentionConstant = 150;
-
-export function Featured() {
+export function Featured({imageSrc, title, loadScreen}: Props) {
+    
     return (
         <Card onPress={loadScreen} onLongPress={loadScreen} style={ styles.card }>
-            <Card.Cover source={{ uri: 'https://picsum.photos/700' }} style={ styles.cardCover } />
-            <Card.Title title="Recipe Title" style={ styles.cardHeading }/>   
+            <Card.Cover source={{ uri: imageSrc }} style={ styles.cardCover } />
+            <Card.Title title={ title } titleStyle={ styles.cardHeading } />   
         </Card>
     );
 }
@@ -47,8 +47,12 @@ const styles = StyleSheet.create({
   },
   
   cardHeading: {
-    top: 100,
-    color: theme.colors.error, // font color not changing?
+    top: 88,
+    color: theme.colors.text_light,
+    shadowColor: theme.colors.text,
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+    textTransform: 'uppercase',
   }
 });
 
