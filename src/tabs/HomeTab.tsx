@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Dimensions, ScrollView } from "react-native";
-import { Card, Divider, Searchbar } from "react-native-paper";
+import { Card, Divider, Searchbar, Button } from "react-native-paper";
 import HomeSearchBar from '../components/HomeSearchBar';
 import RecipeCard from "../components/RecipeCard";
 import Featured from "../components/Featured";
@@ -20,7 +20,10 @@ function HomeTab({ navigation, screenName }: TabProps) {
       <ScrollView style={{flexGrow: 1, backgroundColor: theme.colors.background, paddingLeft: 15, paddingRight: 15, }}>
         <Featured />  
         <HomeSearchBar></HomeSearchBar>
-        <Divider></Divider>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text style={{alignSelf: 'center', fontSize: 20,}}>Favorites</Text>
+          <Button style={{alignSelf: 'center'}}>View More</Button>
+        </View>
         <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard>
         <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard> 
         <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard>
