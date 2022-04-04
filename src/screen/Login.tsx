@@ -9,7 +9,8 @@ import { theme } from "../themes/Theme";
 import { Navigation } from "../types";
 
 type ScreenProps = {
-  navigation: Navigation,
+  getLoginValidity: Function;
+  setLoginValidity: Function;
 };
 
 type tabBarIcon = {
@@ -19,7 +20,7 @@ type tabBarIcon = {
 
 const Tab = createBottomTabNavigator();
 
-const LoginScreen = ({ navigation }: ScreenProps) => {
+const LoginScreen = ({ getLoginValidity, setLoginValidity }: ScreenProps) => {
   // Our Homescreen consits of login and registering.
   // React navigation does magic to display the screen which you provide it.
   return (
@@ -39,7 +40,7 @@ const LoginScreen = ({ navigation }: ScreenProps) => {
     >
       <Tab.Screen 
         name="Login" 
-        children={() => <LoginTab navigation={navigation} screenName={"Home"}/>}
+        children={() => <LoginTab screenName={"Home"} getLoginValidity={getLoginValidity} setLoginValidity={setLoginValidity}/>}
         options={{
             tabBarIcon: ({size, color}: tabBarIcon) => 
             (<Icon name={"login-variant"} color={color} size={size} />),

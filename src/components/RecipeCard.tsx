@@ -3,7 +3,7 @@ import React from "react";
 import {
   StyleSheet,
   View,
-  Text
+  Text,
 } from "react-native";
 import { 
   IconButton, 
@@ -41,7 +41,7 @@ export function RecipeCard(props: SimpleRecipe) {
   
   const [favorite, setFavorite] = React.useState(false);
   const [color, setColor] = React.useState(theme.colors.selected);
-  
+
   const onToggleFavorite = () => {
     setFavorite(!favorite);
     // Perform these actions on toggle of favorite.
@@ -49,7 +49,7 @@ export function RecipeCard(props: SimpleRecipe) {
   }
 
     return (
-        <Card onPress={loadCard} onLongPress={addFavorite} style={ styles.card }>
+        <Card onPress={loadCard} onLongPress={onToggleFavorite} style={ styles.card }>
           <Card.Cover source={{ uri: 'https://picsum.photos/700' }} style={ styles.cardCover } />
           <View style={styles.cardInfo}>
             <Card.Title title="Recipe Title" subtitle="Recipe Subtitle" />

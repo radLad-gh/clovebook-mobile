@@ -16,14 +16,17 @@ import { theme } from "../themes/Theme";
 import { Navigation } from "../types";
 
 type TabProps = {
-  navigation: Navigation,
-  screenName: string
+  screenName: string,
+  getLoginValidity: Function;
+  setLoginValidity: Function;
 };
 
-const LoginTab = ({ navigation, screenName }: TabProps) => {
+const LoginTab = ({ screenName, getLoginValidity, setLoginValidity }: TabProps) => {
   // Watches the toggle switch for "Remember Me"
   const [rememberSwitch, setRememberSwitch] = React.useState(false);
   const onToggleSwitch = () => setRememberSwitch(!rememberSwitch);
+
+  const setLoginValid = React.useState(false);
 
   // Add some keyboard state, when keyboard is open,
   // display -> none for the logo.
@@ -49,11 +52,8 @@ const LoginTab = ({ navigation, screenName }: TabProps) => {
           </Button>
         </View>
 
-        <Button
-          mode="contained"
-          onPress={() => {navigation.navigate(screenName)}}
-          style={{alignSelf: 'center', width: 200, marginTop: 75}}
-        >
+        <Button mode="contained" style={{alignSelf: 'center', width: 200, marginTop: 75}}
+          onPress={() => {setLoginValidity(true)}}>
           Log In
         </Button>
       </View>

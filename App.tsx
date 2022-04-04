@@ -6,6 +6,7 @@ import { theme } from './src/themes/Theme';
 import { name as appName } from './app.json'
 
 export default function Main () {
+  
   return (
     <PaperProvider theme={theme}>
       <App />
