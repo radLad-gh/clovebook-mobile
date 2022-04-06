@@ -27,10 +27,18 @@ const Stack = createNativeStackNavigator();
 
 
 const DrawerNavigator = () => {
+  // Used for the splash screen.
   const [isLoading, setLoading] = React.useState(true);
+  // Used for authorization of user on load.
   const [loginValid, setLoginValid] = React.useState(true);
-  const getLogginValidity = () => loginValid;
+  const getLoginValidity = () => loginValid;
+
+  // Used to hide drawerHeader when recipe is shown.
+  const [headerStatus, setHeaderStatus] = React.useState(true);
+  const getHeaderStatus = () => headerStatus;
   
+
+
   React.useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/posts/1')
       .then(response => response.json())
@@ -52,7 +60,7 @@ const DrawerNavigator = () => {
           </View>
           <View style={styles.drawerSection}>
             <PaperDrawer.Section title="My Account">
-            <Button icon="account" mode="contained" style={styles.drawerButton} onPress={() => console.log('profile screen')}>Profile</Button>
+              <Button disabled={!loginValid} icon="account" mode="contained" style={styles.drawerButton} onPress={() => console.log('profile screen')}>Profile</Button>
             </PaperDrawer.Section>
             <PaperDrawer.Section title="Other">
             <Button icon="cog" mode="contained" style={styles.drawerButton} onPress={() => console.log('settings screen')}>Settings</Button>
@@ -61,18 +69,21 @@ const DrawerNavigator = () => {
             </PaperDrawer.Section>
           </View>
           <View style={styles.drawerSection}>
-            <Button mode="outlined" style={{marginHorizontal: 10, marginTop: 10}} onPress={() => setLoginValid(false)}>Log Out</Button>
+            <Button disabled={!loginValid} mode="outlined" style={{marginHorizontal: 10, marginTop: 10 }} 
+              onPress={() => { setLoginValid(false); }}>
+                Log Out
+            </Button>
           </View>
         </>
       }
     >
       {isLoading ? (
         <Drawer.Screen name="Splash" component={SplashScreen} options={{headerShown: false}} />
-       ) : (loginValid ?
-        <Drawer.Screen name="Clovebook" component={Home} options={{ headerTintColor: theme.colors.text_light, headerStyle: { backgroundColor: theme.colors.primary, }}} />  
+      ) : (loginValid ?
+        <Drawer.Screen name="Clovebook" children={() => <Home getHeaderStatus={getHeaderStatus} setHeaderStatus={setHeaderStatus} />} options={{ headerShown: headerStatus,headerTintColor: theme.colors.text_light, headerStyle: { backgroundColor: theme.colors.primary, }}} />  
       :
-        <Drawer.Screen name="Login" options={{headerShown: false}} children={() => <Login getLoginValidity={getLogginValidity} setLoginValidity={setLoginValid} />} />
-       )}
+        <Drawer.Screen name="Login" options={{headerShown: false}} children={() => <Login getLoginValidity={getLoginValidity} setLoginValidity={setLoginValid} />} />
+      )}
 
       <Drawer.Screen name="Settings" children={() => <Text>Settings screen.</Text>} />
       <Drawer.Screen name="Help" children={() => <Text>Help screen.</Text>} />

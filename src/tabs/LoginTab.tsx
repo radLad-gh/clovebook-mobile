@@ -25,11 +25,7 @@ const LoginTab = ({ screenName, getLoginValidity, setLoginValidity }: TabProps) 
   // Watches the toggle switch for "Remember Me"
   const [rememberSwitch, setRememberSwitch] = React.useState(false);
   const onToggleSwitch = () => setRememberSwitch(!rememberSwitch);
-
-  const setLoginValid = React.useState(false);
-
-  // Add some keyboard state, when keyboard is open,
-  // display -> none for the logo.
+  
   return (
     <>
       <Image source={require('../assets/logo-light.png')} style={styles.logo} />

@@ -13,9 +13,11 @@ const Tab = createBottomTabNavigator();
 
 type ScreenProps = {
   navigation: Navigation,
+  getHeaderStatus: Function,
+  setHeaderStatus: Function,
 };
 
-const HomeScreen = ({ navigation }: ScreenProps) => {
+const HomeScreen = ({ navigation, getHeaderStatus, setHeaderStatus }: ScreenProps) => {
 
   return (
     <Tab.Navigator 
@@ -50,7 +52,7 @@ const HomeScreen = ({ navigation }: ScreenProps) => {
         tabBarActiveBackgroundColor: theme.colors.selected,
         tabBarActiveTintColor: theme.colors.accent,
     })}>
-      <Tab.Screen name="Discover" component={DiscoverTab} options={{tabBarHideOnKeyboard : true}}/>
+      <Tab.Screen name="Discover" children={() => <DiscoverTab getHeaderStatus={getHeaderStatus} setHeaderStatus={setHeaderStatus} navigation={navigation} />} options={{tabBarHideOnKeyboard : true,}}/>
       <Tab.Screen name="Home" component={HomeTab} options={{tabBarHideOnKeyboard : true}}/>
       <Tab.Screen name="Favorites" component={FavoritesTab} options={{tabBarHideOnKeyboard : true}}/>
     </Tab.Navigator>
