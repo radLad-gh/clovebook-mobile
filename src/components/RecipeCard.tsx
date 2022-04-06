@@ -11,11 +11,12 @@ import {
 } from 'react-native-paper';
 import { theme } from '../themes/Theme';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useNavigation } from "@react-navigation/native";
 
 
-const loadCard = () => {
+// const loadCard = () => {
     
-}
+// }
 
 const addFavorite = () => {
     
@@ -37,10 +38,23 @@ const Time = ({numericTime} : any) => {
 
 const cardDimentionConstant = 110;
 
-export function RecipeCard(props: SimpleRecipe) {
+type CardProps = {
+  props: SimpleRecipe;
+  setHeaderStatus: Function;
+};
+
+export function RecipeCard({props, setHeaderStatus}: CardProps) {
+
+  const navigation = useNavigation();
+
+  const loadCard = () => {
+    setHeaderStatus(false);
+    navigation.navigate('RecipeScreen' as never)
+  }
   
   const [favorite, setFavorite] = React.useState(false);
   const [color, setColor] = React.useState(theme.colors.selected);
+
 
   const onToggleFavorite = () => {
     setFavorite(!favorite);
