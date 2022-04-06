@@ -9,9 +9,7 @@ interface RecipeGridProps {
 
 export function RecipeStack({ recipes }: RecipeGridProps) {
 	return (
-		<Stack
-			divider={<Divider />}
-		>
+		<Stack divider={<Divider />}>
 			{recipes.map((recipe, i) => (
 				<RecipeCard {...recipe} key={i} />
 			))}
