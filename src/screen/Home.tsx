@@ -39,6 +39,7 @@ const HomeTabs = ({
           backgroundColor: theme.colors.surface,
           borderTopColor: theme.colors.selected,
           height: 60,
+          position: 'absolute'
         },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -66,7 +67,7 @@ const HomeTabs = ({
             // navigation={navigation}
           />
         )}
-        options={{ tabBarHideOnKeyboard: true }}
+        // options={{ tabBarHideOnKeyboard: true }}
       />
       <Tab.Screen
         name='Home'
@@ -75,9 +76,9 @@ const HomeTabs = ({
             setHeaderStatus={setHeaderStatus}
           />
         )}
-        options={{
-          tabBarHideOnKeyboard: true,
-        }}
+        // options={{
+        //   tabBarHideOnKeyboard: true,
+        // }}
       />
       <Tab.Screen
         name='Favorites'
@@ -86,7 +87,7 @@ const HomeTabs = ({
             setHeaderStatus={setHeaderStatus}
           />
         )}
-        options={{ tabBarHideOnKeyboard: true }}
+        // options={{ tabBarHideOnKeyboard: true }}
       />
     </Tab.Navigator>
   );
