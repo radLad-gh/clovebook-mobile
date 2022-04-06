@@ -11,19 +11,15 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 type TabProps = {
   //   navigation: Navigation;
-  getHeaderStatus: Function;
+  // getHeaderStatus: Function;
   setHeaderStatus: Function;
 };
 
 const Stack = createNativeStackNavigator();
 
-const Content = ({
-  //   navigation,
-  getHeaderStatus,
+const DiscoverTab = ({
   setHeaderStatus,
 }: TabProps) => {
-  // const navigation = useNavigation();
-
   return (
     <ScrollView
       style={{
@@ -33,14 +29,6 @@ const Content = ({
         paddingRight: 15,
       }}
     >
-      <Button
-        onPress={() => {
-          // navigation.navigate('RecipeScreen');
-          setHeaderStatus(true);
-        }}
-      >
-        PRESS MEE
-      </Button>
       <Featured
         imageSrc='https://picsum.photos/700'
         title='Seasonal recipes'
@@ -71,103 +59,9 @@ const Content = ({
         <RecipeCard props={{sID: 0, cbID: 0, name: '', savedAt: ''}} setHeaderStatus={setHeaderStatus}></RecipeCard>
         <RecipeCard props={{sID: 0, cbID: 0, name: '', savedAt: ''}} setHeaderStatus={setHeaderStatus}></RecipeCard>
         <RecipeCard props={{sID: 0, cbID: 0, name: '', savedAt: ''}} setHeaderStatus={setHeaderStatus}></RecipeCard>
-        {/* <RecipeCard sID={0} cbID={0} name={''} savedAt={''}></RecipeCard>
-        <RecipeCard sID={0} cbID={0} name={''} savedAt={''}></RecipeCard>
-        <RecipeCard sID={0} cbID={0} name={''} savedAt={''}></RecipeCard>
-        <RecipeCard sID={0} cbID={0} name={''} savedAt={''}></RecipeCard>
-        <RecipeCard sID={0} cbID={0} name={''} savedAt={''}></RecipeCard> */}
       </View>
     </ScrollView>
   );
 };
-
-const ContentTwo = ({
-  //   navigation,
-  getHeaderStatus,
-  setHeaderStatus,
-}: TabProps) => {
-  const navigation = useNavigation();
-
-  // const navigation = useNavigation();
-  useFocusEffect(
-    React.useCallback(() => {
-      const onBackPress = () => {
-        navigation.navigate('DiscoverScreen' as never);
-        setHeaderStatus(true);
-        return true;
-      };
-
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    }, [])
-  );
-
-  return (
-    <ScrollView
-      style={{
-        flexGrow: 1,
-        backgroundColor: theme.colors.background,
-        paddingLeft: 15,
-        paddingRight: 15,
-      }}
-    >
-      <Button
-        onPress={() => {
-          // navigation.navigate('RecipeScreen');
-          setHeaderStatus(true);
-        }}
-      >
-        PRESS MEE
-      </Button>
-    </ScrollView>
-  );
-};
-
-function DiscoverTab({
-  //   navigation,
-  getHeaderStatus,
-  setHeaderStatus,
-}: TabProps) {
-  const navigation = useNavigation();
-
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name='DiscoverScreen'
-        children={() => (
-          <Content
-            // navigation={navigation}
-            getHeaderStatus={getHeaderStatus}
-            setHeaderStatus={setHeaderStatus}
-          />
-        )}
-        options={{ headerShown: false }}
-      ></Stack.Screen>
-      <Stack.Screen
-        name='RecipeScreen'
-        children={() => (
-          <ContentTwo
-            // navigation={navigation}
-            getHeaderStatus={getHeaderStatus}
-            setHeaderStatus={setHeaderStatus}
-          />
-        )}
-        options={
-          { headerLeft: () => (
-            <IconButton
-              icon="arrow-left"
-              size={25}
-              onPress={() => {
-                navigation.navigate('DiscoverScreen' as never);
-                setHeaderStatus(true);
-              }} />
-            ) }
-        }
-      ></Stack.Screen>
-    </Stack.Navigator>
-  );
-}
 
 export default DiscoverTab;

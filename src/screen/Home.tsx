@@ -8,8 +8,14 @@ import FavoritesTab from '../tabs/FavoritesTab';
 import { theme } from '../themes/Theme';
 
 import { Navigation } from '../types';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Recipe from './Recipe';
+import { IconButton } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
+
+const Stack = createNativeStackNavigator();
 
 type ScreenProps = {
   //   navigation: Navigation;
@@ -17,7 +23,7 @@ type ScreenProps = {
   setHeaderStatus: Function;
 };
 
-const HomeScreen = ({
+const HomeTabs = ({
   //   navigation,
   getHeaderStatus,
   setHeaderStatus,
@@ -25,6 +31,7 @@ const HomeScreen = ({
   return (
     <Tab.Navigator
       initialRouteName='Home'
+      backBehavior='initialRoute'
       screenOptions={({ route }) => ({
         tabBarLabelPosition: 'beside-icon',
         headerShown: false,
@@ -54,7 +61,7 @@ const HomeScreen = ({
         name='Discover'
         children={() => (
           <DiscoverTab
-            getHeaderStatus={getHeaderStatus}
+            // getHeaderStatus={getHeaderStatus}
             setHeaderStatus={setHeaderStatus}
             // navigation={navigation}
           />
@@ -63,16 +70,68 @@ const HomeScreen = ({
       />
       <Tab.Screen
         name='Home'
-        component={HomeTab}
-        options={{ tabBarHideOnKeyboard: true }}
+        children={() => (
+          <HomeTab
+            setHeaderStatus={setHeaderStatus}
+          />
+        )}
+        options={{
+          tabBarHideOnKeyboard: true,
+        }}
       />
       <Tab.Screen
         name='Favorites'
-        component={FavoritesTab}
+        children={() => (
+          <FavoritesTab
+            setHeaderStatus={setHeaderStatus}
+          />
+        )}
         options={{ tabBarHideOnKeyboard: true }}
       />
     </Tab.Navigator>
   );
 };
+
+const HomeScreen = ({
+  getHeaderStatus,
+  setHeaderStatus
+}: ScreenProps) => {
+  const navigation = useNavigation();
+
+  return (
+    <Stack.Navigator >
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="HomeTabs"
+        children={() => (
+          <HomeTabs
+            getHeaderStatus={getHeaderStatus}
+            setHeaderStatus={setHeaderStatus}
+          />
+        )}
+      />
+      <Stack.Screen
+        name="Recipe"
+        children={() => (
+          <Recipe
+            setHeaderStatus={setHeaderStatus}
+          />
+        )}
+        options={{
+          headerLeft: () => (
+            <IconButton
+              icon="arrow-left"
+              size={25}
+              onPress={() => {
+                setHeaderStatus(true);
+                navigation.navigate('HomeTabs' as never);
+              }}
+            />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
 
 export default HomeScreen;

@@ -7,33 +7,35 @@ import Featured from "../components/Featured";
 import { theme } from '../themes/Theme';
 
 import { Navigation } from '../types';
+import { useNavigation } from "@react-navigation/native";
 
 type TabProps = {
-  navigation: Navigation,
-  screenName: string
+  // navigation: Navigation,
+  // screenName: string,
+  setHeaderStatus: Function
 };
 
-function HomeTab({ navigation, screenName }: TabProps) {
-    var width = Dimensions.get('window').width;
-    var height = Dimensions.get('window').height;
+const HomeTab = ({ setHeaderStatus }: TabProps) => {
+    const navigation = useNavigation();
+
     return (
       <ScrollView style={{flexGrow: 1, backgroundColor: theme.colors.background, paddingLeft: 15, paddingRight: 15, }}>
-        <Featured imageSrc="https://picsum.photos/700" title="Discover" loadScreen={() => {navigation.navigate('Discover')}} />  
+        <Featured imageSrc="https://picsum.photos/700" title="Discover" loadScreen={() => {navigation.navigate('Discover' as never)}} />  
         <HomeSearchBar></HomeSearchBar>
         <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 5, marginBottom: -5,}}>
           <Text style={{alignSelf: 'center', fontSize: 20, color: theme.colors.text}}>
             Recent Favorites
           </Text>
           <Button 
-            onPress={() => {navigation.navigate('Favorites')}}
+            onPress={() => {navigation.navigate('Favorites' as never)}}
             color={theme.colors.text} compact={true}
             style={{alignSelf: 'center', marginBottom: -5}}>
               View More
           </Button>
         </View>
-        <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard>
-        <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard> 
-        <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard>    
+        <RecipeCard props={{sID: 0, cbID: 0, name: '', savedAt: ''}} setHeaderStatus={setHeaderStatus}></RecipeCard>
+        <RecipeCard props={{sID: 0, cbID: 0, name: '', savedAt: ''}} setHeaderStatus={setHeaderStatus}></RecipeCard>
+        <RecipeCard props={{sID: 0, cbID: 0, name: '', savedAt: ''}} setHeaderStatus={setHeaderStatus}></RecipeCard>
       </ScrollView>
     );
 }

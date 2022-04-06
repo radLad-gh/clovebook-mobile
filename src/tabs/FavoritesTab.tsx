@@ -11,20 +11,17 @@ import RecipeCard from "../components/RecipeCard";
 import { Navigation } from '../types';
 
 type TabProps = {
-  navigation: Navigation,
-  screenName: string
+  setHeaderStatus: Function
 };
 
-function FavoritesTab({ navigation, screenName }: TabProps) {
-    var width = Dimensions.get('window').width;
-    var height = Dimensions.get('window').height;
-    return (
-      <ScrollView style={{flexGrow: 1, backgroundColor: theme.colors.background, paddingLeft: 15, paddingRight: 15, }}>
-        <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard>
-        <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard> 
-        <RecipeCard sID={0} cbID={0} name={""} savedAt={""}></RecipeCard>  
-      </ScrollView>
-    );
-  }
+const FavoritesTab = ({ setHeaderStatus }: TabProps) => {
+  return (
+    <ScrollView style={{flexGrow: 1, backgroundColor: theme.colors.background, paddingLeft: 15, paddingRight: 15, }}>
+      <RecipeCard props={{sID: 0, cbID: 0, name: '', savedAt: ''}} setHeaderStatus={setHeaderStatus}></RecipeCard>
+      <RecipeCard props={{sID: 0, cbID: 0, name: '', savedAt: ''}} setHeaderStatus={setHeaderStatus}></RecipeCard>
+      <RecipeCard props={{sID: 0, cbID: 0, name: '', savedAt: ''}} setHeaderStatus={setHeaderStatus}></RecipeCard>
+    </ScrollView>
+  );
+}
   
 export default FavoritesTab;
