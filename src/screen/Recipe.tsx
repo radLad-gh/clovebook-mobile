@@ -46,7 +46,7 @@ const Recipe = ({
       <Button
         onPress={() => {
           // navigation.navigate('RecipeScreen');
-          setHeaderStatus(true);
+          // setHeaderStatus(true);
         }}
       >
 		    PRESS MEE

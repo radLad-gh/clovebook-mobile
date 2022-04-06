@@ -49,7 +49,7 @@ export function RecipeCard({props, setHeaderStatus}: CardProps) {
 
   const loadCard = () => {
     setHeaderStatus(false);
-    navigation.navigate('Recipe' as never)
+    navigation.navigate('Recipe' as never);
   }
   
   const [favorite, setFavorite] = React.useState(false);
