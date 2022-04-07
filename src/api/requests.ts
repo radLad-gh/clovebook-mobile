@@ -38,10 +38,7 @@ const requests = {
 			.then(resBody)
 			.catch(handleError),
 	delete: (url: string, params?: {}) =>
-		instance
-			.delete(url, { params: params })
-			.then(resBody)
-			.catch(handleError),
+		instance.delete(url, { params: params }).then(resBody).catch(handleError),
 };
 
 export const getRecipes = (

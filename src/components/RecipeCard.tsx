@@ -1,27 +1,101 @@
 import { SimpleRecipe } from "../api/models";
 import React from "react";
-import { Button, Card } from 'react-native-paper';
-import FavButton from '../components/FavButton';
-import * as Theme from '../themes/Theme';
-import styles from '../themes/Theme';
+import { StyleSheet, View, Text } from "react-native";
+import { IconButton, Card } from "react-native-paper";
+import { theme } from "../themes/Theme";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useNavigation } from "@react-navigation/native";
 
-function loadCard() {
-    
+// const loadCard = () => {
+
+// }
+
+const addFavorite = () => {};
+
+const Time = ({ numericTime }: any) => {
+	let mag; // magnitude of time.
+	if (numericTime < 60) mag = "m";
+	else {
+		numericTime = Math.floor(numericTime / 60);
+		mag = "h";
+	}
+
+	return (
+		<Text style={{ alignSelf: "flex-end", paddingRight: 15, top: 10 }}>
+			{numericTime}
+			{mag}
+		</Text>
+	);
+};
+
+const cardDimentionConstant = 110;
+
+type CardProps = {
+	props: SimpleRecipe;
+	setHeaderStatus: Function;
+};
+
+export function RecipeCard({ props, setHeaderStatus }: CardProps) {
+	const navigation = useNavigation();
+
+	const loadCard = () => {
+		setHeaderStatus(false);
+		navigation.navigate("Recipe" as never);
+	};
+
+	const [favorite, setFavorite] = React.useState(false);
+	const [color, setColor] = React.useState(theme.colors.selected);
+
+	const onToggleFavorite = () => {
+		setFavorite(!favorite);
+		// Perform these actions on toggle of favorite.
+		favorite
+			? setColor(theme.colors.selected)
+			: setColor(theme.colors.text_light);
+	};
+
+	return (
+		<Card onPress={loadCard} onLongPress={onToggleFavorite} style={styles.card}>
+			<Card.Cover
+				source={{ uri: "https://picsum.photos/700" }}
+				style={styles.cardCover}
+			/>
+			<View style={styles.cardInfo}>
+				<Card.Title title="Recipe Title" subtitle="Recipe Subtitle" />
+				<Time numericTime={40} />
+				<IconButton
+					icon="star"
+					color={color}
+					onPress={onToggleFavorite}
+					style={{ top: -25 }}
+				></IconButton>
+			</View>
+		</Card>
+	);
 }
 
-function addFavorite() {
-    
-}
+const styles = StyleSheet.create({
+	card: {
+		display: "flex",
+		flexDirection: "column",
+		backgroundColor: theme.colors.surface,
+		marginTop: 10,
+		height: cardDimentionConstant,
+	},
 
-export function RecipeCard(props: SimpleRecipe) {
-    return (
-        <Card onPress={loadCard} onLongPress={addFavorite} style={styles.card}>
-        <Card.Title title="Recipe Title" subtitle="Recipe Subtitle" />
-        <FavButton></FavButton>
-        <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
-      </Card>
-    );
-}
+	cardCover: {
+		borderBottomRightRadius: 5,
+		position: "absolute",
+		resizeMode: "contain",
+		height: "100%",
+		width: cardDimentionConstant,
+	},
 
+	cardInfo: {
+		marginTop: -3,
+		flexDirection: "column",
+		paddingLeft: cardDimentionConstant, // Position absolute, add 125 padding to "fit" correctly.
+	},
+});
 
 export default RecipeCard;

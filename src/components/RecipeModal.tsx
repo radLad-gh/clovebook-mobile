@@ -1,5 +1,3 @@
-function RecipeModal() {
-    
-}
+function RecipeModal() {}
 
 export default RecipeModal;
