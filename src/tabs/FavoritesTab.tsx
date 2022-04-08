@@ -3,7 +3,6 @@ import { View, Text, Dimensions, ScrollView } from "react-native";
 import { theme } from "../themes/Theme";
 
 import RecipeCard from "../components/RecipeCard";
-import { Navigation } from "../types";
 
 type TabProps = {
 	setHeaderStatus: Function;
@@ -17,6 +16,7 @@ const FavoritesTab = ({ setHeaderStatus }: TabProps) => {
 				backgroundColor: theme.colors.background,
 				paddingLeft: 15,
 				paddingRight: 15,
+				marginBottom: 60,
 			}}
 		>
 			<RecipeCard

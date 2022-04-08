@@ -6,7 +6,6 @@ import RecipeCard from "../components/RecipeCard";
 import Featured from "../components/Featured";
 import { theme } from "../themes/Theme";
 
-import { Navigation } from "../types";
 import { useNavigation } from "@react-navigation/native";
 
 type TabProps = {
@@ -25,6 +24,7 @@ const HomeTab = ({ setHeaderStatus }: TabProps) => {
 				backgroundColor: theme.colors.background,
 				paddingLeft: 15,
 				paddingRight: 15,
+				marginBottom: 60,
 			}}
 		>
 			<Featured

@@ -15,8 +15,6 @@ type TabProps = {
 	setHeaderStatus: Function;
 };
 
-const Stack = createNativeStackNavigator();
-
 const DiscoverTab = ({ setHeaderStatus }: TabProps) => {
 	return (
 		<ScrollView
@@ -25,27 +23,28 @@ const DiscoverTab = ({ setHeaderStatus }: TabProps) => {
 				backgroundColor: theme.colors.background,
 				paddingLeft: 15,
 				paddingRight: 15,
+				marginBottom: 60,
 			}}
 		>
 			<Featured
 				imageSrc="https://picsum.photos/700"
 				title="Seasonal recipes"
 				loadScreen={() => {
-					console.log(`Clicked: discover`);
+					console.log(`Clicked: seasonal`);
 				}}
 			/>
 			<Featured
 				imageSrc="https://picsum.photos/700"
 				title="Find new with favorites"
 				loadScreen={() => {
-					console.log(`Clicked: discover`);
+					console.log(`Clicked: new`);
 				}}
 			/>
 			<Featured
 				imageSrc="https://picsum.photos/700"
 				title="Random"
 				loadScreen={() => {
-					console.log(`Clicked: discover`);
+					console.log(`Clicked: random`);
 				}}
 			/>
 			<View style={{ marginTop: 10 }}>

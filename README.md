@@ -1,3 +1,3 @@
 # clovebook-mobile
 
-mobile version of clovebook app
+Mobile version of the Clovebook App!

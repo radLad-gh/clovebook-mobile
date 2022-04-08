@@ -19,6 +19,7 @@ const Stack = createNativeStackNavigator();
 const DrawerNavigator = () => {
 	// Used for the splash screen.
 	const [isLoading, setLoading] = React.useState(true);
+	
 	// Used for authorization of user on load.
 	const [loginValid, setLoginValid] = React.useState(true);
 	const getLoginValidity = () => loginValid;
