@@ -12,8 +12,8 @@ import { useNavigation } from "@react-navigation/native";
 
 const addFavorite = () => {};
 
-const Time = ({ numericTime }: any) => {
-	let mag; // magnitude of time.
+const Time = ({ numericTime }: number) => {
+	let mag : string; // magnitude of time.
 	if (numericTime < 60) mag = "m";
 	else {
 		numericTime = Math.floor(numericTime / 60);
@@ -22,8 +22,7 @@ const Time = ({ numericTime }: any) => {
 
 	return (
 		<Text style={{ alignSelf: "flex-end", paddingRight: 15, top: 10 }}>
-			{numericTime}
-			{mag}
+			{numericTime + mag}
 		</Text>
 	);
 };
@@ -57,12 +56,17 @@ export function RecipeCard({ props, setHeaderStatus }: CardProps) {
 	return (
 		<Card onPress={loadCard} onLongPress={onToggleFavorite} style={styles.card}>
 			<Card.Cover
-				source={{ uri: "https://picsum.photos/700" }}
+				source={{ uri: 
+					(props.imageURL 
+						? props.imageURL
+						: 'https://picsum.photos/700'
+					)
+				}}
 				style={styles.cardCover}
 			/>
 			<View style={styles.cardInfo}>
-				<Card.Title title="Recipe Title" subtitle="Recipe Subtitle" />
-				<Time numericTime={40} />
+				<Card.Title title={props.name} subtitle="Recipe Subtitle" />
+				<Time numericTime={props.totalTime} />
 				<IconButton
 					icon="star"
 					color={color}

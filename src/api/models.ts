@@ -15,7 +15,7 @@ export interface SimpleRecipe {
 	cbID: number;
 	name: string;
 	imageURL?: string;
-	readyInMinutes?: number;
+	totalTime?: number;
 	tags?: string[];
 	savedAt: string;
 }

@@ -20,30 +20,38 @@ export const theme = {
 
 const styles = StyleSheet.create({
 	home: {
-		flex: 1,
-		justifyContent: "flex-start",
-		alignItems: "flex-start",
-	},
-	discover: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	container: {
-		flex: 1,
-		backgroundColor: "#fff",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	homeScreen: {
-		backgroundColor: theme.colors.background,
-		justifyContent: "flex-start",
-		alignItems: "center",
-	},
-	searchBar: {
-		top: 0,
-		marginTop: 15,
-	},
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+    },
+    discover: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    homeScreen: {
+        backgroundColor: theme.colors.background,
+        justifyContent: 'flex-start', 
+        alignItems: 'center'   
+    },
+    searchBar: {
+        top: 0,
+        marginTop: 10,
+    },
+    card: {
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: 20,
+        backgroundColor: theme.colors.surface,
+        marginTop: 15,
+        elevation: 3,
+    }
 });
 
 export default styles;
