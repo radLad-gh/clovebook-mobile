@@ -13,15 +13,25 @@ import Home from "./screen/Home";
 import { theme } from "./themes/Theme";
 import SplashScreen from "./screen/Splash";
 
+import { NewUser } from "../api/models";
+
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
+
+const userInfo: NewUser = {
+	username: "",
+	firstName: "",
+	lastName: "",
+	password: "",
+	email: "",
+};
 
 const DrawerNavigator = () => {
 	// Used for the splash screen.
 	const [isLoading, setLoading] = React.useState(true);
 	
 	// Used for authorization of user on load.
-	const [loginValid, setLoginValid] = React.useState(true);
+	const [loginValid, setLoginValid] = React.useState(false);
 	const getLoginValidity = () => loginValid;
 
 	// Used to hide drawerHeader when recipe is shown.
@@ -110,6 +120,7 @@ const DrawerNavigator = () => {
 					name="Clovebook"
 					children={() => (
 						<Home
+							user={userInfo}
 							getHeaderStatus={getHeaderStatus}
 							setHeaderStatus={setHeaderStatus}
 						/>
@@ -126,6 +137,7 @@ const DrawerNavigator = () => {
 					options={{ headerShown: false }}
 					children={() => (
 						<Login
+							user={userInfo}
 							getLoginValidity={getLoginValidity}
 							setLoginValidity={setLoginValid}
 						/>
@@ -144,17 +156,9 @@ const DrawerNavigator = () => {
 
 const App = () => {
 	return (
-		<>
-			<NavigationContainer>
-				<DrawerNavigator />
-				{/* 
-        <Stack.Navigator initialRouteName="Login" >
-          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-        </Stack.Navigator> 
-        */}
-			</NavigationContainer>
-		</>
+		<NavigationContainer>
+			<DrawerNavigator />
+		</NavigationContainer>
 	);
 };
 

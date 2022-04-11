@@ -7,13 +7,20 @@ import InputSecure from "../components/InputSecure";
 import { theme } from "../themes/Theme";
 
 import { Navigation } from "../types";
+import { NewUser } from "../api/models";
 
 type TabProps = {
-	navigation: Navigation;
+	user: NewUser;
 	screenName: string;
 };
 
-const JoinTab = ({ navigation, screenName }: TabProps) => {
+const JoinTab = ({user, screenName} : TabProps) => {
+	const [firstname, setFirstname] = React.useState('');
+	const [lastname, setLastname] = React.useState('');
+	const [username, setUsername] = React.useState('');
+	const [password, setPassword] = React.useState('');
+	const [email, setEmail] = React.useState('');
+
 	const [keyboardStatus, setKeyboardStatus] = React.useState("flex");
 	React.useEffect(() => {
 		Keyboard.addListener("keyboardDidShow", () => {
@@ -34,17 +41,27 @@ const JoinTab = ({ navigation, screenName }: TabProps) => {
 				style={styles.inputContainer}
 				contentContainerStyle={{ paddingVertical: 25 }}
 			>
-				<Input label="Firstname"></Input>
-				<Input label="Lastname"></Input>
-				<Input label="Email"></Input>
-				<Input label="Username"></Input>
-				<InputSecure label="Password"></InputSecure>
+				<Input label="Firstname" onChangeText={setFirstname} value={firstname}></Input>
+				<Input label="Lastname" onChangeText={setLastname} value={lastname}></Input>
+				<Input label="Email" onChangeText={setEmail} value={email}></Input>
+				<Input label="Username" onChangeText={setUsername} value={username}></Input>
+				<InputSecure label="Password" onChangeText={setPassword} value={password}></InputSecure>
 				<View style={styles.inputOptionsContainer}></View>
 
 				<Button
 					mode="contained"
 					onPress={() => {
-						console.log("Send that info the backend 8^)");
+						// Assign the user object values from inputs.
+						user.firstName = firstname;
+						user.lastName = lastname;
+						user.email = email;
+						user.username = username;
+						user.password = password;
+
+						// Now that the "data" for a registration is complete,
+						// We need to verify it to verify it to the backend.
+
+						
 					}}
 					style={{ alignSelf: "center", width: 200, marginTop: 25 }}
 				>

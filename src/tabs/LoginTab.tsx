@@ -5,29 +5,71 @@ import { Button, Switch } from "react-native-paper";
 import Input from "../components/Input";
 import InputSecure from "../components/InputSecure";
 import { theme } from "../themes/Theme";
-import { Navigation } from "../types";
+import md5 from "md5";
+import jwt_decode from "jwt-decode";
+
+import { NewUser } from "../api/models";
+import { doLogin } from "../api/requests"
+
+interface cbJWT {
+	userID: string;
+	exp: string;
+}
 
 type TabProps = {
 	screenName: string;
 	getLoginValidity: Function;
 	setLoginValidity: Function;
+	user: NewUser;
 };
 
 const LoginTab = ({
+	user,
 	screenName,
 	getLoginValidity,
 	setLoginValidity,
 }: TabProps) => {
+	// Username and password input.
+	const [username, setUsername] = React.useState("");
+	const [password, setPassword] = React.useState("");
+
 	// Watches the toggle switch for "Remember Me"
 	const [rememberSwitch, setRememberSwitch] = React.useState(false);
 	const onToggleSwitch = () => setRememberSwitch(!rememberSwitch);
+
+	const validate = () => {
+		doLogin({
+			username: username,
+			password: md5(password),
+		})
+			.then((data) => {
+				if (data !== undefined) {
+					const decoded = jwt_decode(data.refreshToken);
+					//const decoded = decodedToken(data.refreshToken);
+					const userID: string = (decoded as cbJWT)!.userID;
+					
+					setLoginValidity(true);
+				}
+			})
+			.catch((err) => console.log(err));
+		// A user typed in their username and password, now its
+		// time to verify if the credentials are correct.\
+	};
 
 	return (
 		<>
 			<Image source={require("../assets/logo-light.png")} style={styles.logo} />
 			<View style={styles.inputContainer}>
-				<Input label="Username"></Input>
-				<InputSecure label={"Password"}></InputSecure>
+				<Input
+					label="Username"
+					onChangeText={setUsername}
+					value={username}
+				></Input>
+				<InputSecure
+					label={"Password"}
+					onChangeText={setPassword}
+					value={password}
+				></InputSecure>
 				<View style={styles.inputOptionsContainer}>
 					<View style={styles.inputOptionRememberContainer}>
 						<Text
@@ -57,9 +99,7 @@ const LoginTab = ({
 				<Button
 					mode="contained"
 					style={{ alignSelf: "center", width: 200, marginTop: 75 }}
-					onPress={() => {
-						setLoginValidity(true);
-					}}
+					onPress={validate}
 				>
 					Log In
 				</Button>

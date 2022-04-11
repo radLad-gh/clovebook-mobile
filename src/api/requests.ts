@@ -58,3 +58,7 @@ export const getRecipeById = (
 ): Promise<models.Recipe[]> => {
     return requests.get(`/recipes/${id}`);
 }
+
+export const doLogin = (
+	data: models.Userpass
+): Promise<{ refreshToken: string }> => requests.get("/users/login", data);

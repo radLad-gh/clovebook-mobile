@@ -13,6 +13,8 @@ import Recipe from "./Recipe";
 import { IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
+import { NewUser } from "../api/models";
+
 const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +23,7 @@ type ScreenProps = {
 	//   navigation: Navigation;
 	getHeaderStatus: Function;
 	setHeaderStatus: Function;
+	user: NewUser;
 };
 
 const HomeTabs = ({
@@ -85,7 +88,7 @@ const HomeTabs = ({
 	);
 };
 
-const HomeScreen = ({ getHeaderStatus, setHeaderStatus }: ScreenProps) => {
+const HomeScreen = ({ getHeaderStatus, setHeaderStatus, user }: ScreenProps) => {
 	const navigation = useNavigation();
 
 	return (
@@ -97,6 +100,7 @@ const HomeScreen = ({ getHeaderStatus, setHeaderStatus }: ScreenProps) => {
 					<HomeTabs
 						getHeaderStatus={getHeaderStatus}
 						setHeaderStatus={setHeaderStatus}
+						user={user}
 					/>
 				)}
 			/>

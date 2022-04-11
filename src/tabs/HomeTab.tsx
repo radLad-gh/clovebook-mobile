@@ -26,9 +26,11 @@ const HomeTab = ({ setHeaderStatus }: TabProps) => {
     React.useEffect(() => {
       getRecipes(searchQuery)
         .then(response => {
+			console.log(response);
 			setRecipes(response);
-			for (let i of response)
-				console.log(i.totalTime);
+			for (let i of response) {
+				//console.log(i.totalTime);
+			}	
 		});
     }, [searchQuery])
 

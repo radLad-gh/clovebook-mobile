@@ -6,11 +6,12 @@ import LoginTab from "../tabs/LoginTab";
 import JoinTab from "../tabs/JoinTab";
 import { theme } from "../themes/Theme";
 
-import { Navigation } from "../types";
+import { NewUser } from "../api/models";
 
 type ScreenProps = {
 	getLoginValidity: Function;
 	setLoginValidity: Function;
+	user: NewUser;
 };
 
 type tabBarIcon = {
@@ -20,9 +21,12 @@ type tabBarIcon = {
 
 const Tab = createBottomTabNavigator();
 
-const LoginScreen = ({ getLoginValidity, setLoginValidity }: ScreenProps) => {
-	// Our Homescreen consits of login and registering.
-	// React navigation does magic to display the screen which you provide it.
+const LoginScreen = ({ getLoginValidity, setLoginValidity, user}: ScreenProps) => {
+
+	React.useEffect(() => {
+		// TODO: STOPPED HERE 
+	})
+
 	return (
 		<Tab.Navigator
 			screenOptions={{
@@ -44,6 +48,7 @@ const LoginScreen = ({ getLoginValidity, setLoginValidity }: ScreenProps) => {
 						screenName={"Home"}
 						getLoginValidity={getLoginValidity}
 						setLoginValidity={setLoginValidity}
+						user={user}
 					/>
 				)}
 				options={{
@@ -55,7 +60,9 @@ const LoginScreen = ({ getLoginValidity, setLoginValidity }: ScreenProps) => {
 			/>
 			<Tab.Screen
 				name="Join"
-				component={JoinTab}
+				children={() => (
+					<JoinTab screenName="Join" user={user}/>
+				)}
 				options={{
 					tabBarIcon: ({ size, color }: tabBarIcon) => (
 						<Icon name={"account-plus"} color={color} size={size} />
