@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { SimpleRecipe } from "../api/models";
 import { getRecipes } from "../api/requests";
+import * as local from "../keystore/securestore";
 
 type TabProps = {
 	// navigation: Navigation,
@@ -26,7 +27,7 @@ const HomeTab = ({ setHeaderStatus }: TabProps) => {
     React.useEffect(() => {
       getRecipes(searchQuery)
         .then(response => {
-			console.log(response);
+			//console.log(response); //array of recipes returned
 			setRecipes(response);
 			for (let i of response) {
 				//console.log(i.totalTime);

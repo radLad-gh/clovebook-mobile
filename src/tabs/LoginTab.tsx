@@ -5,11 +5,12 @@ import { Button, Switch } from "react-native-paper";
 import Input from "../components/Input";
 import InputSecure from "../components/InputSecure";
 import { theme } from "../themes/Theme";
-import md5 from "md5";
-import jwt_decode from "jwt-decode";
 
 import { NewUser } from "../api/models";
 import { doLogin } from "../api/requests"
+import md5 from "md5";
+import jwt_decode from "jwt-decode";
+import * as local from "../keystore/securestore";
 
 interface cbJWT {
 	userID: string;
@@ -45,15 +46,14 @@ const LoginTab = ({
 			.then((data) => {
 				if (data !== undefined) {
 					const decoded = jwt_decode(data.refreshToken);
-					//const decoded = decodedToken(data.refreshToken);
 					const userID: string = (decoded as cbJWT)!.userID;
-					
+
+					// Save the access token locally.
+					local.save("user-session", userID);	
 					setLoginValidity(true);
 				}
 			})
 			.catch((err) => console.log(err));
-		// A user typed in their username and password, now its
-		// time to verify if the credentials are correct.\
 	};
 
 	return (
