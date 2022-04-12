@@ -5,8 +5,16 @@ export async function save(key, value) {
 }
 
 export async function getValueFor(key) {
+	// let result = await SecureStore.getItemAsync(key);
+	// return result;
 	let result = await SecureStore.getItemAsync(key);
 	result
-		? alert("🔐 Here's your value 🔐 \n" + result)
-		: alert("No values stored under that key.");
+		? console.log("🔐 Here's your value 🔐 \n" + result)
+		: console.log("No values stored under that key.");
+
+	//pointer = result;
+}
+
+export async function deleteValue(key) {
+	await SecureStore.deleteItemAsync(key, {});
 }

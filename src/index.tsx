@@ -14,6 +14,7 @@ import { theme } from "./themes/Theme";
 import SplashScreen from "./screen/Splash";
 
 import { NewUser } from "../api/models";
+import * as local from "./keystore/securestore";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -100,6 +101,8 @@ const DrawerNavigator = () => {
 							mode="outlined"
 							style={{ marginHorizontal: 10, marginTop: 10 }}
 							onPress={() => {
+								local.deleteValue("username");
+								local.deleteValue("password");
 								setLoginValid(false);
 							}}
 						>

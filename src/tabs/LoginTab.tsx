@@ -11,6 +11,8 @@ import { doLogin } from "../api/requests"
 import md5 from "md5";
 import jwt_decode from "jwt-decode";
 import * as local from "../keystore/securestore";
+import * as SecureStore from 'expo-secure-store';
+
 
 interface cbJWT {
 	userID: string;
@@ -30,6 +32,27 @@ const LoginTab = ({
 	getLoginValidity,
 	setLoginValidity,
 }: TabProps) => {
+
+	React.useEffect(() => {
+		(async () => {
+			try {
+				let result = await SecureStore.getItemAsync("username");
+				if (result) { 
+					console.log("yessir"); 
+					setLoginValidity(true)
+				} else console.log('this bitch empty.');
+			} catch (error) {
+				console.log(error);
+			}
+		})();
+	}, []);
+
+
+
+
+
+
+
 	// Username and password input.
 	const [username, setUsername] = React.useState("");
 	const [password, setPassword] = React.useState("");
@@ -50,6 +73,10 @@ const LoginTab = ({
 
 					// Save the access token locally.
 					local.save("user-session", userID);	
+					if (rememberSwitch) {
+						local.save("username", username);
+						local.save("password", password);
+					}
 					setLoginValidity(true);
 				}
 			})

@@ -26,6 +26,7 @@
 		"react-jwt": "^1.1.4",
 		"react-native": "0.64.3",
 		"react-native-gesture-handler": "~2.1.0",
+		"react-native-keychain": "^8.0.0",
 		"react-native-linear-gradient": "^2.5.6",
 		"react-native-paper": "^4.11.2",
 		"react-native-reanimated": "~2.3.1",
