@@ -101,8 +101,7 @@ const DrawerNavigator = () => {
 							mode="outlined"
 							style={{ marginHorizontal: 10, marginTop: 10 }}
 							onPress={() => {
-								local.deleteValue("username");
-								local.deleteValue("password");
+								local.deleteValue("user-session");
 								setLoginValid(false);
 							}}
 						>

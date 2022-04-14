@@ -36,7 +36,7 @@ const LoginTab = ({
 	React.useEffect(() => {
 		(async () => {
 			try {
-				let result = await SecureStore.getItemAsync("username");
+				let result = await SecureStore.getItemAsync("user-session");
 				if (result) setLoginValidity(true);
 				else console.error('Username not saved on this device.');
 			} catch (error) {
@@ -65,10 +65,10 @@ const LoginTab = ({
 
 					// Save the access token locally.
 					local.save("user-session", userID);	
-					if (rememberSwitch) {
-						local.save("username", username);
-						local.save("password", password);
-					}
+					// if (rememberSwitch) {
+					// 	local.save("username", username);
+					// 	local.save("password", password);
+					// }
 					setLoginValidity(true);
 				}
 			})
