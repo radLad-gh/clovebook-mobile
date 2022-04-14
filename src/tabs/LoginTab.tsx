@@ -37,22 +37,14 @@ const LoginTab = ({
 		(async () => {
 			try {
 				let result = await SecureStore.getItemAsync("username");
-				if (result) { 
-					console.log("yessir"); 
-					setLoginValidity(true)
-				} else console.log('this bitch empty.');
+				if (result) setLoginValidity(true);
+				else console.error('Username not saved on this device.');
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		})();
 	}, []);
-
-
-
-
-
-
-
+	
 	// Username and password input.
 	const [username, setUsername] = React.useState("");
 	const [password, setPassword] = React.useState("");
