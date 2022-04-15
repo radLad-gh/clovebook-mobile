@@ -5,6 +5,7 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Splash from "./screen/Splash";
@@ -54,7 +55,7 @@ const DrawerNavigator = () => {
 
 	return (
 		<Drawer.Navigator
-			drawerContent={() => (
+			drawerContent={({...props}) => (
 				<>
 					<View style={styles.drawerSection}>
 						<Image
@@ -101,7 +102,11 @@ const DrawerNavigator = () => {
 							mode="outlined"
 							style={{ marginHorizontal: 10, marginTop: 10 }}
 							onPress={() => {
+								// Remove the user's session token from
+								// the device.
 								local.deleteValue("user-session");
+								// Close the drawer
+								props.navigation.closeDrawer();
 								setLoginValid(false);
 							}}
 						>
@@ -139,6 +144,7 @@ const DrawerNavigator = () => {
 					options={{ headerShown: false }}
 					children={() => (
 						<Login
+							user={userInfo}
 							getLoginValidity={getLoginValidity}
 							setLoginValidity={setLoginValid}
 						/>
