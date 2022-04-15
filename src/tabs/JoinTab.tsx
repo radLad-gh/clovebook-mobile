@@ -34,7 +34,7 @@ const JoinTab = ({user, screenName} : TabProps) => {
 	return (
 		<>
 			<Image
-				source={require("../assets/logo-light.png")}
+				source={require("../assets/logo-dark.png")}
 				style={[styles.logo, { display: keyboardStatus }]}
 			/>
 			<ScrollView
@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
 		backgroundColor: theme.colors.background,
 		width: "100%",
 		resizeMode: "contain",
+		paddingTop: 100,
+		marginBottom: -60
 	},
 	inputContainer: {
 		backgroundColor: theme.colors.background,

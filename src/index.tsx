@@ -8,11 +8,9 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import Splash from "./screen/Splash";
 import Login from "./screen/Login";
 import Home from "./screen/Home";
 import { theme } from "./themes/Theme";
-import SplashScreen from "./screen/Splash";
 
 import { NewUser } from "./api/models";
 import * as local from "./validation/securestore";
@@ -29,9 +27,6 @@ const userInfo: NewUser = {
 };
 
 const DrawerNavigator = () => {
-	// Used for the splash screen.
-	const [isLoading, setLoading] = React.useState(true);
-	
 	// Used for authorization of user on load.
 	const [loginValid, setLoginValid] = React.useState(false);
 	const getLoginValidity = () => loginValid;
@@ -40,26 +35,13 @@ const DrawerNavigator = () => {
 	const [headerStatus, setHeaderStatus] = React.useState(true);
 	const getHeaderStatus = () => headerStatus;
 
-	React.useEffect(() => {
-		fetch("https://jsonplaceholder.typicode.com/posts/1")
-			.then((response) => response.json())
-			.then((response) => {
-				if (response == null) {
-					setLoginValid(false);
-				}
-				console.log("Fetched data.");
-				setLoading(!isLoading); // Do user auth here?
-				console.log(response.id);
-			});
-	}, []);
-
 	return (
 		<Drawer.Navigator
-			drawerContent={({...props}) => (
+			drawerContent={({ ...props }) => (
 				<>
 					<View style={styles.drawerSection}>
 						<Image
-							source={require("./assets/logo-light.png")}
+							source={require("./assets/logo-dark.png")}
 							style={styles.drawerLogo}
 						/>
 						<Divider />
@@ -99,7 +81,7 @@ const DrawerNavigator = () => {
 					<View style={styles.drawerSection}>
 						<Button
 							disabled={!loginValid}
-							mode="outlined"
+							mode="contained"
 							style={{ marginHorizontal: 10, marginTop: 10 }}
 							onPress={() => {
 								// Remove the user's session token from
@@ -116,13 +98,7 @@ const DrawerNavigator = () => {
 				</>
 			)}
 		>
-			{isLoading ? (
-				<Drawer.Screen
-					name="Splash"
-					component={SplashScreen}
-					options={{ headerShown: false }}
-				/>
-			) : loginValid ? (
+			{loginValid ? (
 				<Drawer.Screen
 					name="Clovebook"
 					children={() => (

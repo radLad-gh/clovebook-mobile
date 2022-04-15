@@ -5,6 +5,7 @@ import { Button, Switch } from "react-native-paper";
 import Input from "../components/Input";
 import InputSecure from "../components/InputSecure";
 import { theme } from "../themes/Theme";
+import { SvgUri } from "react-native-svg";
 
 import { NewUser } from "../api/models";
 import { doLogin } from "../api/requests"
@@ -13,6 +14,7 @@ import jwt_decode from "jwt-decode";
 import * as local from "../validation/securestore";
 import * as SecureStore from 'expo-secure-store';
 
+import Logo from "../assets/logo.svg";
 
 interface cbJWT {
 	userID: string;
@@ -77,7 +79,10 @@ const LoginTab = ({
 
 	return (
 		<>
-			<Image source={require("../assets/logo-light.png")} style={styles.logo} />
+			<Image source={require("../assets/logo-dark.png")} style={styles.logo} />
+			{/* // Ability to use SVG if we wanted to.
+				<Logo style={styles.logo} /> */
+			}
 			<View style={styles.inputContainer}>
 				<Input
 					label="Username"
@@ -133,7 +138,8 @@ const styles = StyleSheet.create({
 		backgroundColor: theme.colors.background,
 		width: "100%",
 		resizeMode: "contain",
-		paddingTop: 50,
+		paddingTop: 100,
+		marginBottom: -60
 	},
 	inputContainer: {
 		backgroundColor: theme.colors.background,
