@@ -4,9 +4,9 @@
 		"slug": "clovebook-mobile",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/icon.png",
+		"icon": "./assets/clove-icon.png",
 		"splash": {
-			"image": "./assets/logo-mono.png",
+			"image": "./assets/clove-icon.png",
 			"resizeMode": "contain",
 			"backgroundColor": "#e1eaeb"
 		},
@@ -16,8 +16,8 @@
 		"assetBundlePatterns": ["**/*"],
 		"android": {
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon.png",
-				"backgroundColor": "#e1eaeb"
+				"foregroundImage": "./assets/clove-icon.png",
+				"backgroundColor": "#e1eaeb",
 			},
 			"softwareKeyboardLayoutMode": "pan"
 		},
