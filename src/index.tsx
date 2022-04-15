@@ -13,8 +13,8 @@ import Home from "./screen/Home";
 import { theme } from "./themes/Theme";
 import SplashScreen from "./screen/Splash";
 
-import { NewUser } from "../api/models";
-import * as local from "./keystore/securestore";
+import { NewUser } from "./api/models";
+import * as local from "./validation/securestore";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -139,7 +139,6 @@ const DrawerNavigator = () => {
 					options={{ headerShown: false }}
 					children={() => (
 						<Login
-							user={userInfo}
 							getLoginValidity={getLoginValidity}
 							setLoginValidity={setLoginValid}
 						/>

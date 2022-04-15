@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { SimpleRecipe } from "../api/models";
 import { getRecipes } from "../api/requests";
-import * as local from "../keystore/securestore";
+import * as local from "../validation/securestore";
 
 type TabProps = {
 	// navigation: Navigation,

@@ -10,7 +10,7 @@ import { NewUser } from "../api/models";
 import { doLogin } from "../api/requests"
 import md5 from "md5";
 import jwt_decode from "jwt-decode";
-import * as local from "../keystore/securestore";
+import * as local from "../validation/securestore";
 import * as SecureStore from 'expo-secure-store';
 
 
@@ -38,7 +38,7 @@ const LoginTab = ({
 			try {
 				let result = await SecureStore.getItemAsync("user-session");
 				if (result) setLoginValidity(true);
-				else console.error('Username not saved on this device.');
+				else console.error('User session not saved on this device.');
 			} catch (error) {
 				console.error(error);
 			}
@@ -50,8 +50,8 @@ const LoginTab = ({
 	const [password, setPassword] = React.useState("");
 
 	// Watches the toggle switch for "Remember Me"
-	const [rememberSwitch, setRememberSwitch] = React.useState(false);
-	const onToggleSwitch = () => setRememberSwitch(!rememberSwitch);
+	//const [rememberSwitch, setRememberSwitch] = React.useState(false);
+	//const onToggleSwitch = () => setRememberSwitch(!rememberSwitch);
 
 	const validate = () => {
 		doLogin({
@@ -90,7 +90,7 @@ const LoginTab = ({
 					value={password}
 				></InputSecure>
 				<View style={styles.inputOptionsContainer}>
-					<View style={styles.inputOptionRememberContainer}>
+					{/* <View style={styles.inputOptionRememberContainer}>
 						<Text
 							style={{
 								paddingRight: 10,
@@ -101,7 +101,7 @@ const LoginTab = ({
 							Remember Me
 						</Text>
 						<Switch value={rememberSwitch} onValueChange={onToggleSwitch} />
-					</View>
+					</View> */}
 					<Button
 						style={styles.inputOptionForgot}
 						mode="text"
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
 	inputOptionsContainer: {
 		display: "flex",
 		alignItems: "center",
-		justifyContent: "center",
+		justifyContent: "flex-start",
 		flexDirection: "row",
 	},
 	inputOptionRememberContainer: {
@@ -154,8 +154,8 @@ const styles = StyleSheet.create({
 		paddingRight: 5,
 	},
 	inputOptionForgot: {
-		flex: 1,
-		paddingLeft: 5,
+		marginTop: 5,
+		marginLeft: 5,
 	},
 });
 

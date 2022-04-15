@@ -60,6 +60,7 @@ const JoinTab = ({user, screenName} : TabProps) => {
 
 						// Now that the "data" for a registration is complete,
 						// We need to verify it to verify it to the backend.
+						
 
 						
 					}}
