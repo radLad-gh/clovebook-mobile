@@ -22,6 +22,7 @@ const JoinTab = ({user, screenName} : TabProps) => {
 	const [email, setEmail] = React.useState('');
 
 	const [keyboardStatus, setKeyboardStatus] = React.useState("flex");
+	
 	React.useEffect(() => {
 		Keyboard.addListener("keyboardDidShow", () => {
 			setKeyboardStatus("none");

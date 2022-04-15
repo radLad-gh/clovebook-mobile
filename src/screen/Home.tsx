@@ -58,7 +58,7 @@ const HomeTabs = ({
 					return <Icon name={iconName} size={size} color={color} />;
 				},
 				tabBarActiveBackgroundColor: theme.colors.selected,
-				tabBarActiveTintColor: theme.colors.accent,
+				tabBarActiveTintColor: theme.colors.text_light,
 			})}
 		>
 			<Tab.Screen

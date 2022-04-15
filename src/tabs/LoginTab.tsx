@@ -35,6 +35,8 @@ const LoginTab = ({
 	setLoginValidity,
 }: TabProps) => {
 
+	// This use effect runs on load, and checks if the session token is still
+	// saved on the device, if it is, then the user is a valid login.
 	React.useEffect(() => {
 		(async () => {
 			try {

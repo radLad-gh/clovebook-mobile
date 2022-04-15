@@ -38,7 +38,7 @@ const LoginScreen = ({ getLoginValidity, setLoginValidity, user}: ScreenProps) =
 					height: 60,
 				},
 				tabBarActiveBackgroundColor: theme.colors.selected,
-				tabBarActiveTintColor: theme.colors.primary_glow,
+				tabBarActiveTintColor: theme.colors.text_light,
 			}}
 		>
 			<Tab.Screen

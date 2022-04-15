@@ -9,6 +9,7 @@ export const theme = {
 		primary_glow: "#e1eaeb",
         primary_dark: "#809799",
         primary_darker: "#4f3c2f",
+        secondary: "#e5952e",
         // Use text on light backgrounds. Otherwise, text_light.
         text: "#493520",
 		text_light: "#f2f0e4",
