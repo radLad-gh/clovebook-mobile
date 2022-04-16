@@ -88,7 +88,12 @@ const HomeTabs = ({
 			/>
 			<Tab.Screen
 				name="Favorites"
-				children={() => <FavoritesTab setHeaderStatus={setHeaderStatus} />}
+				children={() => (
+					<FavoritesTab
+						setHeaderStatus={setHeaderStatus}
+						setCurRecipe={setCurRecipe}
+					/>
+				)}
 				// options={{ tabBarHideOnKeyboard: true }}
 			/>
 		</Tab.Navigator>

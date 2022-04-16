@@ -6,9 +6,10 @@ import RecipeCard from "../components/RecipeCard";
 
 type TabProps = {
 	setHeaderStatus: Function;
+	setCurRecipe: Function;
 };
 
-const FavoritesTab = ({ setHeaderStatus }: TabProps) => {
+const FavoritesTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 	return (
 		<ScrollView
 			style={{
@@ -20,16 +21,40 @@ const FavoritesTab = ({ setHeaderStatus }: TabProps) => {
 			}}
 		>
 			<RecipeCard
-				props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
+				props={{
+					spoonacularID: 0,
+					cookbookID: "100000000000000000000000",
+					name: "",
+					updatedAt: "",
+					ingredients: [],
+					authorID: "",
+				}}
 				setHeaderStatus={setHeaderStatus}
+				setCurRecipe={setCurRecipe}
 			></RecipeCard>
 			<RecipeCard
-				props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
+				props={{
+					spoonacularID: 0,
+					cookbookID: "100000000000000000000000",
+					name: "",
+					updatedAt: "",
+					ingredients: [],
+					authorID: "",
+				}}
 				setHeaderStatus={setHeaderStatus}
+				setCurRecipe={setCurRecipe}
 			></RecipeCard>
 			<RecipeCard
-				props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
+				props={{
+					spoonacularID: 0,
+					cookbookID: "100000000000000000000000",
+					name: "",
+					updatedAt: "",
+					ingredients: [],
+					authorID: "",
+				}}
 				setHeaderStatus={setHeaderStatus}
+				setCurRecipe={setCurRecipe}
 			></RecipeCard>
 		</ScrollView>
 	);
