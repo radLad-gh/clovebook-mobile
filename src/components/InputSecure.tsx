@@ -9,9 +9,10 @@ type Props = {
 	label: string;
 	onChangeText: Function;
 	value: string;
+	error: boolean
 };
 
-const InputPass = ({ label, onChangeText, value }: Props) => {
+const InputPass = ({ label, onChangeText, value, error }: Props) => {
 	const [toggleSight, setSight] = React.useState(false);
 	const onToggleSight = () => {
 		setSight(!toggleSight);
@@ -19,6 +20,7 @@ const InputPass = ({ label, onChangeText, value }: Props) => {
 
 	return (
 		<Input
+			error={error}
 			label={label}
 			secureTextEntry={!toggleSight}
 			onChangeText={onChangeText}

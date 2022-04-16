@@ -59,6 +59,16 @@ export const getRecipeById = (
     return requests.get(`/recipes/${id}`);
 }
 
+// ==== User Section ====
+
+export const doRegister = (
+	data: models.NewUser,
+	code: string
+): Promise<{ userID: string }> => requests.post("/users", data, { code: code });
+
+export const doAuth = (data: models.Useremail): Promise<{ expires: string }> =>
+	requests.post("/users/auth", data);
+
 export const doLogin = (
 	data: models.Userpass
 ): Promise<{ refreshToken: string }> => requests.get("/users/login", data);

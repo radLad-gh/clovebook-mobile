@@ -5,12 +5,14 @@ import { theme } from "../themes/Theme";
 
 type Props = React.ComponentProps<typeof Input> & { errorText?: string };
 
-const Input = ({ errorText, ...props }: Props, label: string) => {
+const Input = ({ errorText, ...props }: Props, label: string, keyboardType: string, maxLength : number) => {
 	const [text, setText] = React.useState("");
 
 	return (
 		// react-native-paper <HelperText> can be useful here.
 		<TextInput
+			maxLength={maxLength}
+			keyboardType={keyboardType}
 			label={label}
 			value={text}
 			onChangeText={(newText) => {

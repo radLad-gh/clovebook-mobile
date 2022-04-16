@@ -22,7 +22,7 @@ import * as SecureStore from "expo-secure-store";
 const Drawer = createDrawerNavigator();
 
 const userInfo: NewUser = {
-	username: "",
+	userName: "",
 	firstName: "",
 	lastName: "",
 	password: "",
