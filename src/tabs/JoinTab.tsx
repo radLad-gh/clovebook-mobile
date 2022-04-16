@@ -72,9 +72,9 @@ const JoinTab = ({
 	});
 
 	const authorize = () => {
-		doAuth({ username, email })
-		.then((response) => {
-			// Check for either used email or username already in use.;
+		// Check if username or email is taken.
+		doAuth({ username, email }).then((response) => {
+			// Response message will contain either "user" or "email"
 			let check = response as unknown;
 			const emailReg = new RegExp(/email/);
 			const usernameReg = new RegExp(/user/);
@@ -90,7 +90,7 @@ const JoinTab = ({
 				setModalPresent(false);
 				return;
 			}
-			// If everything checks out, display the modal.
+			// If everything checks out, display the modal. To type in code.
 			setModalPresent(true);
 		});
 	};
@@ -98,23 +98,26 @@ const JoinTab = ({
 	const register = () => {
 		// When the user verifies the given code in their email.
 		doRegister(user, code)
-		.then(() => {
-			const userPass = {username: user.username, password: user.password} as Userpass;
-			doLogin(userPass)
-			.then((jwt) => {
-				if (jwt !== undefined) {
-					const decoded = jwt_decode(jwt.refreshToken);
-					const userID: string = (decoded as cbJWT)!.userID;
-					// Save the access token locally.
-					local.save("user-session", userID);
-					// The user is now registered! Enter the site.
-					setLoginValidity(true);
-				}
+			.then(() => {
+				const userPass = {
+					username: user.username,
+					password: user.password,
+				} as Userpass;
+				doLogin(userPass)
+					.then((jwt) => {
+						if (jwt !== undefined) {
+							const decoded = jwt_decode(jwt.refreshToken);
+							const userID: string = (decoded as cbJWT)!.userID;
+							// Save the access token locally.
+							local.save("user-session", userID);
+							// The user is now registered! Enter the site.
+							setLoginValidity(true);
+						}
+					})
+					.catch((error) => console.error(error));
 			})
 			.catch((error) => console.error(error));
-		})
-		.catch((error) => console.error(error));
-		}
+	};
 
 	const resetErrorMessages = () => {
 		// Reset error message/placeholder.

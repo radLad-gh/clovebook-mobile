@@ -1,18 +1,18 @@
 import React, { memo } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
-import { Button, Switch } from "react-native-paper";
+import { Button, Switch, Portal, Modal, Paragraph, Dialog } from "react-native-paper";
 
 import Input from "../components/Input";
 import InputSecure from "../components/InputSecure";
 import { theme } from "../themes/Theme";
 import { SvgUri } from "react-native-svg";
 
-import { NewUser } from "../api/models";
-import { doLogin } from "../api/requests"
+import { NewUser, Userpass } from "../api/models";
+import { doLogin, sendResetEmail } from "../api/requests";
 import md5 from "md5";
 import jwt_decode from "jwt-decode";
 import * as local from "../validation/securestore";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 
 import Logo from "../assets/logo.svg";
 
@@ -34,25 +34,28 @@ const LoginTab = ({
 	getLoginValidity,
 	setLoginValidity,
 }: TabProps) => {
-
 	// This use effect runs on load, and checks if the session token is still
 	// saved on the device, if it is, then the user is a valid login.
 	React.useEffect(() => {
-		(async () => {
+		async () => {
 			try {
 				let result = await SecureStore.getItemAsync("user-session");
 				if (result) setLoginValidity(true);
-				else console.error('User session not saved on this device.');
+				else console.error("User session not saved on this device.");
 			} catch (error) {
 				console.error(error);
 			}
-		});
+		};
 	}, []);
-	
+
 	// Username and password input.
 	const [username, setUsername] = React.useState("");
 	const [password, setPassword] = React.useState("");
 
+	const [modalPresent, setModalPresent] = React.useState(false);
+	const [forgotEmail, setForgotEmail] = React.useState('');
+
+	const [dialogPresent, setDialogPresent] = React.useState(false);
 	// Watches the toggle switch for "Remember Me"
 	//const [rememberSwitch, setRememberSwitch] = React.useState(false);
 	//const onToggleSwitch = () => setRememberSwitch(!rememberSwitch);
@@ -68,23 +71,53 @@ const LoginTab = ({
 					const userID: string = (decoded as cbJWT)!.userID;
 
 					// Save the access token locally.
-					local.save("user-session", userID);	
-					// if (rememberSwitch) {
-					// 	local.save("username", username);
-					// 	local.save("password", password);
-					// }
+					local.save("user-session", userID);
+					// Let user access the site.
 					setLoginValidity(true);
 				}
 			})
 			.catch((err) => console.log(err));
 	};
 
+	const sendForgot = () => {
+		// Sends an email to the typed in address and close the modal.
+		sendResetEmail(forgotEmail);
+		setModalPresent(false);
+		setDialogPresent(true);
+	}
+
 	return (
 		<>
+			{/* Portal is a react-native-paper component which renders a component
+			    at a different place than the parent tree. Useful for modals */}
+			<Portal>
+				<Modal visible={modalPresent} onDismiss={() => setModalPresent(false)}>
+					<Input
+						label="Email"
+						onChangeText={setForgotEmail}
+						value={forgotEmail}
+					/>
+					<Button
+						mode="contained"
+						onPress={sendForgot}
+						style={{ alignSelf: "center", width: 200, marginTop: 25 }}
+					>
+						Submit
+					</Button>
+				</Modal>
+				<Dialog visible={dialogPresent} onDismiss={() => setDialogPresent(false)}>
+					<Dialog.Title>Email Sent!</Dialog.Title>
+					<Dialog.Content>
+						<Text>Check your email for further instructions to reset your password</Text>
+					</Dialog.Content>
+					<Dialog.Actions>
+						<Button onPress={() => setDialogPresent(false)}>Okay</Button>
+					</Dialog.Actions>
+				</Dialog>
+			</Portal>
 			<Image source={require("../assets/logo-dark.png")} style={styles.logo} />
 			{/* // Ability to use SVG if we wanted to.
-				<Logo style={styles.logo} /> */
-			}
+				<Logo style={styles.logo} /> */}
 			<View style={styles.inputContainer}>
 				<Input
 					label="Username"
@@ -115,9 +148,7 @@ const LoginTab = ({
 						mode="text"
 						compact={true}
 						uppercase={false}
-						onPress={() => {
-							console.log("Forgot Password clicked.");
-						}}
+						onPress={() => {setModalPresent(true)}}
 					>
 						Forgot Password
 					</Button>
@@ -142,7 +173,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		resizeMode: "contain",
 		paddingTop: 100,
-		marginBottom: -60
+		marginBottom: -60,
 	},
 	inputContainer: {
 		backgroundColor: theme.colors.background,

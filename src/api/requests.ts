@@ -76,3 +76,6 @@ export const doAuth = (data: models.Useremail): Promise<{ expires: string }> =>
 export const doLogin = (
 	data: models.Userpass
 ): Promise<{ refreshToken: string }> => requests.get("/users/login", data);
+
+export const sendResetEmail = (email: string) =>
+	requests.post("/users/reset", {}, { email: email });
