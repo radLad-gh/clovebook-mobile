@@ -21,7 +21,7 @@ const Stack = createNativeStackNavigator();
 
 type ScreenProps = {
 	//   navigation: Navigation;
-	getHeaderStatus: Function;
+	// getHeaderStatus: Function;
 	setHeaderStatus: Function;
 	user: NewUser;
 	setCurRecipe: Function;
@@ -29,7 +29,7 @@ type ScreenProps = {
 
 const HomeTabs = ({
 	//   navigation,
-	getHeaderStatus,
+	// getHeaderStatus,
 	setHeaderStatus,
 	setCurRecipe,
 }: ScreenProps) => {
@@ -57,7 +57,7 @@ const HomeTabs = ({
 						iconName = focused ? "star" : "star-outline";
 					}
 
-					return <Icon name={iconName} size={size} color={color} />;
+					return <Icon name={iconName as string} size={size} color={color} />;
 				},
 				tabBarActiveBackgroundColor: theme.colors.selected,
 				tabBarActiveTintColor: theme.colors.text_light,
@@ -69,7 +69,7 @@ const HomeTabs = ({
 					<DiscoverTab
 						// getHeaderStatus={getHeaderStatus}
 						setHeaderStatus={setHeaderStatus}
-						// navigation={navigation}
+						setCurRecipe={setCurRecipe}
 					/>
 				)}
 				// options={{ tabBarHideOnKeyboard: true }}
@@ -96,7 +96,7 @@ const HomeTabs = ({
 };
 
 const HomeScreen = ({
-	getHeaderStatus,
+	// getHeaderStatus,
 	setHeaderStatus,
 	user,
 }: ScreenProps) => {
@@ -111,7 +111,7 @@ const HomeScreen = ({
 				name="HomeTabs"
 				children={() => (
 					<HomeTabs
-						getHeaderStatus={getHeaderStatus}
+						// getHeaderStatus={getHeaderStatus}
 						setHeaderStatus={setHeaderStatus}
 						user={user}
 						setCurRecipe={setCurRecipe}

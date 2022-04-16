@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const addFavorite = () => {};
 
-const Time = ({ numericTime }: number) => {
+const Time = ({ numericTime }: { numericTime: number }) => {
 	let mag: string; // magnitude of time.
 	if (numericTime < 60) mag = "m";
 	else {
@@ -69,7 +69,7 @@ export function RecipeCard({
 			/>
 			<View style={styles.cardInfo}>
 				<Card.Title title={recipe.name} subtitle="Recipe Subtitle" />
-				<Time numericTime={recipe.totalTime} />
+				<Time numericTime={recipe.totalTime as number} />
 				<IconButton
 					icon="star"
 					color={color}

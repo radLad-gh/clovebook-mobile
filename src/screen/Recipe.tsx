@@ -34,7 +34,7 @@ const RecipeScreen = ({
 		const cID: string = curRecipe.cookbookID;
 
 		// Check whether this stub is from Spoonacular or our DB
-		let id: string = cID === "1000000000000000000000000000" ? "" + sID : cID;
+		let id: string = cID === "100000000000000000000000" ? "" + sID : cID;
 
 		return getRecipeById(id).then((response) => {
 			setRecipe(response);
@@ -56,7 +56,7 @@ const RecipeScreen = ({
 		}, [])
 	);
 
-	// Update the recipe when the thing in the parent component changes
+	// Fetch & update full recipe when the recipe stub in parent component changes
 	React.useEffect(() => {
 		getFullRecipe();
 	}, [setCurRecipe]);
