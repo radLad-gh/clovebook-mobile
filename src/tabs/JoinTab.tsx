@@ -8,7 +8,7 @@ import { theme } from "../themes/Theme";
 import { doRegister, doAuth, doLogin } from "../api/requests";
 
 import { Navigation } from "../types";
-import { NewUser } from "../api/models";
+import { NewUser, Userpass } from "../api/models";
 
 import * as VALID from "../api/validator";
 
@@ -70,35 +70,51 @@ const JoinTab = ({
 			setKeyboardStatus("flex");
 		});
 	});
-	const validate = () => {
-		doAuth({ username, email }).then(() => {
-			// bring up modal
-			// user types in 6 digit.
-			// confirm the code.
-		});
-		// doRegister({
-		// 	userName: username,
-		// 	email: email,
-		// 	password: password,
-		// 	firstName: firstname,
-		// 	lastName: lastname
-		// })
-		// 	.then((data) => {
-		// 		if (data !== undefined) {
-		// 			const decoded = jwt_decode(data.refreshToken);
-		// 			const userID: string = (decoded as cbJWT)!.userID;
 
-		// 			// Save the access token locally.
-		// 			local.save("user-session", userID);
-		// 			// if (rememberSwitch) {
-		// 			// 	local.save("username", username);
-		// 			// 	local.save("password", password);
-		// 			// }
-		// 			setLoginValidity(true);
-		// 		}
-		// 	})
-		// 	.catch((err) => console.log(err));
+	const authorize = () => {
+		doAuth({ username, email })
+		.then((response) => {
+			// Check for either used email or username already in use.;
+			let check = response as unknown;
+			const emailReg = new RegExp(/email/);
+			const usernameReg = new RegExp(/user/);
+			if (emailReg.test(check as string)) {
+				setEmailPlaceHolder("Email already in use.");
+				setEmailError(true);
+				setModalPresent(false); // stop the modal from appearing.
+				return;
+			}
+			if (usernameReg.test(check as string)) {
+				setUserPlaceHolder("Username already in use.");
+				setUserError(true);
+				setModalPresent(false);
+				return;
+			}
+			// If everything checks out, display the modal.
+			setModalPresent(true);
+		});
 	};
+
+	const register = () => {
+		// When the user verifies the given code in their email.
+		doRegister(user, code)
+		.then(() => {
+			const userPass = {username: user.username, password: user.password} as Userpass;
+			doLogin(userPass)
+			.then((jwt) => {
+				if (jwt !== undefined) {
+					const decoded = jwt_decode(jwt.refreshToken);
+					const userID: string = (decoded as cbJWT)!.userID;
+					// Save the access token locally.
+					local.save("user-session", userID);
+					// The user is now registered! Enter the site.
+					setLoginValidity(true);
+				}
+			})
+			.catch((error) => console.error(error));
+		})
+		.catch((error) => console.error(error));
+		}
 
 	const resetErrorMessages = () => {
 		// Reset error message/placeholder.
@@ -118,6 +134,8 @@ const JoinTab = ({
 
 	return (
 		<>
+			{/* Portal is a react-native-paper component which renders a component
+			    at a different place than the parent tree. Useful for modals */}
 			<Portal>
 				<Modal visible={modalPresent} onDismiss={() => setModalPresent(false)}>
 					<View style={{ display: "flex", flexDirection: "column" }}>
@@ -130,26 +148,7 @@ const JoinTab = ({
 						/>
 						<Button
 							mode="contained"
-							onPress={() => {
-								doRegister(user, code)
-									// If register-code is successfully typed in.
-									.then((data) => {
-										doLogin({ username, password })
-											.then((data) => {
-												if (data !== undefined) {
-													const decoded = jwt_decode(data.refreshToken);
-													const userID: string = (decoded as cbJWT)!.userID;
-
-													// Save the access token locally.
-													local.save("user-session", userID);
-													// The user is now registered! Enter the site!
-													setLoginValidity(true);
-												}
-											})
-											.catch((error) => console.error(error));
-									})
-									.catch((error) => console.error(error));
-							}}
+							onPress={register}
 							style={{ alignSelf: "center", width: 200, marginTop: 25 }}
 						>
 							Verify
@@ -242,10 +241,7 @@ const JoinTab = ({
 						if (!flag) {
 							// Hash the passowrd.
 							user.password = md5(password);
-							validate();
-							// On validation, open modal window for user
-							// to type in 6 digit code.
-							setModalPresent(true);
+							authorize();
 						}
 					}}
 					style={{ alignSelf: "center", width: 200, marginTop: 25 }}

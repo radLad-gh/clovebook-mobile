@@ -46,7 +46,7 @@ const LoginTab = ({
 			} catch (error) {
 				console.error(error);
 			}
-		})();
+		});
 	}, []);
 	
 	// Username and password input.
@@ -92,6 +92,7 @@ const LoginTab = ({
 					value={username}
 				></Input>
 				<InputSecure
+					error={false}
 					label={"Password"}
 					onChangeText={setPassword}
 					value={password}
