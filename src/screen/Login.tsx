@@ -21,11 +21,14 @@ type tabBarIcon = {
 
 const Tab = createBottomTabNavigator();
 
-const LoginScreen = ({ getLoginValidity, setLoginValidity, user}: ScreenProps) => {
-
+const LoginScreen = ({
+	getLoginValidity,
+	setLoginValidity,
+	user,
+}: ScreenProps) => {
 	React.useEffect(() => {
-		// TODO: STOPPED HERE 
-	})
+		// TODO: STOPPED HERE
+	});
 
 	return (
 		<Tab.Navigator
@@ -55,19 +58,17 @@ const LoginScreen = ({ getLoginValidity, setLoginValidity, user}: ScreenProps) =
 					tabBarIcon: ({ size, color }: tabBarIcon) => (
 						<Icon name={"login-variant"} color={color} size={size} />
 					),
-					tabBarHideOnKeyboard: true,
+					tabBarHideOnKeyboard: false,
 				}}
 			/>
 			<Tab.Screen
 				name="Join"
-				children={() => (
-					<JoinTab screenName="Join" user={user}/>
-				)}
+				children={() => <JoinTab screenName="Join" user={user} />}
 				options={{
 					tabBarIcon: ({ size, color }: tabBarIcon) => (
 						<Icon name={"account-plus"} color={color} size={size} />
 					),
-					tabBarHideOnKeyboard: true,
+					tabBarHideOnKeyboard: false,
 				}}
 			/>
 		</Tab.Navigator>

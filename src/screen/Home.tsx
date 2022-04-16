@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -9,11 +9,11 @@ import { theme } from "../themes/Theme";
 
 import { Navigation } from "../types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Recipe from "./Recipe";
+import RecipeScreen from "./Recipe";
 import { IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
-import { NewUser } from "../api/models";
+import { NewUser, SimpleRecipe } from "../api/models";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,12 +24,14 @@ type ScreenProps = {
 	getHeaderStatus: Function;
 	setHeaderStatus: Function;
 	user: NewUser;
+	setCurRecipe: Function;
 };
 
 const HomeTabs = ({
 	//   navigation,
 	getHeaderStatus,
 	setHeaderStatus,
+	setCurRecipe,
 }: ScreenProps) => {
 	return (
 		<Tab.Navigator
@@ -74,7 +76,12 @@ const HomeTabs = ({
 			/>
 			<Tab.Screen
 				name="Home"
-				children={() => <HomeTab setHeaderStatus={setHeaderStatus} />}
+				children={() => (
+					<HomeTab
+						setHeaderStatus={setHeaderStatus}
+						setCurRecipe={setCurRecipe}
+					/>
+				)}
 				// options={{
 				//   tabBarHideOnKeyboard: true,
 				// }}
@@ -88,8 +95,14 @@ const HomeTabs = ({
 	);
 };
 
-const HomeScreen = ({ getHeaderStatus, setHeaderStatus, user }: ScreenProps) => {
+const HomeScreen = ({
+	getHeaderStatus,
+	setHeaderStatus,
+	user,
+}: ScreenProps) => {
 	const navigation = useNavigation();
+	const [curRecipe, setCurRecipe] = useState<SimpleRecipe>();
+	const getCurRecipe = () => curRecipe;
 
 	return (
 		<Stack.Navigator>
@@ -101,12 +114,19 @@ const HomeScreen = ({ getHeaderStatus, setHeaderStatus, user }: ScreenProps) => 
 						getHeaderStatus={getHeaderStatus}
 						setHeaderStatus={setHeaderStatus}
 						user={user}
+						setCurRecipe={setCurRecipe}
 					/>
 				)}
 			/>
 			<Stack.Screen
 				name="Recipe"
-				children={() => <Recipe setHeaderStatus={setHeaderStatus} />}
+				children={() => (
+					<RecipeScreen
+						setHeaderStatus={setHeaderStatus}
+						setCurRecipe={setCurRecipe}
+						getCurRecipe={getCurRecipe}
+					/>
+				)}
 				options={{
 					headerLeft: () => (
 						<IconButton

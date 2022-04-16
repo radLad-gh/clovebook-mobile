@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Dimensions, ScrollView, BackHandler } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import { theme } from "../themes/Theme";
@@ -7,18 +7,39 @@ import { Navigation } from "../types";
 import Featured from "../components/Featured";
 import RecipeCard from "../components/RecipeCard";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { getRecipeById } from "../api/requests";
+import { Recipe, SimpleRecipe } from "../api/models";
 
 type RecipeProps = {
 	setHeaderStatus: Function;
+	setCurRecipe: Function;
+	getCurRecipe: Function;
 	// componentName: string;
 };
 
-const Recipe = ({
+const RecipeScreen = ({
 	//   navigation,
 	// getHeaderStatus,
 	setHeaderStatus,
+	setCurRecipe,
+	getCurRecipe, // Use this function to retrieve the SimpleRecipe you clicked on to get here
 }: RecipeProps) => {
 	const navigation = useNavigation();
+	const [recipe, setRecipe] = useState<Recipe>();
+
+	const getFullRecipe = () => {
+		// Get stub we clicked on (and fields from it)
+		const curRecipe: SimpleRecipe = getCurRecipe();
+		const sID: number = curRecipe.spoonacularID;
+		const cID: string = curRecipe.cookbookID;
+
+		// Check whether this stub is from Spoonacular or our DB
+		let id: string = cID === "1000000000000000000000000000" ? "" + sID : cID;
+
+		return getRecipeById(id).then((response) => {
+			setRecipe(response);
+		});
+	};
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -35,6 +56,11 @@ const Recipe = ({
 		}, [])
 	);
 
+	// Update the recipe when the thing in the parent component changes
+	React.useEffect(() => {
+		getFullRecipe();
+	}, [setCurRecipe]);
+
 	return (
 		<ScrollView
 			style={{
@@ -44,16 +70,9 @@ const Recipe = ({
 				paddingRight: 15,
 			}}
 		>
-			<Button
-				onPress={() => {
-					// navigation.navigate('RecipeScreen');
-					// setHeaderStatus(true);
-				}}
-			>
-				PRESS MEE
-			</Button>
+			<Text>{JSON.stringify(recipe)}</Text>
 		</ScrollView>
 	);
 };
 
-export default Recipe;
+export default RecipeScreen;

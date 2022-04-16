@@ -16,24 +16,24 @@ type TabProps = {
 	// navigation: Navigation,
 	// screenName: string,
 	setHeaderStatus: Function;
+	setCurRecipe: Function;
 };
 
-const HomeTab = ({ setHeaderStatus }: TabProps) => {
+const HomeTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 	const navigation = useNavigation();
 
 	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
-    const [searchQuery, setQuery] = React.useState('');
-    
-    React.useEffect(() => {
-      getRecipes(searchQuery)
-        .then(response => {
+	const [searchQuery, setQuery] = React.useState("");
+
+	React.useEffect(() => {
+		getRecipes(searchQuery).then((response) => {
 			//console.log(response); //array of recipes returned
 			setRecipes(response);
 			for (let i of response) {
 				//console.log(i.totalTime);
-			}	
+			}
 		});
-    }, [searchQuery])
+	}, [searchQuery]);
 
 	return (
 		<ScrollView
@@ -52,7 +52,7 @@ const HomeTab = ({ setHeaderStatus }: TabProps) => {
 					navigation.navigate("Discover" as never);
 				}}
 			/>
-			<HomeSearchBar submit={ setQuery }></HomeSearchBar>
+			<HomeSearchBar submit={setQuery}></HomeSearchBar>
 			<View
 				style={{
 					flexDirection: "row",
@@ -85,7 +85,14 @@ const HomeTab = ({ setHeaderStatus }: TabProps) => {
 				props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
 				setHeaderStatus={setHeaderStatus}
 			></RecipeCard> */}
-			{recipes.map((e,i) => <RecipeCard props={e} setHeaderStatus={setHeaderStatus} key={i} />)}
+			{recipes.map((e, i) => (
+				<RecipeCard
+					props={e}
+					setHeaderStatus={setHeaderStatus}
+					setCurRecipe={setCurRecipe}
+					key={i}
+				/>
+			))}
 		</ScrollView>
 	);
 };

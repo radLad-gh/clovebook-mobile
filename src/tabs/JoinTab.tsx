@@ -14,15 +14,17 @@ type TabProps = {
 	screenName: string;
 };
 
-const JoinTab = ({user, screenName} : TabProps) => {
-	const [firstname, setFirstname] = React.useState('');
-	const [lastname, setLastname] = React.useState('');
-	const [username, setUsername] = React.useState('');
-	const [password, setPassword] = React.useState('');
-	const [email, setEmail] = React.useState('');
+const JoinTab = ({ user, screenName }: TabProps) => {
+	const [firstname, setFirstname] = React.useState("");
+	const [lastname, setLastname] = React.useState("");
+	const [username, setUsername] = React.useState("");
+	const [password, setPassword] = React.useState("");
+	const [email, setEmail] = React.useState("");
 
-	const [keyboardStatus, setKeyboardStatus] = React.useState("flex");
-	
+	const [keyboardStatus, setKeyboardStatus] = React.useState<
+		"flex" | "none" | undefined
+	>("flex");
+
 	React.useEffect(() => {
 		Keyboard.addListener("keyboardDidShow", () => {
 			setKeyboardStatus("none");
@@ -42,11 +44,27 @@ const JoinTab = ({user, screenName} : TabProps) => {
 				style={styles.inputContainer}
 				contentContainerStyle={{ paddingVertical: 25 }}
 			>
-				<Input label="Firstname" onChangeText={setFirstname} value={firstname}></Input>
-				<Input label="Lastname" onChangeText={setLastname} value={lastname}></Input>
+				<Input
+					label="Firstname"
+					onChangeText={setFirstname}
+					value={firstname}
+				></Input>
+				<Input
+					label="Lastname"
+					onChangeText={setLastname}
+					value={lastname}
+				></Input>
 				<Input label="Email" onChangeText={setEmail} value={email}></Input>
-				<Input label="Username" onChangeText={setUsername} value={username}></Input>
-				<InputSecure label="Password" onChangeText={setPassword} value={password}></InputSecure>
+				<Input
+					label="Username"
+					onChangeText={setUsername}
+					value={username}
+				></Input>
+				<InputSecure
+					label="Password"
+					onChangeText={setPassword}
+					value={password}
+				></InputSecure>
 				<View style={styles.inputOptionsContainer}></View>
 
 				<Button
@@ -61,9 +79,6 @@ const JoinTab = ({user, screenName} : TabProps) => {
 
 						// Now that the "data" for a registration is complete,
 						// We need to verify it to verify it to the backend.
-						
-
-						
 					}}
 					style={{ alignSelf: "center", width: 200, marginTop: 25 }}
 				>
@@ -81,7 +96,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		resizeMode: "contain",
 		paddingTop: 100,
-		marginBottom: -60
+		marginBottom: -60,
 	},
 	inputContainer: {
 		backgroundColor: theme.colors.background,

@@ -4,10 +4,10 @@ import * as models from "./models";
 const instance = axios.create({
 	baseURL: "https://api.clovebook.com",
 	timeout: 15000,
-    withCredentials: true,
+	withCredentials: true,
 });
 
-const resBody = (res:AxiosResponse) => res.data;
+const resBody = (res: AxiosResponse) => res.data;
 
 const contentJSON = { "content-type": "application/json" };
 
@@ -27,11 +27,12 @@ const handleError = (err: any) => {
 
 const requests = {
 	get: (url: string, params?: {}) => {
-		console.log("url:"+url+", params:"+params);
+		console.log("url:" + url + ", params:" + params);
 		return instance
 			.get(url, { params: params })
 			.then(resBody)
-			.catch(handleError)},
+			.catch(handleError);
+	},
 	post: (url: string, body: {}, params?: {}) =>
 		instance
 			.post(url, body, { params: params, headers: contentJSON })
@@ -51,13 +52,11 @@ export const getRecipes = (
 	tags?: string[]
 ): Promise<models.SimpleRecipe[]> => {
 	return requests.get("/recipes", { query: query, tags: tags });
-}
+};
 
-export const getRecipeById = (
-    id: string,
-): Promise<models.Recipe[]> => {
-    return requests.get(`/recipes/${id}`);
-}
+export const getRecipeById = (id: string): Promise<models.Recipe> => {
+	return requests.get(`/recipes/${id}`);
+};
 
 export const doLogin = (
 	data: models.Userpass
