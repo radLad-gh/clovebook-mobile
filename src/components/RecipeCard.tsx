@@ -56,7 +56,7 @@ export function RecipeCard({ stub, setHeaderStatus, setCurRecipe }: CardProps) {
 
 	const [favorite, setFavorite] = React.useState(checkIfFav(id));
 	const [color, setColor] = React.useState(
-		favorite ? theme.colors.text_light : theme.colors.secondary
+		favorite ? theme.colors.secondary : theme.colors.text_light
 	);
 
 	const toggleStar = () => {
@@ -66,8 +66,8 @@ export function RecipeCard({ stub, setHeaderStatus, setCurRecipe }: CardProps) {
 		setFavorite(newVal);
 		// Perform these actions on toggle of favorite.
 		favorite
-			? setColor(theme.colors.secondary)
-			: setColor(theme.colors.text_light);
+			? setColor(theme.colors.text_light)
+			: setColor(theme.colors.secondary);
 	};
 
 	return (
