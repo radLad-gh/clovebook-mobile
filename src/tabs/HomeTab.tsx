@@ -9,8 +9,9 @@ import { theme } from "../themes/Theme";
 import { useNavigation } from "@react-navigation/native";
 
 import { SimpleRecipe } from "../api/models";
-import { getRecipes } from "../api/requests";
+import { getFavoriteIDs, getRecipes } from "../api/requests";
 import * as local from "../validation/securestore";
+import { setFavSet } from "../components/FavoriteStuff";
 
 type TabProps = {
 	// navigation: Navigation,
@@ -19,16 +20,35 @@ type TabProps = {
 	setCurRecipe: Function;
 };
 
+let userID: string;
+
 const HomeTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 	const navigation = useNavigation();
 
 	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
 	const [searchQuery, setQuery] = React.useState("");
 
+	// React.useEffect(() => {
+	// 	local.getValueFor("user-session").then((value) => {
+	// 		userID = value;
+	// 		getFavoriteIDs(userID).then((favIDs) => {
+	// 			// Initialize favorite ID set (for checking :3)
+	// 			setFavSet(favIDs);
+
+	// 			// Only get recipes (and thus render RecipeCards)
+	// 			// once we know what our favorites are
+	// 			getRecipes("").then((response) => {
+	// 				setRecipes(response);
+	// 			});
+	// 		});
+	// 	});
+	// }, [searchQuery]);
+
 	React.useEffect(() => {
-		getRecipes(searchQuery).then((response) => {
-			//console.log(response); //array of recipes returned
-			setRecipes(response);
+		local.getValueFor("user-session").then((value) => {
+			getRecipes("").then((response) => {
+				setRecipes(response);
+			});
 		});
 	}, [searchQuery]);
 

@@ -1,5 +1,5 @@
 import { SimpleRecipe } from "../api/models";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { IconButton, Card } from "react-native-paper";
 import style, { theme } from "../themes/Theme";
@@ -60,8 +60,10 @@ export function RecipeCard({ stub, setHeaderStatus, setCurRecipe }: CardProps) {
 	);
 
 	const toggleStar = () => {
-		updateFavorite(id, !favorite);
-		setFavorite(!favorite);
+		const newVal = !favorite;
+		console.log("newVal in card: " + newVal);
+		updateFavorite(id, newVal);
+		setFavorite(newVal);
 		// Perform these actions on toggle of favorite.
 		favorite
 			? setColor(theme.colors.secondary)

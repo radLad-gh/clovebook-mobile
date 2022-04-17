@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -12,11 +12,11 @@ import { Navigation } from "../types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RecipeScreen from "./Recipe";
 import { IconButton } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { defaultSimpleRecipe, NewUser, SimpleRecipe } from "../api/models";
 import { getFavoriteIDs, toggleFavorite } from "../api/requests";
-import { initFavSet } from "../components/FavoriteStuff";
+import { setFavSet } from "../components/FavoriteStuff";
 
 const Tab = createBottomTabNavigator();
 
@@ -43,17 +43,7 @@ const HomeTabs = ({
 	setHeaderStatus,
 	setCurRecipe,
 }: HomeTabsProps) => {
-	// load favorite IDs
-	// local.getValueFor("user-session").then((value) => {
-	// 	userID = value;
-	// 	setUserIDForFavorites(userID);
-	// 	getFavoriteIDs(userID).then((favIDs) => {
-	// 		console.log("set favorite set");
-	// 		setFavSet(new Set<string>(favIDs));
-	// 	});
-	// });
-
-	console.log("loaded home tabs");
+	// console.log("loaded home tabs");
 
 	return (
 		<Tab.Navigator
@@ -131,9 +121,60 @@ const HomeScreen = ({
 	const [curRecipe, setCurRecipe] = useState<SimpleRecipe>(defaultSimpleRecipe);
 	const getCurRecipe = () => curRecipe;
 
-	initFavSet();
+	const [shown, setShown] = useState(false);
 
-	return (
+	React.useEffect(() => {
+		local.getValueFor("user-session").then((value) => {
+			console.log("please only happen once");
+			userID = value;
+			getFavoriteIDs(userID).then((favIDs) => {
+				// Initialize favorite ID set (for checking :3)
+				setFavSet(favIDs);
+				setShown(true);
+			});
+		});
+	}, []);
+
+	// return (
+	// 	<Stack.Navigator>
+	// 		<Stack.Screen
+	// 			options={{ headerShown: false }}
+	// 			name="HomeTabs"
+	// 			children={() => (
+	// 				<HomeTabs
+	// 					// getHeaderStatus={getHeaderStatus}
+	// 					setHeaderStatus={setHeaderStatus}
+	// 					user={user}
+	// 					setCurRecipe={setCurRecipe}
+	// 				/>
+	// 			)}
+	// 		/>
+	// 		<Stack.Screen
+	// 			name="Recipe"
+	// 			children={() => (
+	// 				<RecipeScreen
+	// 					setHeaderStatus={setHeaderStatus}
+	// 					setCurRecipe={setCurRecipe}
+	// 					getCurRecipe={getCurRecipe}
+	// 				/>
+	// 			)}
+	// 			options={{
+	// 				headerLeft: () => (
+	// 					<IconButton
+	// 						icon="arrow-left"
+	// 						size={25}
+	// 						onPress={() => {
+	// 							setHeaderStatus(true);
+	// 							navigation.navigate("HomeTabs" as never);
+	// 						}}
+	// 					/>
+	// 				),
+	// 			}}
+	// 		/>
+	// 	</Stack.Navigator>
+	// );
+
+	return shown ? (
 		<Stack.Navigator>
 			<Stack.Screen
 				options={{ headerShown: false }}
@@ -170,6 +211,8 @@ const HomeScreen = ({
 				}}
 			/>
 		</Stack.Navigator>
+	) : (
+		<></>
 	);
 };
 

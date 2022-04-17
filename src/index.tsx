@@ -188,22 +188,26 @@ const App = () => {
 							<Divider />
 						</View>
 						<View style={styles.drawerSection}>
-							<PaperDrawer.Section title="Clovebook">
-								<Button
-									icon="home"
-									mode="contained"
-									style={[
-										styles.drawerButton,
-										{
-											marginBottom: 15,
-											backgroundColor: theme.colors.secondary,
-										},
-									]}
-									onPress={() => props.navigation.navigate("Clovebook")}
-								>
-									Home
-								</Button>
-							</PaperDrawer.Section>
+							{loginValid ? (
+								<PaperDrawer.Section title="Clovebook">
+									<Button
+										icon="home"
+										mode="contained"
+										style={[
+											styles.drawerButton,
+											{
+												marginBottom: 15,
+												backgroundColor: theme.colors.secondary,
+											},
+										]}
+										onPress={() => props.navigation.navigate("HomeScreen")}
+									>
+										Home
+									</Button>
+								</PaperDrawer.Section>
+							) : (
+								<></>
+							)}
 							<PaperDrawer.Section title="My Account">
 								<Button
 									disabled={!loginValid}
@@ -271,7 +275,7 @@ const App = () => {
 			>
 				{loginValid ? (
 					<Drawer.Screen
-						name="Clovebook"
+						name="HomeScreen"
 						children={() => (
 							<HomeScreen
 								user={userInfo}
@@ -287,7 +291,7 @@ const App = () => {
 					/>
 				) : (
 					<Drawer.Screen
-						name="Login"
+						name="LoginScreen"
 						options={{ headerShown: false }}
 						children={() => (
 							<LoginScreen

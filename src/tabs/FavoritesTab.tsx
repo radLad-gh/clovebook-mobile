@@ -14,31 +14,37 @@ type TabProps = {
 	setCurRecipe: Function;
 };
 
-let userID: string;
-local.getValueFor("user-session").then((value) => {
-	userID = value;
-});
-
 const FavoritesTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
 	const [searchQuery, setQuery] = React.useState("");
 
+	console.log("rendered FavoritesTab");
+
+	let userID: string;
+
 	React.useEffect(() => {
-		// recipes = getFavSet();
-		console.log("this is the userID in favs:", userID);
-		getFavorites(userID, searchQuery).then((response) => {
-			setRecipes(response);
+		let userID: string;
+		local.getValueFor("user-session").then((value) => {
+			userID = value;
+			// console.log("this is the userID in favs:", userID);
+
+			getFavorites(userID, searchQuery).then((response) => {
+				setRecipes(response);
+			});
 		});
 	}, [searchQuery]);
 
-	// useFocusEffect(
-	// 	React.useCallback(() => {
-	// 		console.log("refreshing favorites list for tab");
-	// 		getFavorites(userID, searchQuery).then((response) => {
-	// 			setRecipes(response);
-	// 		});
-	// 	}, [])
-	// );
+	useFocusEffect(
+		React.useCallback(() => {
+			// console.log("userID in favorites focuseffect: " + userID);
+			local.getValueFor("user-session").then((value) => {
+				userID = value;
+				getFavorites(userID, searchQuery).then((response) => {
+					setRecipes(response);
+				});
+			});
+		}, [])
+	);
 
 	return (
 		<ScrollView
