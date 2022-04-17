@@ -10,12 +10,11 @@ import RecipeCard from "../components/RecipeCard";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 type TabProps = {
-	//   navigation: Navigation;
-	// getHeaderStatus: Function;
 	setHeaderStatus: Function;
+	setCurRecipe: Function;
 };
 
-const DiscoverTab = ({ setHeaderStatus }: TabProps) => {
+const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 	return (
 		<ScrollView
 			style={{
@@ -52,24 +51,64 @@ const DiscoverTab = ({ setHeaderStatus }: TabProps) => {
 					Featured Dishes
 				</Text>
 				<RecipeCard
-					props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
+					stub={{
+						spoonacularID: 0,
+						cookbookID: "000000000000000000000000",
+						name: "",
+						updatedAt: "",
+						ingredients: [],
+						authorID: "",
+					}}
 					setHeaderStatus={setHeaderStatus}
+					setCurRecipe={setCurRecipe}
 				></RecipeCard>
 				<RecipeCard
-					props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
+					stub={{
+						spoonacularID: 0,
+						cookbookID: "000000000000000000000000",
+						name: "",
+						updatedAt: "",
+						ingredients: [],
+						authorID: "",
+					}}
 					setHeaderStatus={setHeaderStatus}
+					setCurRecipe={setCurRecipe}
 				></RecipeCard>
 				<RecipeCard
-					props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
+					stub={{
+						spoonacularID: 0,
+						cookbookID: "000000000000000000000000",
+						name: "",
+						updatedAt: "",
+						ingredients: [],
+						authorID: "",
+					}}
 					setHeaderStatus={setHeaderStatus}
+					setCurRecipe={setCurRecipe}
 				></RecipeCard>
 				<RecipeCard
-					props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
+					stub={{
+						spoonacularID: 0,
+						cookbookID: "000000000000000000000000",
+						name: "",
+						updatedAt: "",
+						ingredients: [],
+						authorID: "",
+					}}
 					setHeaderStatus={setHeaderStatus}
+					setCurRecipe={setCurRecipe}
 				></RecipeCard>
 				<RecipeCard
-					props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
+					stub={{
+						spoonacularID: 0,
+						cookbookID: "000000000000000000000000",
+						name: "",
+						updatedAt: "",
+						ingredients: [],
+						authorID: "",
+					}}
 					setHeaderStatus={setHeaderStatus}
+					setCurRecipe={setCurRecipe}
 				></RecipeCard>
 			</View>
 		</ScrollView>

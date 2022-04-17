@@ -37,15 +37,17 @@ const LoginTab = ({
 	// This use effect runs on load, and checks if the session token is still
 	// saved on the device, if it is, then the user is a valid login.
 	React.useEffect(() => {
-		async () => {
-			try {
-				let result = await SecureStore.getItemAsync("user-session");
-				if (result) setLoginValidity(true);
-				else console.error("User session not saved on this device.");
-			} catch (error) {
-				console.error(error);
-			}
-		};
+		local
+			.getValueFor("user-session")
+			.then((result) => {
+				console.log("logintab result: " + result);
+				if (result) {
+					setLoginValidity(true);
+				} else {
+					console.error("User session not saved on this device.");
+				}
+			})
+			.catch();
 	}, []);
 
 	// Username and password input.

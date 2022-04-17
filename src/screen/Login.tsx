@@ -45,7 +45,7 @@ const LoginScreen = ({
 			}}
 		>
 			<Tab.Screen
-				name="Login"
+				name="LoginTab"
 				children={() => (
 					<LoginTab
 						screenName={"Home"}
@@ -58,7 +58,7 @@ const LoginScreen = ({
 					tabBarIcon: ({ size, color }: tabBarIcon) => (
 						<Icon name={"login-variant"} color={color} size={size} />
 					),
-					tabBarHideOnKeyboard: true,
+					tabBarHideOnKeyboard: false,
 				}}
 			/>
 			<Tab.Screen
@@ -75,7 +75,7 @@ const LoginScreen = ({
 					tabBarIcon: ({ size, color }: tabBarIcon) => (
 						<Icon name={"account-plus"} color={color} size={size} />
 					),
-					tabBarHideOnKeyboard: true,
+					tabBarHideOnKeyboard: false,
 				}}
 			/>
 		</Tab.Navigator>

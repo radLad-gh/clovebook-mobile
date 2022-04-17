@@ -1,14 +1,51 @@
 import React from "react";
 import { View, Text, Dimensions, ScrollView } from "react-native";
 import { theme } from "../themes/Theme";
+import * as local from "../validation/securestore";
 
 import RecipeCard from "../components/RecipeCard";
+import { getFavorites } from "../api/requests";
+import { SimpleRecipe } from "../api/models";
+import { getFavSet } from "../components/FavoriteStuff";
+import { useFocusEffect } from "@react-navigation/native";
 
 type TabProps = {
 	setHeaderStatus: Function;
+	setCurRecipe: Function;
 };
 
-const FavoritesTab = ({ setHeaderStatus }: TabProps) => {
+const FavoritesTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
+	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
+	const [searchQuery, setQuery] = React.useState("");
+
+	console.log("rendered FavoritesTab");
+
+	let userID: string;
+
+	React.useEffect(() => {
+		let userID: string;
+		local.getValueFor("user-session").then((value) => {
+			userID = value;
+			// console.log("this is the userID in favs:", userID);
+
+			getFavorites(userID, searchQuery).then((response) => {
+				setRecipes(response);
+			});
+		});
+	}, [searchQuery]);
+
+	useFocusEffect(
+		React.useCallback(() => {
+			// console.log("userID in favorites focuseffect: " + userID);
+			local.getValueFor("user-session").then((value) => {
+				userID = value;
+				getFavorites(userID, searchQuery).then((response) => {
+					setRecipes(response);
+				});
+			});
+		}, [])
+	);
+
 	return (
 		<ScrollView
 			style={{
@@ -19,18 +56,14 @@ const FavoritesTab = ({ setHeaderStatus }: TabProps) => {
 				marginBottom: 60,
 			}}
 		>
-			<RecipeCard
-				props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
-				setHeaderStatus={setHeaderStatus}
-			></RecipeCard>
-			<RecipeCard
-				props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
-				setHeaderStatus={setHeaderStatus}
-			></RecipeCard>
-			<RecipeCard
-				props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
-				setHeaderStatus={setHeaderStatus}
-			></RecipeCard>
+			{recipes.map((recipe, i) => (
+				<RecipeCard
+					stub={recipe}
+					setHeaderStatus={setHeaderStatus}
+					setCurRecipe={setCurRecipe}
+					key={"fav" + i}
+				/>
+			))}
 		</ScrollView>
 	);
 };

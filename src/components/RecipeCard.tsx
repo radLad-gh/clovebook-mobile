@@ -1,10 +1,11 @@
 import { SimpleRecipe } from "../api/models";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { IconButton, Card } from "react-native-paper";
-import { theme } from "../themes/Theme";
+import style, { theme } from "../themes/Theme";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
+import { checkIfFav, updateFavorite } from "./FavoriteStuff";
 
 // const loadCard = () => {
 
@@ -12,8 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 
 const addFavorite = () => {};
 
-const Time = ({ numericTime }: number) => {
-	let mag : string; // magnitude of time.
+const Time = ({ numericTime }: { numericTime: number }) => {
+	let mag: string; // magnitude of time.
 	if (numericTime < 60) mag = "m";
 	else {
 		numericTime = Math.floor(numericTime / 60);
@@ -30,47 +31,63 @@ const Time = ({ numericTime }: number) => {
 const cardDimentionConstant = 110;
 
 type CardProps = {
-	props: SimpleRecipe;
+	stub: SimpleRecipe;
 	setHeaderStatus: Function;
+	setCurRecipe: Function;
 };
 
-export function RecipeCard({ props, setHeaderStatus }: CardProps) {
+export function RecipeCard({ stub, setHeaderStatus, setCurRecipe }: CardProps) {
 	const navigation = useNavigation();
 
-	const loadCard = () => {
+	// Happens when you tap on a recipe card
+	const openRecipe = () => {
 		setHeaderStatus(false);
+		setCurRecipe(stub);
 		navigation.navigate("Recipe" as never);
 	};
 
-	const [favorite, setFavorite] = React.useState(false);
-	const [color, setColor] = React.useState(theme.colors.selected);
+	const sID: number = stub.spoonacularID;
+	const cID: string = stub.cookbookID;
 
-	const onToggleFavorite = () => {
-		setFavorite(!favorite);
+	// Check whether this stub is from Spoonacular or our DB
+	let id: string = cID === "100000000000000000000000" ? "" + sID : cID;
+
+	// console.log("recipecard id: " + id);
+
+	const [favorite, setFavorite] = React.useState(checkIfFav(id));
+	const [color, setColor] = React.useState(
+		favorite ? theme.colors.secondary : theme.colors.text_light
+	);
+
+	const toggleStar = () => {
+		const newVal = !favorite;
+		console.log("newVal in card: " + newVal);
+		updateFavorite(id, newVal);
+		setFavorite(newVal);
 		// Perform these actions on toggle of favorite.
 		favorite
-			? setColor(theme.colors.selected)
-			: setColor(theme.colors.text_light);
+			? setColor(theme.colors.text_light)
+			: setColor(theme.colors.secondary);
 	};
 
 	return (
-		<Card onPress={loadCard} onLongPress={onToggleFavorite} style={styles.card}>
+		<Card onPress={openRecipe} onLongPress={toggleStar} style={styles.card}>
 			<Card.Cover
-				source={{ uri: 
-					(props.imageURL 
-						? props.imageURL
-						: 'https://picsum.photos/700'
-					)
+				source={{
+					uri: stub.imageURL ? stub.imageURL : "https://picsum.photos/700",
 				}}
 				style={styles.cardCover}
 			/>
 			<View style={styles.cardInfo}>
-				<Card.Title title={props.name} subtitle="Recipe Subtitle" />
-				<Time numericTime={props.totalTime} />
+				{/* <Card.Title title={stub.name} subtitle="Recipe" /> */}
+				<Text numberOfLines={3} style={style.cardTitle}>
+					{stub.name}
+				</Text>
+				<Time numericTime={stub.totalTime as number} />
 				<IconButton
-					icon="star"
+					icon="heart"
 					color={color}
-					onPress={onToggleFavorite}
+					onPress={toggleStar}
 					style={{ top: -25 }}
 				></IconButton>
 			</View>
@@ -98,6 +115,7 @@ const styles = StyleSheet.create({
 	cardInfo: {
 		marginTop: -3,
 		flexDirection: "column",
+		width: "100%",
 		paddingLeft: cardDimentionConstant, // Position absolute, add 125 padding to "fit" correctly.
 	},
 });

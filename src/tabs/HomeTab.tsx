@@ -9,31 +9,48 @@ import { theme } from "../themes/Theme";
 import { useNavigation } from "@react-navigation/native";
 
 import { SimpleRecipe } from "../api/models";
-import { getRecipes } from "../api/requests";
+import { getFavoriteIDs, getRecipes } from "../api/requests";
 import * as local from "../validation/securestore";
+import { setFavSet } from "../components/FavoriteStuff";
 
 type TabProps = {
 	// navigation: Navigation,
 	// screenName: string,
 	setHeaderStatus: Function;
+	setCurRecipe: Function;
 };
 
-const HomeTab = ({ setHeaderStatus }: TabProps) => {
+let userID: string;
+
+const HomeTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 	const navigation = useNavigation();
 
 	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
-    const [searchQuery, setQuery] = React.useState('');
-    
-    React.useEffect(() => {
-      getRecipes(searchQuery)
-        .then(response => {
-			//console.log(response); //array of recipes returned
-			setRecipes(response);
-			for (let i of response) {
-				//console.log(i.totalTime);
-			}	
+	const [searchQuery, setQuery] = React.useState("");
+
+	// React.useEffect(() => {
+	// 	local.getValueFor("user-session").then((value) => {
+	// 		userID = value;
+	// 		getFavoriteIDs(userID).then((favIDs) => {
+	// 			// Initialize favorite ID set (for checking :3)
+	// 			setFavSet(favIDs);
+
+	// 			// Only get recipes (and thus render RecipeCards)
+	// 			// once we know what our favorites are
+	// 			getRecipes("").then((response) => {
+	// 				setRecipes(response);
+	// 			});
+	// 		});
+	// 	});
+	// }, [searchQuery]);
+
+	React.useEffect(() => {
+		local.getValueFor("user-session").then((value) => {
+			getRecipes("").then((response) => {
+				setRecipes(response);
+			});
 		});
-    }, [searchQuery])
+	}, [searchQuery]);
 
 	return (
 		<ScrollView
@@ -52,7 +69,7 @@ const HomeTab = ({ setHeaderStatus }: TabProps) => {
 					navigation.navigate("Discover" as never);
 				}}
 			/>
-			<HomeSearchBar submit={ setQuery }></HomeSearchBar>
+			<HomeSearchBar submit={setQuery}></HomeSearchBar>
 			<View
 				style={{
 					flexDirection: "row",
@@ -85,7 +102,14 @@ const HomeTab = ({ setHeaderStatus }: TabProps) => {
 				props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
 				setHeaderStatus={setHeaderStatus}
 			></RecipeCard> */}
-			{recipes.map((e,i) => <RecipeCard props={e} setHeaderStatus={setHeaderStatus} key={i} />)}
+			{recipes.map((recipe, i) => (
+				<RecipeCard
+					stub={recipe}
+					setHeaderStatus={setHeaderStatus}
+					setCurRecipe={setCurRecipe}
+					key={i}
+				/>
+			))}
 		</ScrollView>
 	);
 };

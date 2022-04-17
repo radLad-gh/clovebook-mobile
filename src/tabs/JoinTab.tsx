@@ -60,7 +60,9 @@ const JoinTab = ({
 	const [modalPresent, setModalPresent] = React.useState(false);
 	const [code, setCode] = React.useState("");
 
-	const [keyboardStatus, setKeyboardStatus] = React.useState("flex");
+	const [keyboardStatus, setKeyboardStatus] = React.useState<
+		"flex" | "none" | undefined
+	>("flex");
 
 	React.useEffect(() => {
 		Keyboard.addListener("keyboardDidShow", () => {

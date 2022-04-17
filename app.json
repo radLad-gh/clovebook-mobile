@@ -17,7 +17,7 @@
 		"android": {
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/clove-icon.png",
-				"backgroundColor": "#e1eaeb",
+				"backgroundColor": "#e1eaeb"
 			},
 			"softwareKeyboardLayoutMode": "pan"
 		},

@@ -4,10 +4,10 @@ import * as models from "./models";
 const instance = axios.create({
 	baseURL: "https://api.clovebook.com",
 	timeout: 15000,
-    withCredentials: true,
+	withCredentials: true,
 });
 
-const resBody = (res:AxiosResponse) => res.data;
+const resBody = (res: AxiosResponse) => res.data;
 
 const contentJSON = { "content-type": "application/json" };
 
@@ -31,11 +31,12 @@ const handleError = (err: any) => {
 
 const requests = {
 	get: (url: string, params?: {}) => {
-		console.log("url:"+url+", params:"+params);
+		console.log("url:" + url + ", params:" + params);
 		return instance
 			.get(url, { params: params })
 			.then(resBody)
-			.catch(handleError)},
+			.catch(handleError);
+	},
 	post: (url: string, body: {}, params?: {}) =>
 		instance
 			.post(url, body, { params: params, headers: contentJSON })
@@ -55,13 +56,15 @@ export const getRecipes = (
 	tags?: string[]
 ): Promise<models.SimpleRecipe[]> => {
 	return requests.get("/recipes", { query: query, tags: tags });
-}
+};
 
-export const getRecipeById = (
-    id: string,
-): Promise<models.Recipe[]> => {
-    return requests.get(`/recipes/${id}`);
-}
+export const getRecipe = (id: string): Promise<models.Recipe> => {
+	return requests.get(`/recipes/${id}`);
+};
+
+export const getUsersRecipes = (
+	userID: string
+): Promise<models.SimpleRecipe[]> => requests.get(`/users/${userID}/created`);
 
 // ==== User Section ====
 
@@ -79,3 +82,30 @@ export const doLogin = (
 
 export const sendResetEmail = (email: string) =>
 	requests.post("/users/reset", {}, { email: email });
+// FAVORITES
+export const toggleFavorite = (
+	userID: string,
+	set: boolean,
+	recipeID: string
+) => {
+	requests.put(
+		`/users/${userID}/favorites`,
+		{},
+		{ set: set, cookbookID: recipeID }
+	);
+};
+
+export const getFavorites = (
+	userID: string,
+	query: string
+): Promise<models.SimpleRecipe[]> =>
+	requests.get(`/users/${userID}/favorites`, { query: query });
+
+export const getFavoriteIDs = (userID: string): Promise<string[]> =>
+	requests.get(`/users/${userID}/favorites`, {
+		query: "",
+		onlyID: "true",
+	});
+
+export const getUserByID = (userID: string): Promise<models.User> =>
+	requests.get(`/users/${userID}`);

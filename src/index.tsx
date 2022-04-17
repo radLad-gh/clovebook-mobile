@@ -11,13 +11,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import Login from "./screen/Login";
-import Home from "./screen/Home";
+import LoginScreen from "./screen/Login";
+import HomeScreen from "./screen/Home";
 import { theme } from "./themes/Theme";
 
 import { NewUser } from "./api/models";
 import * as local from "./validation/securestore";
 import * as SecureStore from "expo-secure-store";
+import ProfileScreen from "./screen/Profile";
 
 const Drawer = createDrawerNavigator();
 
@@ -57,16 +58,26 @@ const App = () => {
 							<Divider />
 						</View>
 						<View style={styles.drawerSection}>
-							<PaperDrawer.Section title="Clovebook">
-								<Button
-									icon="home"
-									mode="contained"
-									style={[styles.drawerButton, { marginBottom: 15, backgroundColor: theme.colors.secondary }]}
-									onPress={() => props.navigation.navigate("Clovebook")}
-								>
-									Home
-								</Button>
-							</PaperDrawer.Section>
+							{loginValid ? (
+								<PaperDrawer.Section title="Clovebook">
+									<Button
+										icon="home"
+										mode="contained"
+										style={[
+											styles.drawerButton,
+											{
+												marginBottom: 15,
+												backgroundColor: theme.colors.secondary,
+											},
+										]}
+										onPress={() => props.navigation.navigate("HomeScreen")}
+									>
+										Home
+									</Button>
+								</PaperDrawer.Section>
+							) : (
+								<></>
+							)}
 							<PaperDrawer.Section title="My Account">
 								<Button
 									disabled={!loginValid}
@@ -81,6 +92,7 @@ const App = () => {
 											if (result) {
 												// navigate to this users page
 												props.navigation.navigate("Profile");
+
 												console.log(result);
 											} else
 												console.error("Something went wrong fetching value.");
@@ -114,7 +126,7 @@ const App = () => {
 						<View style={styles.drawerSection}>
 							<Button
 								disabled={!loginValid}
-								mode="outline"
+								mode="outlined"
 								style={{ marginHorizontal: 10, marginTop: 10 }}
 								onPress={() => {
 									// Remove the user's session token from
@@ -133,11 +145,11 @@ const App = () => {
 			>
 				{loginValid ? (
 					<Drawer.Screen
-						name="Clovebook"
+						name="HomeScreen"
 						children={() => (
-							<Home
+							<HomeScreen
 								user={userInfo}
-								getHeaderStatus={getHeaderStatus}
+								// getHeaderStatus={getHeaderStatus}
 								setHeaderStatus={setHeaderStatus}
 							/>
 						)}
@@ -149,20 +161,20 @@ const App = () => {
 					/>
 				) : (
 					<Drawer.Screen
-						name="Login"
+						name="LoginScreen"
 						options={{ headerShown: false }}
 						children={() => (
-							<Login
+							<LoginScreen
 								user={userInfo}
 								getLoginValidity={getLoginValidity}
-								setLoginValidity={setLoginValid}
+								setLoginValidity={(thing: boolean) => setLoginValid(thing)}
 							/>
 						)}
 					/>
 				)}
 				<Drawer.Screen
 					name="Profile"
-					children={() => <Text>Profile screen.</Text>}
+					children={() => <ProfileScreen user={userInfo} />}
 				/>
 				<Drawer.Screen
 					name="Settings"
