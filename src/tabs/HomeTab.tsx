@@ -29,9 +29,6 @@ const HomeTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 		getRecipes(searchQuery).then((response) => {
 			//console.log(response); //array of recipes returned
 			setRecipes(response);
-			for (let i of response) {
-				//console.log(i.totalTime);
-			}
 		});
 	}, [searchQuery]);
 
@@ -85,9 +82,9 @@ const HomeTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 				props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
 				setHeaderStatus={setHeaderStatus}
 			></RecipeCard> */}
-			{recipes.map((e, i) => (
+			{recipes.map((recipe, i) => (
 				<RecipeCard
-					props={e}
+					stub={recipe}
 					setHeaderStatus={setHeaderStatus}
 					setCurRecipe={setCurRecipe}
 					key={i}

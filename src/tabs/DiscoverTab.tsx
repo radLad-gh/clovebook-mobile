@@ -10,8 +10,6 @@ import RecipeCard from "../components/RecipeCard";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 type TabProps = {
-	//   navigation: Navigation;
-	// getHeaderStatus: Function;
 	setHeaderStatus: Function;
 	setCurRecipe: Function;
 };
@@ -53,9 +51,9 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					Featured Dishes
 				</Text>
 				<RecipeCard
-					props={{
+					stub={{
 						spoonacularID: 0,
-						cookbookID: "100000000000000000000000",
+						cookbookID: "000000000000000000000000",
 						name: "",
 						updatedAt: "",
 						ingredients: [],
@@ -65,9 +63,9 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					setCurRecipe={setCurRecipe}
 				></RecipeCard>
 				<RecipeCard
-					props={{
+					stub={{
 						spoonacularID: 0,
-						cookbookID: "100000000000000000000000",
+						cookbookID: "000000000000000000000000",
 						name: "",
 						updatedAt: "",
 						ingredients: [],
@@ -77,9 +75,9 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					setCurRecipe={setCurRecipe}
 				></RecipeCard>
 				<RecipeCard
-					props={{
+					stub={{
 						spoonacularID: 0,
-						cookbookID: "100000000000000000000000",
+						cookbookID: "000000000000000000000000",
 						name: "",
 						updatedAt: "",
 						ingredients: [],
@@ -89,9 +87,9 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					setCurRecipe={setCurRecipe}
 				></RecipeCard>
 				<RecipeCard
-					props={{
+					stub={{
 						spoonacularID: 0,
-						cookbookID: "100000000000000000000000",
+						cookbookID: "000000000000000000000000",
 						name: "",
 						updatedAt: "",
 						ingredients: [],
@@ -101,9 +99,9 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					setCurRecipe={setCurRecipe}
 				></RecipeCard>
 				<RecipeCard
-					props={{
+					stub={{
 						spoonacularID: 0,
-						cookbookID: "100000000000000000000000",
+						cookbookID: "000000000000000000000000",
 						name: "",
 						updatedAt: "",
 						ingredients: [],

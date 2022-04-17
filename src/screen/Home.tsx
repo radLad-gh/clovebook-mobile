@@ -7,19 +7,22 @@ import DiscoverTab from "../tabs/DiscoverTab";
 import FavoritesTab from "../tabs/FavoritesTab";
 import { theme } from "../themes/Theme";
 
+import * as local from "../validation/securestore";
 import { Navigation } from "../types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RecipeScreen from "./Recipe";
 import { IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
-import { NewUser, SimpleRecipe } from "../api/models";
+import { defaultSimpleRecipe, NewUser, SimpleRecipe } from "../api/models";
+import { getFavoriteIDs, toggleFavorite } from "../api/requests";
+import { initFavSet } from "../components/FavoriteStuff";
 
 const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
 
-type ScreenProps = {
+type HomeTabsProps = {
 	//   navigation: Navigation;
 	// getHeaderStatus: Function;
 	setHeaderStatus: Function;
@@ -27,12 +30,31 @@ type ScreenProps = {
 	setCurRecipe: Function;
 };
 
+type HomeScreenProps = {
+	setHeaderStatus: Function;
+	user: NewUser;
+};
+
+let userID: string;
+
 const HomeTabs = ({
 	//   navigation,
 	// getHeaderStatus,
 	setHeaderStatus,
 	setCurRecipe,
-}: ScreenProps) => {
+}: HomeTabsProps) => {
+	// load favorite IDs
+	// local.getValueFor("user-session").then((value) => {
+	// 	userID = value;
+	// 	setUserIDForFavorites(userID);
+	// 	getFavoriteIDs(userID).then((favIDs) => {
+	// 		console.log("set favorite set");
+	// 		setFavSet(new Set<string>(favIDs));
+	// 	});
+	// });
+
+	console.log("loaded home tabs");
+
 	return (
 		<Tab.Navigator
 			initialRouteName="Home"
@@ -54,7 +76,7 @@ const HomeTabs = ({
 					} else if (route.name === "Home") {
 						iconName = focused ? "home" : "home-outline";
 					} else if (route.name === "Favorites") {
-						iconName = focused ? "star" : "star-outline";
+						iconName = focused ? "heart" : "heart-outline";
 					}
 
 					return <Icon name={iconName as string} size={size} color={color} />;
@@ -104,10 +126,12 @@ const HomeScreen = ({
 	// getHeaderStatus,
 	setHeaderStatus,
 	user,
-}: ScreenProps) => {
+}: HomeScreenProps) => {
 	const navigation = useNavigation();
-	const [curRecipe, setCurRecipe] = useState<SimpleRecipe>();
+	const [curRecipe, setCurRecipe] = useState<SimpleRecipe>(defaultSimpleRecipe);
 	const getCurRecipe = () => curRecipe;
+
+	initFavSet();
 
 	return (
 		<Stack.Navigator>

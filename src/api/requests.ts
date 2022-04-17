@@ -54,10 +54,42 @@ export const getRecipes = (
 	return requests.get("/recipes", { query: query, tags: tags });
 };
 
-export const getRecipeById = (id: string): Promise<models.Recipe> => {
+export const getRecipe = (id: string): Promise<models.Recipe> => {
 	return requests.get(`/recipes/${id}`);
 };
+
+export const getUsersRecipes = (
+	userID: string
+): Promise<models.SimpleRecipe[]> => requests.get(`/users/${userID}/created`);
 
 export const doLogin = (
 	data: models.Userpass
 ): Promise<{ refreshToken: string }> => requests.get("/users/login", data);
+
+// FAVORITES
+export const toggleFavorite = (
+	userID: string,
+	set: boolean,
+	recipeID: string
+) => {
+	requests.put(
+		`/users/${userID}/favorites`,
+		{},
+		{ set: set, cookbookID: recipeID }
+	);
+};
+
+export const getFavorites = (
+	userID: string,
+	query: string
+): Promise<models.SimpleRecipe[]> =>
+	requests.get(`/users/${userID}/favorites`, { query: query });
+
+export const getFavoriteIDs = (userID: string): Promise<string[]> =>
+	requests.get(`/users/${userID}/favorites`, {
+		query: "",
+		onlyID: "true",
+	});
+
+export const getUserByID = (userID: string): Promise<models.User> =>
+	requests.get(`/users/${userID}`);

@@ -45,7 +45,7 @@ const LoginScreen = ({
 			}}
 		>
 			<Tab.Screen
-				name="Login"
+				name="LoginTab"
 				children={() => (
 					<LoginTab
 						screenName={"Home"}

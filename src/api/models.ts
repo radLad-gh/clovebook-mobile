@@ -40,8 +40,9 @@ export interface Recipe extends SimpleRecipe {
 	prepTime: number;
 	totalTime: number;
 	instructions: Instruction[];
-	nutrients: RecipeNutrients;
+	nutrients: Nutrient[];
 	createdAt: string;
+	url?: string;
 }
 
 export interface Userpass {
@@ -60,8 +61,14 @@ export interface Nutrient {
 	indented: boolean;
 	percentOfDailyNeeds: number;
 }
-
-export interface RecipeNutrients {
-	bad: Nutrient[];
-	good: Nutrient[];
-}
+export const defaultSimpleRecipe = {
+	spoonacularID: 0,
+	cookbookID: "000000000000000000000000",
+	name: "Vegan Cheesecake",
+	imageURL: "https://picsum.photos/200",
+	totalTime: 10,
+	tags: ["dessert", "grass"],
+	updatedAt: "March 4th",
+	ingredients: [],
+	authorID: "000000000000000000000000",
+};
