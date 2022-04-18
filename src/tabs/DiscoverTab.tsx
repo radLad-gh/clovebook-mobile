@@ -12,9 +12,14 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 type TabProps = {
 	setHeaderStatus: Function;
 	setCurRecipe: Function;
+	setFavoriteStubs: Function;
 };
 
-const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
+const DiscoverTab = ({
+	setHeaderStatus,
+	setCurRecipe,
+	setFavoriteStubs,
+}: TabProps) => {
 	return (
 		<ScrollView
 			style={{
@@ -61,6 +66,7 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					}}
 					setHeaderStatus={setHeaderStatus}
 					setCurRecipe={setCurRecipe}
+					setFavoriteStubs={setFavoriteStubs}
 				></RecipeCard>
 				<RecipeCard
 					stub={{
@@ -73,6 +79,7 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					}}
 					setHeaderStatus={setHeaderStatus}
 					setCurRecipe={setCurRecipe}
+					setFavoriteStubs={setFavoriteStubs}
 				></RecipeCard>
 				<RecipeCard
 					stub={{
@@ -85,6 +92,7 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					}}
 					setHeaderStatus={setHeaderStatus}
 					setCurRecipe={setCurRecipe}
+					setFavoriteStubs={setFavoriteStubs}
 				></RecipeCard>
 				<RecipeCard
 					stub={{
@@ -97,6 +105,7 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					}}
 					setHeaderStatus={setHeaderStatus}
 					setCurRecipe={setCurRecipe}
+					setFavoriteStubs={setFavoriteStubs}
 				></RecipeCard>
 				<RecipeCard
 					stub={{
@@ -109,6 +118,7 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					}}
 					setHeaderStatus={setHeaderStatus}
 					setCurRecipe={setCurRecipe}
+					setFavoriteStubs={setFavoriteStubs}
 				></RecipeCard>
 			</View>
 		</ScrollView>

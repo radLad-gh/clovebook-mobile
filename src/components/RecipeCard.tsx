@@ -34,9 +34,15 @@ type CardProps = {
 	stub: SimpleRecipe;
 	setHeaderStatus: Function;
 	setCurRecipe: Function;
+	setFavoriteStubs: Function;
 };
 
-export function RecipeCard({ stub, setHeaderStatus, setCurRecipe }: CardProps) {
+export function RecipeCard({
+	stub,
+	setHeaderStatus,
+	setCurRecipe,
+	setFavoriteStubs,
+}: CardProps) {
 	const navigation = useNavigation();
 
 	// Happens when you tap on a recipe card

@@ -14,15 +14,18 @@ import * as local from "../validation/securestore";
 import { setFavSet } from "../components/FavoriteStuff";
 
 type TabProps = {
-	// navigation: Navigation,
-	// screenName: string,
 	setHeaderStatus: Function;
 	setCurRecipe: Function;
+	setFavoriteStubs: Function;
 };
 
 let userID: string;
 
-const HomeTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
+const HomeTab = ({
+	setHeaderStatus,
+	setCurRecipe,
+	setFavoriteStubs,
+}: TabProps) => {
 	const navigation = useNavigation();
 
 	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
@@ -107,6 +110,7 @@ const HomeTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					stub={recipe}
 					setHeaderStatus={setHeaderStatus}
 					setCurRecipe={setCurRecipe}
+					setFavoriteStubs={setFavoriteStubs}
 					key={i}
 				/>
 			))}

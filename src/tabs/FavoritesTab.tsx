@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Dimensions, ScrollView } from "react-native";
 import { theme } from "../themes/Theme";
 import * as local from "../validation/securestore";
@@ -12,39 +12,64 @@ import { useFocusEffect } from "@react-navigation/native";
 type TabProps = {
 	setHeaderStatus: Function;
 	setCurRecipe: Function;
+	setFavoriteStubs: Function;
+	getFavoriteStubs: Function;
 };
 
-const FavoritesTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
-	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
+const FavoritesTab = ({
+	setHeaderStatus,
+	setCurRecipe,
+	setFavoriteStubs,
+	getFavoriteStubs,
+}: TabProps) => {
+	// const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
+	// TODO: add a search bar for this
 	const [searchQuery, setQuery] = React.useState("");
-
-	console.log("rendered FavoritesTab");
+	const [loaded, setLoaded] = React.useState(false);
 
 	let userID: string;
 
-	React.useEffect(() => {
-		let userID: string;
-		local.getValueFor("user-session").then((value) => {
-			userID = value;
-			// console.log("this is the userID in favs:", userID);
+	// React.useEffect(() => {
+	// 	local.getValueFor("user-session").then((value) => {
+	// 		userID = value;
+	// 		// console.log("this is the userID in favs:", userID);
+	// 		getFavorites(userID, searchQuery).then((response) => {
+	// 			setRecipes(response);
+	// 			setLoaded(true);
+	// 		});
+	// 	});
+	// }, [searchQuery]);
 
-			getFavorites(userID, searchQuery).then((response) => {
-				setRecipes(response);
-			});
-		});
-	}, [searchQuery]);
+	// useFocusEffect(
+	// 	React.useCallback(() => {
+	// 		setLoaded(false);
+	// 		// console.log("userID in favorites focuseffect: " + userID);
+	// 		local.getValueFor("user-session").then((value) => {
+	// 			userID = value;
+	// 			getFavorites(userID, searchQuery).then((response) => {
+	// 				setRecipes(response);
+	// 				setLoaded(true);
+	// 			});
+	// 		});
+	// 	}, [])
+	// );
 
-	useFocusEffect(
-		React.useCallback(() => {
-			// console.log("userID in favorites focuseffect: " + userID);
-			local.getValueFor("user-session").then((value) => {
-				userID = value;
-				getFavorites(userID, searchQuery).then((response) => {
-					setRecipes(response);
-				});
-			});
-		}, [])
-	);
+	const [cards, setCards] = useState();
+
+	useEffect(() => {
+		setCards(
+			getFavoriteStubs().map((recipe: SimpleRecipe, i: number) => (
+				<RecipeCard
+					stub={recipe}
+					setHeaderStatus={setHeaderStatus}
+					setCurRecipe={setCurRecipe}
+					setFavoriteStubs={setFavoriteStubs}
+					key={"fav" + i}
+				/>
+			))
+		);
+		setLoaded(true);
+	}, [setFavoriteStubs]);
 
 	return (
 		<ScrollView
@@ -56,14 +81,7 @@ const FavoritesTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 				marginBottom: 60,
 			}}
 		>
-			{recipes.map((recipe, i) => (
-				<RecipeCard
-					stub={recipe}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-					key={"fav" + i}
-				/>
-			))}
+			{loaded ? cards : <></>}
 		</ScrollView>
 	);
 };

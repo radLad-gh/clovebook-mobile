@@ -18,7 +18,6 @@ const handleError = (err: any) => {
 		// We want to return the error to let the user know what needs
 		// to be changed. Either their username or email will be taken.
 		return err["request"]["_response"];
-
 	} else if (err.request) {
 		console.log("No Response");
 		console.log(err.request);

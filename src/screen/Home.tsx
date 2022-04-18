@@ -15,19 +15,18 @@ import { IconButton } from "react-native-paper";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { defaultSimpleRecipe, NewUser, SimpleRecipe } from "../api/models";
-import { getFavoriteIDs, toggleFavorite } from "../api/requests";
-import { setFavSet } from "../components/FavoriteStuff";
+import { getFavoriteIDs, getFavorites, toggleFavorite } from "../api/requests";
+import { checkIfFav, setFavSet } from "../components/FavoriteStuff";
 
 const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
 
 type HomeTabsProps = {
-	//   navigation: Navigation;
-	// getHeaderStatus: Function;
 	setHeaderStatus: Function;
-	user: NewUser;
 	setCurRecipe: Function;
+	setFavoriteStubs: Function;
+	getFavoriteStubs: Function;
 };
 
 type HomeScreenProps = {
@@ -38,10 +37,10 @@ type HomeScreenProps = {
 let userID: string;
 
 const HomeTabs = ({
-	//   navigation,
-	// getHeaderStatus,
 	setHeaderStatus,
 	setCurRecipe,
+	setFavoriteStubs,
+	getFavoriteStubs,
 }: HomeTabsProps) => {
 	// console.log("loaded home tabs");
 
@@ -82,6 +81,7 @@ const HomeTabs = ({
 						// getHeaderStatus={getHeaderStatus}
 						setHeaderStatus={setHeaderStatus}
 						setCurRecipe={setCurRecipe}
+						setFavoriteStubs={setFavoriteStubs}
 					/>
 				)}
 				// options={{ tabBarHideOnKeyboard: true }}
@@ -92,6 +92,7 @@ const HomeTabs = ({
 					<HomeTab
 						setHeaderStatus={setHeaderStatus}
 						setCurRecipe={setCurRecipe}
+						setFavoriteStubs={setFavoriteStubs}
 					/>
 				)}
 				// options={{
@@ -104,6 +105,8 @@ const HomeTabs = ({
 					<FavoritesTab
 						setHeaderStatus={setHeaderStatus}
 						setCurRecipe={setCurRecipe}
+						setFavoriteStubs={setFavoriteStubs}
+						getFavoriteStubs={getFavoriteStubs}
 					/>
 				)}
 				// options={{ tabBarHideOnKeyboard: true }}
@@ -112,79 +115,64 @@ const HomeTabs = ({
 	);
 };
 
-const HomeScreen = ({
-	// getHeaderStatus,
-	setHeaderStatus,
-	user,
-}: HomeScreenProps) => {
+const HomeScreen = ({ setHeaderStatus }: HomeScreenProps) => {
 	const navigation = useNavigation();
 	const [curRecipe, setCurRecipe] = useState<SimpleRecipe>(defaultSimpleRecipe);
 	const getCurRecipe = () => curRecipe;
 
-	const [shown, setShown] = useState(false);
+	// const [shown, setShown] = useState(0);
+	const [favIDsLoaded, setFavIDsLoaded] = useState(false);
+	const [favStubsLoaded, setFavStubsLoaded] = useState(false);
 
+	const [favoriteStubs, setFavoriteStubs] = useState<SimpleRecipe[]>();
+	const getFavoriteStubs = () => favoriteStubs;
+	const addToFavStubs = (stub: SimpleRecipe) => {
+		setFavoriteStubs(favoriteStubs?.concat(stub));
+	};
+	const removeFromFavStubs = (id: string) => {
+		if (!checkIfFav(id)) return;
+		setFavoriteStubs(
+			favoriteStubs?.filter(
+				(stub) => stub.cookbookID !== id && "" + stub.spoonacularID !== id
+			)
+		);
+	};
+
+	// Get favorite IDs for correct heart state on home tab cards
 	React.useEffect(() => {
 		local.getValueFor("user-session").then((value) => {
-			console.log("please only happen once");
 			userID = value;
 			getFavoriteIDs(userID).then((favIDs) => {
 				// Initialize favorite ID set (for checking :3)
 				setFavSet(favIDs);
-				setShown(true);
+				setFavIDsLoaded(true);
 			});
 		});
 	}, []);
 
-	// return (
-	// 	<Stack.Navigator>
-	// 		<Stack.Screen
-	// 			options={{ headerShown: false }}
-	// 			name="HomeTabs"
-	// 			children={() => (
-	// 				<HomeTabs
-	// 					// getHeaderStatus={getHeaderStatus}
-	// 					setHeaderStatus={setHeaderStatus}
-	// 					user={user}
-	// 					setCurRecipe={setCurRecipe}
-	// 				/>
-	// 			)}
-	// 		/>
-	// 		<Stack.Screen
-	// 			name="Recipe"
-	// 			children={() => (
-	// 				<RecipeScreen
-	// 					setHeaderStatus={setHeaderStatus}
-	// 					setCurRecipe={setCurRecipe}
-	// 					getCurRecipe={getCurRecipe}
-	// 				/>
-	// 			)}
-	// 			options={{
-	// 				headerLeft: () => (
-	// 					<IconButton
-	// 						icon="arrow-left"
-	// 						size={25}
-	// 						onPress={() => {
-	// 							setHeaderStatus(true);
-	// 							navigation.navigate("HomeTabs" as never);
-	// 						}}
-	// 					/>
-	// 				),
-	// 			}}
-	// 		/>
-	// 	</Stack.Navigator>
-	// );
+	// Get actual favorites for display on favorites tab
+	React.useEffect(() => {
+		local.getValueFor("user-session").then((value) => {
+			userID = value;
+			getFavorites(userID, "").then((response) => {
+				// Initialize favorite stubs
+				setFavoriteStubs(response);
+				setFavStubsLoaded(true);
+			});
+		});
+	}, []);
 
-	return shown ? (
+	return favIDsLoaded && favStubsLoaded ? (
 		<Stack.Navigator>
 			<Stack.Screen
 				options={{ headerShown: false }}
 				name="HomeTabs"
 				children={() => (
 					<HomeTabs
-						// getHeaderStatus={getHeaderStatus}
 						setHeaderStatus={setHeaderStatus}
-						user={user}
 						setCurRecipe={setCurRecipe}
+						setFavoriteStubs={setFavoriteStubs}
+						getFavoriteStubs={getFavoriteStubs}
 					/>
 				)}
 			/>
