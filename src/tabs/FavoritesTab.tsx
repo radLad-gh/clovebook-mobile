@@ -1,75 +1,71 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Dimensions, ScrollView } from "react-native";
-import { theme } from "../themes/Theme";
-import * as local from "../validation/securestore";
-
-import RecipeCard from "../components/RecipeCard";
-import { getFavorites } from "../api/requests";
+import React, { useCallback, useEffect, useState } from "react";
+import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { SimpleRecipe } from "../api/models";
-import { getFavSet } from "../components/FavoriteStuff";
+import { getFavorites } from "../api/requests";
+import RecipeCard from "../components/RecipeCard";
+import { theme } from "../themes/Theme";
+import { TabProps } from "../types";
+import * as local from "../validation/securestore";
 import { useFocusEffect } from "@react-navigation/native";
-
-type TabProps = {
-	setHeaderStatus: Function;
-	setCurRecipe: Function;
-	setFavoriteStubs: Function;
-	getFavoriteStubs: Function;
-};
 
 const FavoritesTab = ({
 	setHeaderStatus,
 	setCurRecipe,
-	setFavoriteStubs,
-	getFavoriteStubs,
+	favoriteStuff,
 }: TabProps) => {
 	// const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
 	// TODO: add a search bar for this
+	const [recipes, setRecipes] = useState<SimpleRecipe[]>([]);
 	const [searchQuery, setQuery] = React.useState("");
-	const [loaded, setLoaded] = React.useState(false);
+	const [isLoaded, setLoaded] = React.useState(false);
 
 	let userID: string;
 
-	// React.useEffect(() => {
-	// 	local.getValueFor("user-session").then((value) => {
-	// 		userID = value;
-	// 		// console.log("this is the userID in favs:", userID);
-	// 		getFavorites(userID, searchQuery).then((response) => {
-	// 			setRecipes(response);
-	// 			setLoaded(true);
-	// 		});
-	// 	});
-	// }, [searchQuery]);
+	// const [refreshing, setRefreshing] = useState(false);
 
-	// useFocusEffect(
-	// 	React.useCallback(() => {
-	// 		setLoaded(false);
-	// 		// console.log("userID in favorites focuseffect: " + userID);
-	// 		local.getValueFor("user-session").then((value) => {
-	// 			userID = value;
-	// 			getFavorites(userID, searchQuery).then((response) => {
-	// 				setRecipes(response);
-	// 				setLoaded(true);
-	// 			});
-	// 		});
-	// 	}, [])
-	// );
+	const onRefresh = useCallback(() => {
+		setLoaded(false);
+		initFavs();
+	}, []);
 
-	const [cards, setCards] = useState();
+	const loadFavs = () => {
+		getFavorites(userID, searchQuery).then((response) => {
+			setRecipes(response);
+			setLoaded(true);
+		});
+	};
 
-	useEffect(() => {
-		setCards(
-			getFavoriteStubs().map((recipe: SimpleRecipe, i: number) => (
-				<RecipeCard
-					stub={recipe}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-					setFavoriteStubs={setFavoriteStubs}
-					key={"fav" + i}
-				/>
-			))
-		);
-		setLoaded(true);
-	}, [setFavoriteStubs]);
+	const initFavs = () => {
+		if (!userID) {
+			local.getValueFor("user-session").then((value) => {
+				userID = value;
+				loadFavs();
+			});
+		} else {
+			loadFavs();
+		}
+	};
+
+	useFocusEffect(useCallback(() => initFavs(), []));
+
+	useFocusEffect(
+		useCallback(() => {
+			return () => {
+				setLoaded(false);
+			};
+		}, [])
+	);
+
+	const cards = recipes.map((stub, i) => (
+		<RecipeCard
+			stub={stub}
+			setHeaderStatus={setHeaderStatus}
+			setCurRecipe={setCurRecipe}
+			favoriteStuff={favoriteStuff}
+			fromFavsTabs={true}
+			key={i}
+		/>
+	));
 
 	return (
 		<ScrollView
@@ -80,8 +76,36 @@ const FavoritesTab = ({
 				paddingRight: 15,
 				marginBottom: 60,
 			}}
+			refreshControl={
+				<RefreshControl refreshing={!isLoaded} onRefresh={onRefresh} />
+			}
 		>
-			{loaded ? cards : <></>}
+			{isLoaded ? (
+				cards.length === 0 ? (
+					<View
+						style={{
+							alignItems: "center",
+							alignSelf: "center",
+							justifyContent: "center",
+							flex: 1,
+							display: "flex",
+						}}
+					>
+						<Text
+							style={{
+								fontSize: 16,
+								justifyContent: "center",
+							}}
+						>
+							Try adding some recipes to your favorites!
+						</Text>
+					</View>
+				) : (
+					cards
+				)
+			) : (
+				<></>
+			)}
 		</ScrollView>
 	);
 };

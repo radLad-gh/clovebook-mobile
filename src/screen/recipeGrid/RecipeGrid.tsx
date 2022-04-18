@@ -41,10 +41,7 @@ function RecipeGrid({ recipes, columns }: RecipeGridProps) {
 
 export function RecipeStack({ recipes }: RecipeGridProps) {
 	return (
-		<Stack
-			spacing={3}
-			divider={<Divider orientation="horizontal" flexItem />}
-		>
+		<Stack spacing={3} divider={<Divider orientation="horizontal" flexItem />}>
 			{recipes.map((recipe, i) => (
 				<RecipeCard {...recipe} key={i} />
 			))}

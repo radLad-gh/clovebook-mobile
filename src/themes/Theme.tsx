@@ -5,23 +5,26 @@ export const theme = {
 	...DefaultTheme,
 	colors: {
 		...DefaultTheme.colors,
-		primary: "#a7bfc2",
+		primary: "#aa9c8c",
 		primary_glow: "#e1eaeb",
-		primary_dark: "#809799",
+		primary_dark: "#82916B",
 		primary_darker: "#4f3c2f",
 		secondary: "#b6652e",
 		// Use text on light backgrounds. Otherwise, text_light.
 		text: "#493520",
-		text_light: "#f2f0e4",
+		text_light: "#d7cFc5",
 		accent: "#4f3c2f",
-		background: "#e1eaeb",
-		surface: "#d0d8d9",
-		selected: "#809799",
-
+		background: "#DBD2C7",
+		surface: "#FaEFE5",
+		selected: "#b6652e",
 		notifications: "#f13a59",
 	},
 };
+
 const recipePadding = 18;
+
+const cardBorderConstant = 10;
+const cardDimensionConstant = 110;
 
 const styles = StyleSheet.create({
 	home: {
@@ -49,44 +52,74 @@ const styles = StyleSheet.create({
 		top: 0,
 		marginTop: 10,
 	},
+
+	/// RECIPE STUB CARDS ///
 	card: {
 		display: "flex",
-		flexDirection: "column",
-		borderRadius: 20,
+		flexDirection: "row",
+		height: cardDimensionConstant,
+		borderRadius: cardBorderConstant,
 		backgroundColor: theme.colors.surface,
-		marginTop: 15,
+		marginTop: 16,
 		elevation: 3,
+		shadowRadius: 2,
+		shadowOpacity: 0.2,
+		shadowColor: theme.colors.accent,
 	},
+	// Image
+	cardCover: {
+		resizeMode: "cover",
+		borderRadius: cardBorderConstant,
+		width: "auto",
+		height: 180,
+		///// Comment this back to make it horizontal
+		//height: "auto",
+		//width: cardDimensionConstant,
+		// borderTopRightRadius: 0,
+		// borderTopLeftRadius: cardBorderConstant,
+		// borderBottomLeftRadius: cardBorderConstant,
+		// borderBottomRightRadius: 0,
+	},
+	cardTitle: {
+		fontSize: 24,
+		// height: "auto",
+		// marginBottom: 4,
+		width: "auto",
+		paddingLeft: 10,
+		marginTop: 14,
+		marginRight: 12,
+		overflow: "hidden",
+	},
+	// Text and heart
+	cardInfo: {
+		flexDirection: "column",
+		width: "auto",
+		alignItems: "flex-start",
+		paddingLeft: cardDimensionConstant, // Position absolute, add 125 padding to "fit" correctly.
+	},
+
+	// Recipe Modal
 	infoBlock: {
 		flexDirection: "column",
 		display: "flex",
-		backgroundColor: theme.colors.surface,
+		height: "auto",
+		backgroundColor: theme.colors.primary,
 		padding: recipePadding,
 		margin: recipePadding / 2,
 		marginLeft: recipePadding,
 		marginRight: recipePadding,
-		borderRadius: 16,
+		// backgroundColor: theme.colors.surface,
+		borderRadius: cardBorderConstant,
 		borderBottomRightRadius: 3,
 		borderTopLeftRadius: 3,
-		height: "auto",
-
 		fontFamily: "Helvetica Neue",
 	},
-	cardTitle: {
-		fontSize: 24,
-		padding: 12,
-		paddingTop: 16,
-		height: 78,
 
-		paddingBottom: 4,
-		marginRight: 12,
-		overflow: "hidden",
-	},
 	recipeTitle: {
 		margin: recipePadding,
-		// marginBottom: 4,
 		fontSize: 48,
 		fontFamily: "Helvetica Neue",
+		color: theme.colors.text_light,
 		marginBottom: 6,
 		height: "auto",
 	},

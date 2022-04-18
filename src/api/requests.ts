@@ -52,10 +52,9 @@ const requests = {
 
 export const getRecipes = (
 	query: string,
-	tags?: string[]
-): Promise<models.SimpleRecipe[]> => {
-	return requests.get("/recipes", { query: query, tags: tags });
-};
+	offset: number
+): Promise<models.SimpleRecipe[]> =>
+	requests.get("/recipes", { query: query, tags: "", offset: offset });
 
 export const getRecipe = (id: string): Promise<models.Recipe> => {
 	return requests.get(`/recipes/${id}`);

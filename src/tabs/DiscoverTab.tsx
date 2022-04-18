@@ -1,24 +1,14 @@
 import React from "react";
-import { View, Text, Dimensions, ScrollView, BackHandler } from "react-native";
-import { Button, IconButton } from "react-native-paper";
-import { theme } from "../themes/Theme";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-import { Navigation } from "../types";
+import { ScrollView, Text, View } from "react-native";
 import Featured from "../components/Featured";
 import RecipeCard from "../components/RecipeCard";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-
-type TabProps = {
-	setHeaderStatus: Function;
-	setCurRecipe: Function;
-	setFavoriteStubs: Function;
-};
+import { theme } from "../themes/Theme";
+import { TabProps } from "../types";
 
 const DiscoverTab = ({
 	setHeaderStatus,
 	setCurRecipe,
-	setFavoriteStubs,
+	favoriteStuff,
 }: TabProps) => {
 	return (
 		<ScrollView
@@ -66,59 +56,7 @@ const DiscoverTab = ({
 					}}
 					setHeaderStatus={setHeaderStatus}
 					setCurRecipe={setCurRecipe}
-					setFavoriteStubs={setFavoriteStubs}
-				></RecipeCard>
-				<RecipeCard
-					stub={{
-						spoonacularID: 0,
-						cookbookID: "000000000000000000000000",
-						name: "",
-						updatedAt: "",
-						ingredients: [],
-						authorID: "",
-					}}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-					setFavoriteStubs={setFavoriteStubs}
-				></RecipeCard>
-				<RecipeCard
-					stub={{
-						spoonacularID: 0,
-						cookbookID: "000000000000000000000000",
-						name: "",
-						updatedAt: "",
-						ingredients: [],
-						authorID: "",
-					}}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-					setFavoriteStubs={setFavoriteStubs}
-				></RecipeCard>
-				<RecipeCard
-					stub={{
-						spoonacularID: 0,
-						cookbookID: "000000000000000000000000",
-						name: "",
-						updatedAt: "",
-						ingredients: [],
-						authorID: "",
-					}}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-					setFavoriteStubs={setFavoriteStubs}
-				></RecipeCard>
-				<RecipeCard
-					stub={{
-						spoonacularID: 0,
-						cookbookID: "000000000000000000000000",
-						name: "",
-						updatedAt: "",
-						ingredients: [],
-						authorID: "",
-					}}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-					setFavoriteStubs={setFavoriteStubs}
+					favoriteStuff={favoriteStuff}
 				></RecipeCard>
 			</View>
 		</ScrollView>

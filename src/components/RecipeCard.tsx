@@ -1,17 +1,10 @@
-import { SimpleRecipe } from "../api/models";
-import React, { useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { IconButton, Card } from "react-native-paper";
-import style, { theme } from "../themes/Theme";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
-import { checkIfFav, updateFavorite } from "./FavoriteStuff";
-
-// const loadCard = () => {
-
-// }
-
-const addFavorite = () => {};
+import React, { useEffect } from "react";
+import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+import { Card, IconButton } from "react-native-paper";
+import { SimpleRecipe } from "../api/models";
+import styles, { theme } from "../themes/Theme";
+import { FavUtils } from "../types";
 
 const Time = ({ numericTime }: { numericTime: number }) => {
 	let mag: string; // magnitude of time.
@@ -20,110 +13,145 @@ const Time = ({ numericTime }: { numericTime: number }) => {
 		numericTime = Math.floor(numericTime / 60);
 		mag = "h";
 	}
-
 	return (
-		<Text style={{ alignSelf: "flex-end", paddingRight: 15, top: 10 }}>
+		<Text style={{ fontSize: 18, alignSelf: "flex-end", marginBottom: 16 }}>
 			{numericTime + mag}
 		</Text>
 	);
 };
 
-const cardDimentionConstant = 110;
+const cardDimensionConstant = 120;
 
 type CardProps = {
 	stub: SimpleRecipe;
 	setHeaderStatus: Function;
 	setCurRecipe: Function;
-	setFavoriteStubs: Function;
+	favoriteStuff: FavUtils;
+	fromFavsTabs?: boolean;
 };
 
-export function RecipeCard({
-	stub,
-	setHeaderStatus,
-	setCurRecipe,
-	setFavoriteStubs,
-}: CardProps) {
+export function RecipeCard(props: CardProps) {
 	const navigation = useNavigation();
 
 	// Happens when you tap on a recipe card
 	const openRecipe = () => {
-		setHeaderStatus(false);
-		setCurRecipe(stub);
+		props.setHeaderStatus(false);
+		props.setCurRecipe(props.stub);
 		navigation.navigate("Recipe" as never);
 	};
 
-	const sID: number = stub.spoonacularID;
-	const cID: string = stub.cookbookID;
+	const cID = props.stub.cookbookID;
+	const sID = props.stub.spoonacularID;
 
 	// Check whether this stub is from Spoonacular or our DB
-	let id: string = cID === "100000000000000000000000" ? "" + sID : cID;
+	const id = cID === "100000000000000000000000" ? "" + sID : cID;
 
 	// console.log("recipecard id: " + id);
 
-	const [favorite, setFavorite] = React.useState(checkIfFav(id));
+	const [favorite, setFavorite] = React.useState(
+		props.fromFavsTabs ? true : props.favoriteStuff.checkIfFav(id)
+	);
 	const [color, setColor] = React.useState(
 		favorite ? theme.colors.secondary : theme.colors.text_light
 	);
 
+	useEffect(() => {
+		const isFav = props.favoriteStuff.checkIfFav(id);
+		setFavorite(isFav);
+		setColor(isFav ? theme.colors.secondary : theme.colors.text_light);
+	}, [props.favoriteStuff]);
+
 	const toggleStar = () => {
-		const newVal = !favorite;
-		console.log("newVal in card: " + newVal);
-		updateFavorite(id, newVal);
-		setFavorite(newVal);
-		// Perform these actions on toggle of favorite.
-		favorite
-			? setColor(theme.colors.text_light)
-			: setColor(theme.colors.secondary);
+		props.favoriteStuff.updateFavorite(props.stub, !favorite);
 	};
 
+	let backCount = 0;
+	let backTimer: NodeJS.Timeout;
 	return (
-		<Card onPress={openRecipe} onLongPress={toggleStar} style={styles.card}>
-			<Card.Cover
-				source={{
-					uri: stub.imageURL ? stub.imageURL : "https://picsum.photos/700",
+		// <Card
+		// 	onPress={openRecipe}
+		// 	onLongPress={toggleStar}
+		// 	style={{
+		// 		display: "flex",
+		// 		flexDirection: "row",
+		// 		marginTop: 10,
+		// 		borderRadius: 10,
+		// 		height: 240,
+		// 	}}
+		// >
+		<Pressable onPress={openRecipe} onLongPress={toggleStar}>
+			<View
+				style={{
+					backgroundColor: theme.colors.primary,
+					marginTop: 14,
+					borderRadius: 15,
+					//	height: cardDimensionConstant,
+					height: "auto",
+					width: "auto",
+					display: "flex",
+					flexDirection: "column",
 				}}
-				style={styles.cardCover}
-			/>
-			<View style={styles.cardInfo}>
-				{/* <Card.Title title={stub.name} subtitle="Recipe" /> */}
-				<Text numberOfLines={3} style={style.cardTitle}>
-					{stub.name}
-				</Text>
-				<Time numericTime={stub.totalTime as number} />
-				<IconButton
-					icon="heart"
-					color={color}
-					onPress={toggleStar}
-					style={{ top: -25 }}
-				></IconButton>
+			>
+				<Image
+					source={{
+						uri: props.stub.imageURL
+							? props.stub.imageURL
+							: "https://picsum.photos/700",
+					}}
+					style={styles.cardCover}
+					// style={{
+					// 	resizeMode: "cover",
+					// 	flex: 1,
+					// 	width: 240,
+					// 	alignSelf: "flex-start",
+					// }}
+				/>
+
+				<View
+					style={{
+						overflow: "hidden",
+						// height: cardDimensionConstant,
+						height: "auto",
+						maxHeight: 500,
+						width: "100%",
+						paddingLeft: 8,
+						flex: -1, // shrinks to proper size
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "stretch",
+						justifyContent: "space-between",
+					}}
+				>
+					{/* <Card.Title title={stub.name} subtitle="Recipe" /> */}
+					<Text numberOfLines={2} style={styles.cardTitle}>
+						{props.stub.name}
+					</Text>
+
+					<View
+						style={{
+							position: "relative",
+							display: "flex",
+							flexDirection: "row",
+							justifyContent: "space-between",
+							alignItems: "stretch",
+							height: "auto",
+							paddingLeft: 12,
+							paddingRight: 8,
+						}}
+					>
+						<Time numericTime={props.stub.totalTime as number} />
+						<IconButton
+							icon="heart"
+							color={color}
+							onPress={toggleStar}
+							style={{ position: "relative" }}
+						/>
+					</View>
+				</View>
 			</View>
-		</Card>
+		</Pressable>
+		// </Card>
 	);
 }
-
-const styles = StyleSheet.create({
-	card: {
-		display: "flex",
-		flexDirection: "column",
-		backgroundColor: theme.colors.surface,
-		marginTop: 10,
-		height: cardDimentionConstant,
-	},
-
-	cardCover: {
-		borderBottomRightRadius: 5,
-		position: "absolute",
-		resizeMode: "contain",
-		height: "100%",
-		width: cardDimentionConstant,
-	},
-
-	cardInfo: {
-		marginTop: -3,
-		flexDirection: "column",
-		width: "100%",
-		paddingLeft: cardDimentionConstant, // Position absolute, add 125 padding to "fit" correctly.
-	},
-});
 
 export default RecipeCard;

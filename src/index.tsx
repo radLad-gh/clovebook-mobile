@@ -59,7 +59,7 @@ const App = () => {
 						</View>
 						<View style={styles.drawerSection}>
 							{loginValid ? (
-								<PaperDrawer.Section title="Clovebook">
+								<PaperDrawer.Section title="Clove">
 									<Button
 										icon="home"
 										mode="contained"
@@ -70,7 +70,7 @@ const App = () => {
 												backgroundColor: theme.colors.secondary,
 											},
 										]}
-										onPress={() => props.navigation.navigate("HomeScreen")}
+										onPress={() => props.navigation.navigate("Clove")}
 									>
 										Home
 									</Button>
@@ -145,7 +145,7 @@ const App = () => {
 			>
 				{loginValid ? (
 					<Drawer.Screen
-						name="HomeScreen"
+						name="Clove"
 						children={() => (
 							<HomeScreen
 								user={userInfo}

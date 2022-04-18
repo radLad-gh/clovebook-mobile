@@ -1,62 +1,79 @@
-import React from "react";
-import { View, Text, Dimensions, ScrollView } from "react-native";
-import { Card, Divider, Searchbar, Button, Title } from "react-native-paper";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import React, { useCallback, useState } from "react";
+import { ScrollView, Text, View, RefreshControl } from "react-native";
+import { ActivityIndicator, Button } from "react-native-paper";
+import { SimpleRecipe } from "../api/models";
+import { getRecipes } from "../api/requests";
+import Featured from "../components/Featured";
 import HomeSearchBar from "../components/HomeSearchBar";
 import RecipeCard from "../components/RecipeCard";
-import Featured from "../components/Featured";
 import { theme } from "../themes/Theme";
-
-import { useNavigation } from "@react-navigation/native";
-
-import { SimpleRecipe } from "../api/models";
-import { getFavoriteIDs, getRecipes } from "../api/requests";
+import { TabProps } from "../types";
 import * as local from "../validation/securestore";
-import { setFavSet } from "../components/FavoriteStuff";
-
-type TabProps = {
-	setHeaderStatus: Function;
-	setCurRecipe: Function;
-	setFavoriteStubs: Function;
-};
 
 let userID: string;
 
 const HomeTab = ({
 	setHeaderStatus,
 	setCurRecipe,
-	setFavoriteStubs,
+	favoriteStuff,
 }: TabProps) => {
 	const navigation = useNavigation();
 
 	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
 	const [searchQuery, setQuery] = React.useState("");
-
-	// React.useEffect(() => {
-	// 	local.getValueFor("user-session").then((value) => {
-	// 		userID = value;
-	// 		getFavoriteIDs(userID).then((favIDs) => {
-	// 			// Initialize favorite ID set (for checking :3)
-	// 			setFavSet(favIDs);
-
-	// 			// Only get recipes (and thus render RecipeCards)
-	// 			// once we know what our favorites are
-	// 			getRecipes("").then((response) => {
-	// 				setRecipes(response);
-	// 			});
-	// 		});
-	// 	});
-	// }, [searchQuery]);
+	const [offset, setOffset] = React.useState(0);
+	const [refreshing, setRefreshing] = useState(true);
 
 	React.useEffect(() => {
+		searchRecipes();
+	}, [searchQuery]);
+
+	const searchRecipes = () => {
 		local.getValueFor("user-session").then((value) => {
-			getRecipes("").then((response) => {
+			getRecipes(searchQuery, 0).then((response) => {
 				setRecipes(response);
+				setOffset(offset + response.length);
+				setRefreshing(false);
 			});
 		});
-	}, [searchQuery]);
+	};
+
+	const getMoreRecipes = () => {
+		local.getValueFor("user-session").then((value) => {
+			getRecipes(searchQuery, offset).then((response) => {
+				setRecipes([...recipes, ...response]);
+				setOffset(offset + response.length);
+			});
+		});
+	};
+
+	const isCloseToBottom = ({
+		layoutMeasurement,
+		contentOffset,
+		contentSize,
+	}: any) => {
+		const paddingToBottom = 20;
+		return (
+			layoutMeasurement.height + contentOffset.y >=
+			contentSize.height - paddingToBottom
+		);
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			// console.log("useFocusEffect triggered");
+		}, [])
+	);
+
+	const onRefresh = useCallback(() => {
+		setRefreshing(true);
+		searchRecipes();
+	}, []);
 
 	return (
 		<ScrollView
+			scrollEventThrottle={1000}
 			style={{
 				flexGrow: 1,
 				backgroundColor: theme.colors.background,
@@ -64,6 +81,14 @@ const HomeTab = ({
 				paddingRight: 15,
 				marginBottom: 60,
 			}}
+			onScroll={({ nativeEvent }) => {
+				if (isCloseToBottom(nativeEvent)) {
+					getMoreRecipes();
+				}
+			}}
+			refreshControl={
+				<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+			}
 		>
 			<Featured
 				imageSrc="https://picsum.photos/700"
@@ -101,19 +126,19 @@ const HomeTab = ({
 					View More
 				</Button>
 			</View>
-			{/* <RecipeCard
-				props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
-				setHeaderStatus={setHeaderStatus}
-			></RecipeCard> */}
-			{recipes.map((recipe, i) => (
-				<RecipeCard
-					stub={recipe}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-					setFavoriteStubs={setFavoriteStubs}
-					key={i}
-				/>
-			))}
+			{!refreshing ? (
+				recipes.map((recipe, i) => (
+					<RecipeCard
+						stub={recipe}
+						setHeaderStatus={setHeaderStatus}
+						setCurRecipe={setCurRecipe}
+						favoriteStuff={favoriteStuff}
+						key={i}
+					/>
+				))
+			) : (
+				<ActivityIndicator animating={true} color={"#000"} />
+			)}
 		</ScrollView>
 	);
 };
