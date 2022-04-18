@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Dimensions, ScrollView } from "react-native";
 import { Card, Divider, Searchbar, Button, Title } from "react-native-paper";
-import HomeSearchBar from "../components/HomeSearchBar";
+import QueryBar from "../components/QueryBar";
 import RecipeCard from "../components/RecipeCard";
 import Featured from "../components/Featured";
 import { theme } from "../themes/Theme";
@@ -28,24 +28,9 @@ const HomeTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
 	const [searchQuery, setQuery] = React.useState("");
 
-	// React.useEffect(() => {
-	// 	local.getValueFor("user-session").then((value) => {
-	// 		userID = value;
-	// 		getFavoriteIDs(userID).then((favIDs) => {
-	// 			// Initialize favorite ID set (for checking :3)
-	// 			setFavSet(favIDs);
-
-	// 			// Only get recipes (and thus render RecipeCards)
-	// 			// once we know what our favorites are
-	// 			getRecipes("").then((response) => {
-	// 				setRecipes(response);
-	// 			});
-	// 		});
-	// 	});
-	// }, [searchQuery]);
-
 	React.useEffect(() => {
 		local.getValueFor("user-session").then((value) => {
+			// TODO: change empty string to seachquery when building app!!#!#!@@$%#
 			getRecipes("").then((response) => {
 				setRecipes(response);
 			});
@@ -62,14 +47,14 @@ const HomeTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 				marginBottom: 60,
 			}}
 		>
-			<Featured
+			{/* <Featured
 				imageSrc="https://picsum.photos/700"
 				title="Discover"
 				loadScreen={() => {
 					navigation.navigate("Discover" as never);
 				}}
-			/>
-			<HomeSearchBar submit={setQuery}></HomeSearchBar>
+			/> */}
+			<QueryBar submit={setQuery}></QueryBar>
 			<View
 				style={{
 					flexDirection: "row",
@@ -85,23 +70,9 @@ const HomeTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 						color: theme.colors.text,
 					}}
 				>
-					Recent Favorites
+					Find New Recipes!
 				</Text>
-				<Button
-					onPress={() => {
-						navigation.navigate("Favorites" as never);
-					}}
-					color={theme.colors.text}
-					compact={true}
-					style={{ alignSelf: "center", marginBottom: -5 }}
-				>
-					View More
-				</Button>
 			</View>
-			{/* <RecipeCard
-				props={{ sID: 0, cbID: 0, name: "", savedAt: "" }}
-				setHeaderStatus={setHeaderStatus}
-			></RecipeCard> */}
 			{recipes.map((recipe, i) => (
 				<RecipeCard
 					stub={recipe}

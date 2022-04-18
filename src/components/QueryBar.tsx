@@ -4,7 +4,7 @@ import { getRecipes } from '../api/requests';
 import styles from '../themes/Theme';
 import {theme} from '../themes/Theme';
 
-function HomeSearchBar({submit}: {submit: Function}) {
+function QueryBar({submit}: {submit: Function}) {
     const [searchQuery, setSearchQuery] = useState('');
     
     const updateQuery = () => {
@@ -25,4 +25,4 @@ function HomeSearchBar({submit}: {submit: Function}) {
     );
 }
 
-export default HomeSearchBar;
+export default QueryBar;

@@ -7,14 +7,56 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Navigation } from "../types";
 import Featured from "../components/Featured";
 import RecipeCard from "../components/RecipeCard";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import QueryBar from "../components/QueryBar";
+
+
+import { SimpleRecipe } from "../api/models";
+import { getFavoriteIDs, getRecipes } from "../api/requests";
 
 type TabProps = {
 	setHeaderStatus: Function;
 	setCurRecipe: Function;
 };
 
+// function getRandomRecipes() : SimpleRecipe[] {
+// 	const base = 97;
+	
+// 	let recipes = [] as SimpleRecipe[];
+// 	getRecipes(getRandomLetter()).then((response) => {
+// 		recipes = response;
+// 		return recipes.slice(0,4);
+// 	});
+// }
+
+const getRandomLetter = () => {
+	const base = 97;
+	return String.fromCharCode((Math.floor(Math.random() * 26)) + base);
+}
+
+const shuffleResponse = (response : SimpleRecipe[]) => {
+	const ret = new Set<SimpleRecipe>();
+
+	while (ret.size != 5) {
+		let randomID = Math.floor(Math.random() * response.length);
+		ret.add(response[randomID]);
+	}
+
+	return Array.from(ret);
+}
+
+
 const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
+	
+	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
+	const [randomLetter, setRandomLetter] = React.useState("");
+
+	React.useEffect(() => {
+		getRecipes(getRandomLetter()).then((response) => {
+			setRecipes(shuffleResponse(response));
+		})
+	}, [randomLetter])
+
+
 	return (
 		<ScrollView
 			style={{
@@ -25,92 +67,53 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 				marginBottom: 60,
 			}}
 		>
-			<Featured
+			{/* <Featured
 				imageSrc="https://picsum.photos/700"
 				title="Seasonal recipes"
 				loadScreen={() => {
 					console.log(`Clicked: seasonal`);
 				}}
-			/>
-			<Featured
+			/> */}
+			{/* <Featured
 				imageSrc="https://picsum.photos/700"
 				title="Find new with favorites"
 				loadScreen={() => {
 					console.log(`Clicked: new`);
 				}}
-			/>
+			/> */}
 			<Featured
 				imageSrc="https://picsum.photos/700"
 				title="Random"
-				loadScreen={() => {
-					console.log(`Clicked: random`);
-				}}
+				loadScreen={setRandomLetter(getRandomLetter())}
 			/>
-			<View style={{ marginTop: 10 }}>
+			<View
+				style={{
+					marginTop: 10,
+					display: "flex",
+					flexDirection: 'row',
+					justifyContent: "space-between",
+				}}
+			>
 				<Text style={{ fontSize: 20, color: theme.colors.text }}>
-					Featured Dishes
+					Find by Random
 				</Text>
-				<RecipeCard
-					stub={{
-						spoonacularID: 0,
-						cookbookID: "000000000000000000000000",
-						name: "",
-						updatedAt: "",
-						ingredients: [],
-						authorID: "",
-					}}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-				></RecipeCard>
-				<RecipeCard
-					stub={{
-						spoonacularID: 0,
-						cookbookID: "000000000000000000000000",
-						name: "",
-						updatedAt: "",
-						ingredients: [],
-						authorID: "",
-					}}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-				></RecipeCard>
-				<RecipeCard
-					stub={{
-						spoonacularID: 0,
-						cookbookID: "000000000000000000000000",
-						name: "",
-						updatedAt: "",
-						ingredients: [],
-						authorID: "",
-					}}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-				></RecipeCard>
-				<RecipeCard
-					stub={{
-						spoonacularID: 0,
-						cookbookID: "000000000000000000000000",
-						name: "",
-						updatedAt: "",
-						ingredients: [],
-						authorID: "",
-					}}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-				></RecipeCard>
-				<RecipeCard
-					stub={{
-						spoonacularID: 0,
-						cookbookID: "000000000000000000000000",
-						name: "",
-						updatedAt: "",
-						ingredients: [],
-						authorID: "",
-					}}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-				></RecipeCard>
+				<Button
+					style={{width: 150}}
+					icon="refresh"
+					mode="contained"
+					onPress={() => setRandomLetter(getRandomLetter())}
+				>
+					Refresh
+				</Button>
 			</View>
+			{recipes.map((recipe, i) => (
+				<RecipeCard
+					stub={recipe}
+					setHeaderStatus={setHeaderStatus}
+					setCurRecipe={setCurRecipe}
+					key={i}
+				/>
+			))}
 		</ScrollView>
 	);
 };
