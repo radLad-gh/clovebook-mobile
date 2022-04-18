@@ -15,10 +15,11 @@ import LoginScreen from "./screen/Login";
 import HomeScreen from "./screen/Home";
 import { theme } from "./themes/Theme";
 
-import { NewUser } from "./api/models";
+import { NewUser, User } from "./api/models";
 import * as local from "./validation/securestore";
 import * as SecureStore from "expo-secure-store";
 import ProfileScreen from "./screen/Profile";
+import { getUserByID } from "./api/requests";
 
 const Drawer = createDrawerNavigator();
 
@@ -30,14 +31,35 @@ const userInfo: NewUser = {
 	email: "",
 };
 
+let user: User = {
+	createdAt: "",
+	email: "",
+	firstName: "",
+	lastName: "",
+	password: "",
+	updatedAt: "",
+	userID: "",
+	username: "",
+};
+
 const App = () => {
+
+	React.useEffect(() => {
+		local.getValueFor("user-session").then((value) => {
+			const userID = value;
+			getUserByID(userID).then((result) => {
+				user = result;
+			});
+		})
+	}, [user]);
+
 	// Used for authorization of user on load.
 	const [loginValid, setLoginValid] = React.useState(false);
 	const getLoginValidity = () => loginValid;
-
 	// Used to hide drawerHeader when recipe is shown.
 	const [headerStatus, setHeaderStatus] = React.useState(true);
-	const getHeaderStatus = () => headerStatus;
+	// Edit status is if the user is in an edit/update state on a page.
+	const [editStatus, setEditStatus] = React.useState(false);
 
 	return (
 		<NavigationContainer>
@@ -70,7 +92,7 @@ const App = () => {
 												backgroundColor: theme.colors.secondary,
 											},
 										]}
-										onPress={() => props.navigation.navigate("HomeScreen")}
+										onPress={() => props.navigation.navigate("Clovebook")}
 									>
 										Home
 									</Button>
@@ -84,21 +106,9 @@ const App = () => {
 									icon="account"
 									mode="contained"
 									style={styles.drawerButton}
-									onPress={async () => {
-										try {
-											let result = await SecureStore.getItemAsync(
-												"user-session"
-											);
-											if (result) {
-												// navigate to this users page
-												props.navigation.navigate("Profile");
+									onPress={() => {
+										props.navigation.navigate("Profile");
 
-												console.log(result);
-											} else
-												console.error("Something went wrong fetching value.");
-										} catch (error) {
-											console.error(error);
-										}
 									}}
 								>
 									Profile
@@ -129,12 +139,21 @@ const App = () => {
 								mode="outlined"
 								style={{ marginHorizontal: 10, marginTop: 10 }}
 								onPress={() => {
+									// Set of actions to do when the user logs
+									// out. A "clean slate" for a new session
+
 									// Remove the user's session token from
 									// the device.
 									local.deleteValue("user-session");
-									// Close the drawer
-									props.navigation.closeDrawer();
+									
+									// When the user is editing, remove the
+									// "edit" state.
+									setEditStatus(false);
+
+									// **HomeScreen needs to be set on logout** 
+									props.navigation.navigate("Clovebook");
 									setLoginValid(false);
+									props.navigation.closeDrawer();
 								}}
 							>
 								Log Out
@@ -145,7 +164,7 @@ const App = () => {
 			>
 				{loginValid ? (
 					<Drawer.Screen
-						name="HomeScreen"
+						name="Clovebook"
 						children={() => (
 							<HomeScreen
 								user={userInfo}
@@ -174,7 +193,7 @@ const App = () => {
 				)}
 				<Drawer.Screen
 					name="Profile"
-					children={() => <ProfileScreen user={userInfo} />}
+					children={() => <ProfileScreen user={user} editStatus={editStatus} setEditStatus={setEditStatus} />}
 				/>
 				<Drawer.Screen
 					name="Settings"

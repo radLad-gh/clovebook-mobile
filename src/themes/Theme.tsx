@@ -9,7 +9,7 @@ export const theme = {
 		primary_glow: "#e1eaeb",
 		primary_dark: "#809799",
 		primary_darker: "#4f3c2f",
-		secondary: "#b6652e",
+		secondary: "#e77f38",
 		// Use text on light backgrounds. Otherwise, text_light.
 		text: "#493520",
 		text_light: "#f2f0e4",
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 	},
 	searchBar: {
 		top: 0,
-		marginTop: 10,
+		marginTop: 5,
 	},
 	card: {
 		display: "flex",

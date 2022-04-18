@@ -14,8 +14,8 @@ import RecipeScreen from "./Recipe";
 import { IconButton } from "react-native-paper";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
-import { defaultSimpleRecipe, NewUser, SimpleRecipe } from "../api/models";
-import { getFavoriteIDs, toggleFavorite } from "../api/requests";
+import { defaultSimpleRecipe, NewUser, SimpleRecipe, User } from "../api/models";
+import { getFavoriteIDs, toggleFavorite, getUserByID } from "../api/requests";
 import { setFavSet } from "../components/FavoriteStuff";
 
 const Tab = createBottomTabNavigator();
@@ -43,8 +43,6 @@ const HomeTabs = ({
 	setHeaderStatus,
 	setCurRecipe,
 }: HomeTabsProps) => {
-	// console.log("loaded home tabs");
-
 	return (
 		<Tab.Navigator
 			initialRouteName="Home"

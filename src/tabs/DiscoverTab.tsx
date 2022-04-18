@@ -44,6 +44,8 @@ const shuffleResponse = (response : SimpleRecipe[]) => {
 	return Array.from(ret);
 }
 
+// Tracks uniqueness of component key for recipe cards.
+let key = 0;
 
 const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 	
@@ -67,24 +69,10 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 				marginBottom: 60,
 			}}
 		>
-			{/* <Featured
-				imageSrc="https://picsum.photos/700"
-				title="Seasonal recipes"
-				loadScreen={() => {
-					console.log(`Clicked: seasonal`);
-				}}
-			/> */}
-			{/* <Featured
-				imageSrc="https://picsum.photos/700"
-				title="Find new with favorites"
-				loadScreen={() => {
-					console.log(`Clicked: new`);
-				}}
-			/> */}
 			<Featured
 				imageSrc="https://picsum.photos/700"
 				title="Random"
-				loadScreen={setRandomLetter(getRandomLetter())}
+				loadScreen={() => setRandomLetter(getRandomLetter())}
 			/>
 			<View
 				style={{
@@ -92,6 +80,7 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					display: "flex",
 					flexDirection: 'row',
 					justifyContent: "space-between",
+					alignItems: 'center',
 				}}
 			>
 				<Text style={{ fontSize: 20, color: theme.colors.text }}>
@@ -106,12 +95,12 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					Refresh
 				</Button>
 			</View>
-			{recipes.map((recipe, i) => (
+			{recipes.map((recipe) => (
 				<RecipeCard
 					stub={recipe}
 					setHeaderStatus={setHeaderStatus}
 					setCurRecipe={setCurRecipe}
-					key={i}
+					key={key++}
 				/>
 			))}
 		</ScrollView>

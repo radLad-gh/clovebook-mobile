@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
-import { Button, Switch, Portal, Modal, Paragraph, Dialog } from "react-native-paper";
+import { Button, Switch, Portal, Modal, Paragraph, Dialog, HelperText } from "react-native-paper";
 
 import Input from "../components/Input";
 import InputSecure from "../components/InputSecure";
@@ -54,6 +54,12 @@ const LoginTab = ({
 	const [username, setUsername] = React.useState("");
 	const [password, setPassword] = React.useState("");
 
+	const [userError, setUserError] = React.useState(false);
+	const [passError, setPassError] = React.useState(false);
+
+	// Let the user know if the username or pass is incorrect.
+	const [correctLogin, setCorrectLogin] = React.useState(true);
+
 	const [modalPresent, setModalPresent] = React.useState(false);
 	const [forgotEmail, setForgotEmail] = React.useState('');
 
@@ -62,23 +68,33 @@ const LoginTab = ({
 	//const [rememberSwitch, setRememberSwitch] = React.useState(false);
 	//const onToggleSwitch = () => setRememberSwitch(!rememberSwitch);
 
+	function warnUser(condition : boolean) {
+		setUserError(condition);
+		setPassError(condition);
+		setCorrectLogin(!condition)
+	}
+
 	const validate = () => {
 		doLogin({
 			username: username,
 			password: md5(password),
 		})
 			.then((data) => {
+				// Token valid! Decode JWT and save the user token to device.
 				if (data !== undefined) {
 					const decoded = jwt_decode(data.refreshToken);
 					const userID: string = (decoded as cbJWT)!.userID;
 
-					// Save the access token locally.
 					local.save("user-session", userID);
-					// Let user access the site.
 					setLoginValidity(true);
+					// Remove any error fields if any.
+					warnUser(false);
 				}
 			})
-			.catch((err) => console.log(err));
+			.catch(() => {
+				// Let user know that the information provided is incorret.
+				warnUser(true);
+			});
 	};
 
 	const sendForgot = () => {
@@ -98,6 +114,7 @@ const LoginTab = ({
 						label="Email"
 						onChangeText={setForgotEmail}
 						value={forgotEmail}
+						enterAction={sendForgot}
 					/>
 					<Button
 						mode="contained"
@@ -122,16 +139,20 @@ const LoginTab = ({
 				<Logo style={styles.logo} /> */}
 			<View style={styles.inputContainer}>
 				<Input
+					error={userError}
 					label="Username"
 					onChangeText={setUsername}
 					value={username}
 				></Input>
 				<InputSecure
-					error={false}
+					error={passError}
 					label={"Password"}
 					onChangeText={setPassword}
 					value={password}
 				></InputSecure>
+				<HelperText type="error" visible={!correctLogin}>
+					The username or password is incorrect.
+				</HelperText>
 				<View style={styles.inputOptionsContainer}>
 					{/* <View style={styles.inputOptionRememberContainer}>
 						<Text

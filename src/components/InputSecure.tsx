@@ -20,6 +20,7 @@ const InputPass = ({ label, onChangeText, value, error }: Props) => {
 
 	return (
 		<Input
+			autoComplete={false}
 			error={error}
 			label={label}
 			secureTextEntry={!toggleSight}

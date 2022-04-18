@@ -45,10 +45,10 @@ const LoginScreen = ({
 			}}
 		>
 			<Tab.Screen
-				name="LoginTab"
+				name="Login"
 				children={() => (
 					<LoginTab
-						screenName={"Home"}
+						screenName={"Login"}
 						getLoginValidity={getLoginValidity}
 						setLoginValidity={setLoginValidity}
 						user={user}

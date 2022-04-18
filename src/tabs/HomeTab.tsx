@@ -45,34 +45,10 @@ const HomeTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 				paddingLeft: 15,
 				paddingRight: 15,
 				marginBottom: 60,
+				paddingTop: 3,
 			}}
 		>
-			{/* <Featured
-				imageSrc="https://picsum.photos/700"
-				title="Discover"
-				loadScreen={() => {
-					navigation.navigate("Discover" as never);
-				}}
-			/> */}
 			<QueryBar submit={setQuery}></QueryBar>
-			<View
-				style={{
-					flexDirection: "row",
-					justifyContent: "space-between",
-					marginTop: 5,
-					marginBottom: -5,
-				}}
-			>
-				<Text
-					style={{
-						alignSelf: "center",
-						fontSize: 20,
-						color: theme.colors.text,
-					}}
-				>
-					Find New Recipes!
-				</Text>
-			</View>
 			{recipes.map((recipe, i) => (
 				<RecipeCard
 					stub={recipe}

@@ -8,6 +8,7 @@ import { getFavorites } from "../api/requests";
 import { SimpleRecipe } from "../api/models";
 import { getFavSet } from "../components/FavoriteStuff";
 import { useFocusEffect } from "@react-navigation/native";
+import { Title } from "react-native-paper";
 
 type TabProps = {
 	setHeaderStatus: Function;
@@ -56,6 +57,16 @@ const FavoritesTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 				marginBottom: 60,
 			}}
 		>
+			<Title
+				style={{
+					alignSelf: "flex-start",
+					fontSize: 25,
+					color: theme.colors.text,
+					paddingTop: 7,
+				}}
+			>
+				Favorites:
+			</Title>
 			{recipes.map((recipe, i) => (
 				<RecipeCard
 					stub={recipe}
