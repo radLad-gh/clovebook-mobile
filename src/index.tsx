@@ -20,6 +20,7 @@ import * as local from "./validation/securestore";
 import * as SecureStore from "expo-secure-store";
 import ProfileScreen from "./screen/Profile";
 import { getUserByID } from "./api/requests";
+import AboutScreen from "./screen/About";
 
 const Drawer = createDrawerNavigator();
 
@@ -43,14 +44,13 @@ let user: User = {
 };
 
 const App = () => {
-
 	React.useEffect(() => {
 		local.getValueFor("user-session").then((value) => {
 			const userID = value;
 			getUserByID(userID).then((result) => {
 				user = result;
 			});
-		})
+		});
 	}, [user]);
 
 	// Used for authorization of user on load.
@@ -87,20 +87,27 @@ const App = () => {
 										mode="contained"
 										style={[
 											styles.drawerButton,
-											{
-												marginBottom: 15,
-												backgroundColor: theme.colors.secondary,
-											},
+											{ backgroundColor: theme.colors.secondary },
 										]}
 										onPress={() => props.navigation.navigate("Clovebook")}
 									>
 										Home
+									</Button>
+									<View style={{ height: 5 }}></View>
+									<Button
+										icon="help-circle-outline"
+										mode="contained"
+										style={styles.drawerButton}
+										onPress={() => props.navigation.navigate("About")}
+									>
+										About
 									</Button>
 								</PaperDrawer.Section>
 							) : (
 								<></>
 							)}
 							<PaperDrawer.Section title="My Account">
+								<View style={{ height: 5 }}></View>
 								<Button
 									disabled={!loginValid}
 									icon="account"
@@ -108,7 +115,6 @@ const App = () => {
 									style={styles.drawerButton}
 									onPress={() => {
 										props.navigation.navigate("Profile");
-
 									}}
 								>
 									Profile
@@ -119,23 +125,16 @@ const App = () => {
 									mode="contained"
 									style={styles.drawerButton}
 									onPress={() => props.navigation.navigate("Settings")}
+									disabled={true}
 								>
 									Settings
-								</Button>
-								<View style={{ height: 5 }}></View>
-								<Button
-									icon="help-circle-outline"
-									mode="contained"
-									style={[styles.drawerButton, { marginBottom: 15 }]}
-									onPress={() => props.navigation.navigate("Help")}
-								>
-									Help
 								</Button>
 							</PaperDrawer.Section>
 						</View>
 						<View style={styles.drawerSection}>
 							<Button
 								disabled={!loginValid}
+								color={theme.colors.accent}
 								mode="outlined"
 								style={{ marginHorizontal: 10, marginTop: 10 }}
 								onPress={() => {
@@ -145,12 +144,12 @@ const App = () => {
 									// Remove the user's session token from
 									// the device.
 									local.deleteValue("user-session");
-									
+
 									// When the user is editing, remove the
 									// "edit" state.
 									setEditStatus(false);
 
-									// **HomeScreen needs to be set on logout** 
+									// **HomeScreen needs to be set on logout**
 									props.navigation.navigate("Clovebook");
 									setLoginValid(false);
 									props.navigation.closeDrawer();
@@ -193,13 +192,24 @@ const App = () => {
 				)}
 				<Drawer.Screen
 					name="Profile"
-					children={() => <ProfileScreen user={user} editStatus={editStatus} setEditStatus={setEditStatus} />}
+					children={() => (
+						<ProfileScreen
+							user={user}
+							editStatus={editStatus}
+							setEditStatus={setEditStatus}
+						/>
+					)}
 				/>
 				<Drawer.Screen
 					name="Settings"
 					children={() => <Text>Settings screen.</Text>}
 				/>
-				<Drawer.Screen name="Help" children={() => <Text>Help screen.</Text>} />
+				<Drawer.Screen
+					name="About"
+					children={() => (
+						<AboutScreen user={user} />
+					)}
+				/>
 			</Drawer.Navigator>
 		</NavigationContainer>
 	);
