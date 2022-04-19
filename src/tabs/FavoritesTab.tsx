@@ -1,51 +1,72 @@
-import React from "react";
-import { View, Text, Dimensions, ScrollView } from "react-native";
-import { theme } from "../themes/Theme";
-import * as local from "../validation/securestore";
-
-import RecipeCard from "../components/RecipeCard";
-import { getFavorites } from "../api/requests";
+import React, { useCallback, useEffect, useState } from "react";
+import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { SimpleRecipe } from "../api/models";
-import { getFavSet } from "../components/FavoriteStuff";
+import { getFavorites } from "../api/requests";
+import RecipeCard from "../components/RecipeCard";
+import { theme } from "../themes/Theme";
+import { TabProps } from "../types";
+import * as local from "../validation/securestore";
 import { useFocusEffect } from "@react-navigation/native";
 import { Title } from "react-native-paper";
 
-type TabProps = {
-	setHeaderStatus: Function;
-	setCurRecipe: Function;
-};
-
-const FavoritesTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
-	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
+const FavoritesTab = ({
+	setHeaderStatus,
+	setCurRecipe,
+	favoriteStuff,
+}: TabProps) => {
+	// const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
+	// TODO: add a search bar for this
+	const [recipes, setRecipes] = useState<SimpleRecipe[]>([]);
 	const [searchQuery, setQuery] = React.useState("");
-
-	console.log("rendered FavoritesTab");
+	const [isLoaded, setLoaded] = React.useState(false);
 
 	let userID: string;
 
-	React.useEffect(() => {
-		let userID: string;
-		local.getValueFor("user-session").then((value) => {
-			userID = value;
-			// console.log("this is the userID in favs:", userID);
+	// const [refreshing, setRefreshing] = useState(false);
 
-			getFavorites(userID, searchQuery).then((response) => {
-				setRecipes(response);
-			});
+	const onRefresh = useCallback(() => {
+		setLoaded(false);
+		initFavs();
+	}, []);
+
+	const loadFavs = () => {
+		getFavorites(userID, searchQuery).then((response) => {
+			setRecipes(response);
+			setLoaded(true);
 		});
-	}, [searchQuery]);
+	};
 
-	useFocusEffect(
-		React.useCallback(() => {
-			// console.log("userID in favorites focuseffect: " + userID);
+	const initFavs = () => {
+		if (!userID) {
 			local.getValueFor("user-session").then((value) => {
 				userID = value;
-				getFavorites(userID, searchQuery).then((response) => {
-					setRecipes(response);
-				});
+				loadFavs();
 			});
+		} else {
+			loadFavs();
+		}
+	};
+
+	useFocusEffect(useCallback(() => initFavs(), []));
+
+	useFocusEffect(
+		useCallback(() => {
+			return () => {
+				setLoaded(false);
+			};
 		}, [])
 	);
+
+	const cards = recipes.map((stub, i) => (
+		<RecipeCard
+			stub={stub}
+			setHeaderStatus={setHeaderStatus}
+			setCurRecipe={setCurRecipe}
+			favoriteStuff={favoriteStuff}
+			fromFavsTabs={true}
+			key={i}
+		/>
+	));
 
 	return (
 		<ScrollView
@@ -56,25 +77,36 @@ const FavoritesTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 				paddingRight: 15,
 				marginBottom: 60,
 			}}
+			refreshControl={
+				<RefreshControl refreshing={!isLoaded} onRefresh={onRefresh} />
+			}
 		>
-			<Title
-				style={{
-					alignSelf: "flex-start",
-					fontSize: 25,
-					color: theme.colors.text,
-					paddingTop: 7,
-				}}
-			>
-				Favorites:
-			</Title>
-			{recipes.map((recipe, i) => (
-				<RecipeCard
-					stub={recipe}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-					key={"fav" + i}
-				/>
-			))}
+			{isLoaded ? (
+				cards.length === 0 ? (
+					<View
+						style={{
+							alignItems: "center",
+							alignSelf: "center",
+							justifyContent: "center",
+							flex: 1,
+							display: "flex",
+						}}
+					>
+						<Text
+							style={{
+								fontSize: 16,
+								justifyContent: "center",
+							}}
+						>
+							Try adding some recipes to your favorites!
+						</Text>
+					</View>
+				) : (
+					cards
+				)
+			) : (
+				<></>
+			)}
 		</ScrollView>
 	);
 };

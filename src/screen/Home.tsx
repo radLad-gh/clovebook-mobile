@@ -1,34 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
-import HomeTab from "../tabs/HomeTab";
-import DiscoverTab from "../tabs/DiscoverTab";
-import FavoritesTab from "../tabs/FavoritesTab";
-import { theme } from "../themes/Theme";
-
-import * as local from "../validation/securestore";
-import { Navigation } from "../types";
+import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import RecipeScreen from "./Recipe";
+import React, { useState } from "react";
 import { IconButton } from "react-native-paper";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-
-import { defaultSimpleRecipe, NewUser, SimpleRecipe, User } from "../api/models";
-import { getFavoriteIDs, toggleFavorite, getUserByID } from "../api/requests";
-import { setFavSet } from "../components/FavoriteStuff";
-
-const Tab = createBottomTabNavigator();
+import { defaultSimpleRecipe, NewUser, SimpleRecipe } from "../api/models";
+import { getFavoriteIDs, getFavorites, toggleFavorite } from "../api/requests";
+import { HomeTabs } from "../components/HomeTabs";
+import * as local from "../validation/securestore";
+import RecipeScreen from "./Recipe";
 
 const Stack = createNativeStackNavigator();
-
-type HomeTabsProps = {
-	//   navigation: Navigation;
-	// getHeaderStatus: Function;
-	setHeaderStatus: Function;
-	user: NewUser;
-	setCurRecipe: Function;
-};
 
 type HomeScreenProps = {
 	setHeaderStatus: Function;
@@ -37,152 +17,99 @@ type HomeScreenProps = {
 
 let userID: string;
 
-const HomeTabs = ({
-	//   navigation,
-	// getHeaderStatus,
-	setHeaderStatus,
-	setCurRecipe,
-}: HomeTabsProps) => {
-	return (
-		<Tab.Navigator
-			initialRouteName="Home"
-			backBehavior="initialRoute"
-			screenOptions={({ route }) => ({
-				tabBarLabelPosition: "beside-icon",
-				headerShown: false,
-				tabBarStyle: {
-					backgroundColor: theme.colors.surface,
-					borderTopColor: theme.colors.selected,
-					height: 60,
-					position: "absolute",
-				},
-				tabBarIcon: ({ focused, color, size }) => {
-					let iconName;
-
-					if (route.name === "Discover") {
-						iconName = focused ? "compass" : "compass-outline";
-					} else if (route.name === "Home") {
-						iconName = focused ? "home" : "home-outline";
-					} else if (route.name === "Favorites") {
-						iconName = focused ? "heart" : "heart-outline";
-					}
-
-					return <Icon name={iconName as string} size={size} color={color} />;
-				},
-				tabBarActiveBackgroundColor: theme.colors.selected,
-				tabBarActiveTintColor: theme.colors.text_light,
-			})}
-		>
-			<Tab.Screen
-				name="Discover"
-				children={() => (
-					<DiscoverTab
-						// getHeaderStatus={getHeaderStatus}
-						setHeaderStatus={setHeaderStatus}
-						setCurRecipe={setCurRecipe}
-					/>
-				)}
-				// options={{ tabBarHideOnKeyboard: true }}
-			/>
-			<Tab.Screen
-				name="Home"
-				children={() => (
-					<HomeTab
-						setHeaderStatus={setHeaderStatus}
-						setCurRecipe={setCurRecipe}
-					/>
-				)}
-				// options={{
-				//   tabBarHideOnKeyboard: true,
-				// }}
-			/>
-			<Tab.Screen
-				name="Favorites"
-				children={() => (
-					<FavoritesTab
-						setHeaderStatus={setHeaderStatus}
-						setCurRecipe={setCurRecipe}
-					/>
-				)}
-				// options={{ tabBarHideOnKeyboard: true }}
-			/>
-		</Tab.Navigator>
-	);
-};
-
-const HomeScreen = ({
-	// getHeaderStatus,
-	setHeaderStatus,
-	user,
-}: HomeScreenProps) => {
+const HomeScreen = ({ setHeaderStatus }: HomeScreenProps) => {
 	const navigation = useNavigation();
 	const [curRecipe, setCurRecipe] = useState<SimpleRecipe>(defaultSimpleRecipe);
 	const getCurRecipe = () => curRecipe;
 
-	const [shown, setShown] = useState(false);
+	const [favStubs, setFavStubs] = useState<SimpleRecipe[]>([]);
+	const [favIDs, setFavIDs] = useState<Set<string>>(new Set<string>());
+
+	const checkIfFav = (id: string): boolean => favIDs.has(id);
+	const updateFavorite = (recipeStub: SimpleRecipe, set: boolean): void => {
+		const recipeID =
+			recipeStub.cookbookID === "100000000000000000000000"
+				? "" + recipeStub.spoonacularID
+				: recipeStub.cookbookID;
+
+		// console.log("updating favorite id " + recipeID + " to be " + set);
+
+		// Update set of IDs
+		let newFavIDs = new Set<string>(favIDs);
+		// console.log("size of newFavIDs before: " + newFavIDs.size);
+		if (set && !newFavIDs.has(recipeID)) {
+			newFavIDs.add(recipeID);
+		} else if (!set) {
+			newFavIDs.delete(recipeID);
+		}
+		// console.log("size of newFavIDs after: " + newFavIDs.size);
+		setFavIDs(newFavIDs);
+
+		// Update array of stubs
+		let newFavStubs = [...favStubs];
+		// console.log("size of newFavStubs before: " + newFavStubs.length);
+		if (set && !newFavStubs.includes(recipeStub)) {
+			newFavStubs.push(recipeStub);
+		} else if (!set) {
+			newFavStubs = newFavStubs.filter(
+				(stub) =>
+					stub.cookbookID !== recipeID && "" + stub.spoonacularID !== recipeID
+			);
+		}
+		// console.log("size of newFavStubs before: " + newFavStubs.length);
+		setFavStubs(newFavStubs);
+
+		// Get user ID if it's not stored already
+		if (!userID) {
+			local.getValueFor("user-session").then((value) => {
+				userID = value;
+				// API Call
+				toggleFavorite(userID, set, recipeID);
+			});
+		} else {
+			// API Call
+			toggleFavorite(userID, set, recipeID);
+		}
+	};
+
+	const [favIDsLoaded, setFavIDsLoaded] = useState(false);
+	const [favStubsLoaded, setFavStubsLoaded] = useState(false);
+
+	const initFavs = () => {
+		getFavoriteIDs(userID).then((favIDs) => {
+			// Initialize favorite ID set (for checking :3)
+			const newFavIDs = new Set<string>(favIDs);
+			setFavIDs(newFavIDs);
+			setFavIDsLoaded(true);
+		});
+
+		getFavorites(userID, "").then((favs) => {
+			setFavStubs(favs);
+			setFavStubsLoaded(true);
+		});
+	};
 
 	React.useEffect(() => {
-		local.getValueFor("user-session").then((value) => {
-			console.log("please only happen once");
-			userID = value;
-			getFavoriteIDs(userID).then((favIDs) => {
-				// Initialize favorite ID set (for checking :3)
-				setFavSet(favIDs);
-				setShown(true);
+		if (!userID) {
+			local.getValueFor("user-session").then((value) => {
+				userID = value;
+				initFavs();
 			});
-		});
+		} else {
+			initFavs();
+		}
 	}, []);
 
-	// return (
-	// 	<Stack.Navigator>
-	// 		<Stack.Screen
-	// 			options={{ headerShown: false }}
-	// 			name="HomeTabs"
-	// 			children={() => (
-	// 				<HomeTabs
-	// 					// getHeaderStatus={getHeaderStatus}
-	// 					setHeaderStatus={setHeaderStatus}
-	// 					user={user}
-	// 					setCurRecipe={setCurRecipe}
-	// 				/>
-	// 			)}
-	// 		/>
-	// 		<Stack.Screen
-	// 			name="Recipe"
-	// 			children={() => (
-	// 				<RecipeScreen
-	// 					setHeaderStatus={setHeaderStatus}
-	// 					setCurRecipe={setCurRecipe}
-	// 					getCurRecipe={getCurRecipe}
-	// 				/>
-	// 			)}
-	// 			options={{
-	// 				headerLeft: () => (
-	// 					<IconButton
-	// 						icon="arrow-left"
-	// 						size={25}
-	// 						onPress={() => {
-	// 							setHeaderStatus(true);
-	// 							navigation.navigate("HomeTabs" as never);
-	// 						}}
-	// 					/>
-	// 				),
-	// 			}}
-	// 		/>
-	// 	</Stack.Navigator>
-	// );
-
-	return shown ? (
+	return favIDsLoaded && favStubsLoaded ? (
 		<Stack.Navigator>
 			<Stack.Screen
 				options={{ headerShown: false }}
 				name="HomeTabs"
 				children={() => (
 					<HomeTabs
-						// getHeaderStatus={getHeaderStatus}
 						setHeaderStatus={setHeaderStatus}
-						user={user}
 						setCurRecipe={setCurRecipe}
+						favoriteStuff={{ favStubs, checkIfFav, updateFavorite }}
 					/>
 				)}
 			/>

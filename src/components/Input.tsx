@@ -5,7 +5,12 @@ import { theme } from "../themes/Theme";
 
 type Props = React.ComponentProps<typeof Input> & { errorText?: string };
 
-const Input = ({ errorText, ...props }: Props, label: string, keyboardType: string, maxLength : number, enterAction : Function) => {
+const Input = (
+	{ errorText, ...props }: Props,
+	label: string,
+	keyboardType: string,
+	maxLength: number
+) => {
 	const [text, setText] = React.useState("");
 
 	return (
@@ -16,7 +21,9 @@ const Input = ({ errorText, ...props }: Props, label: string, keyboardType: stri
 			keyboardType={keyboardType}
 			label={label}
 			value={text}
-			onChangeText={(newText) => { setText(newText); }}
+			onChangeText={(newText) => {
+				setText(newText);
+			}}
 			{...props}
 		/>
 	);

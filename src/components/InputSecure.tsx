@@ -9,7 +9,7 @@ type Props = {
 	label: string;
 	onChangeText: Function;
 	value: string;
-	error: boolean
+	error: boolean;
 };
 
 const InputPass = ({ label, onChangeText, value, error }: Props) => {

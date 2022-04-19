@@ -1,23 +1,18 @@
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
-	View,
-	Dimensions,
-	Image,
-	ScrollView,
 	BackHandler,
-	Text,
+	Image,
 	Linking,
-	FlatList,
+	ScrollView,
+	Text,
+	View,
 } from "react-native";
-import { Button, IconButton, Headline, Subheading } from "react-native-paper";
+import { Subheading } from "react-native-paper";
+import { Recipe, SimpleRecipe, Nutrient } from "../api/models";
+import { getRecipe } from "../api/requests";
 import styles, { theme } from "../themes/Theme";
 import { decimalToFraction } from "./UnitConverter";
-import { Navigation } from "../types";
-import Featured from "../components/Featured";
-import RecipeCard from "../components/RecipeCard";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { getRecipe } from "../api/requests";
-import { Recipe, SimpleRecipe, Nutrient } from "../api/models";
 
 type RecipeProps = {
 	setHeaderStatus: Function;
@@ -38,6 +33,7 @@ const RecipeScreen = ({
 	// THIS IS THE FULL RECIPE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	const [recipe, setRecipe] = useState<Recipe>();
 	const importantNutrients = [
+		"Calories",
 		"Calcium",
 		"Carbohydrates",
 		"Sugar",
@@ -57,12 +53,51 @@ const RecipeScreen = ({
 		const cID: string = curRecipe.cookbookID;
 
 		// Check whether this stub is from Spoonacular or our DB
-		let id: string = cID === "100000000000000000000000" ? "" + sID : cID;
+		const isSpoon = cID === "100000000000000000000000";
+		let id: string = isSpoon ? "" + sID : cID;
 
 		getRecipe(id).then((response) => {
 			setRecipe(response);
 		});
 	};
+	interface NutritionProps {
+		nutrients: Nutrient[];
+	}
+	class NutritionFacts extends React.Component<NutritionProps, {}> {
+		render() {
+			return (
+				<View style={styles.infoBlock}>
+					<Subheading style={styles.blockLabels}>Nutrition</Subheading>
+					<View style={{ display: "flex" }}>
+						{this.props.nutrients.map((nutrient, i) =>
+							!importantNutrients.includes(nutrient.name) ||
+							(nutrient?.percentOfDailyNeeds === 0 &&
+								nutrient.amount === "") ? (
+								<></>
+							) : (
+								<Text key={"nutri" + i} style={styles.body}>
+									{nutrient.name}:
+									{nutrient.amount != "" ? (
+										<Text> {nutrient.amount}</Text>
+									) : (
+										<></>
+									)}{" "}
+									{/* Includes Daily Value for spoon recipes */}
+									{nutrient.percentOfDailyNeeds > 1 ? (
+										<Text>
+											({Math.round(nutrient?.percentOfDailyNeeds)}% of DV)
+										</Text>
+									) : (
+										""
+									)}
+								</Text>
+							)
+						)}
+					</View>
+				</View>
+			);
+		}
+	}
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -88,7 +123,7 @@ const RecipeScreen = ({
 		<ScrollView
 			style={{
 				flexGrow: 1,
-				backgroundColor: theme.colors.background,
+				backgroundColor: theme.colors.primary_darker,
 			}}
 		>
 			<Image
@@ -96,7 +131,7 @@ const RecipeScreen = ({
 					width: "auto",
 					height: 400,
 					borderBottomRightRadius: 32,
-					shadowRadius: 10,
+					shadowRadius: 5,
 				}}
 				source={{
 					uri:
@@ -138,24 +173,8 @@ const RecipeScreen = ({
 				</View>
 
 				{/* Nutrients */}
-
 				{recipe?.nutrients ? (
-					<View style={styles.infoBlock}>
-						<Subheading style={styles.blockLabels}>Nutrition</Subheading>
-						<View style={{ display: "flex" }}>
-							{recipe?.nutrients?.map((nutrient, i) =>
-								importantNutrients.includes(nutrient.name) &&
-								(nutrient?.percentOfDailyNeeds || nutrient.amount) ? (
-									<Text key={"nutri" + i} style={styles.body}>
-										{nutrient.name}: {nutrient.amount} (
-										{nutrient?.percentOfDailyNeeds.toPrecision(2)} % of DV)
-									</Text>
-								) : (
-									<></>
-								)
-							)}
-						</View>
-					</View>
+					<NutritionFacts nutrients={recipe?.nutrients}></NutritionFacts>
 				) : (
 					<></>
 				)}
@@ -175,7 +194,7 @@ const RecipeScreen = ({
 					<></>
 				)}
 
-				{/* <Text>{JSON.stringify(recipe?.nutrients)}</Text> */}
+				<Text>{JSON.stringify(recipe?.nutrients)}</Text>
 			</View>
 		</ScrollView>
 	);

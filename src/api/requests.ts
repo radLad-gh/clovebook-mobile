@@ -18,7 +18,6 @@ const handleError = (err: any) => {
 		// We want to return the error to let the user know what needs
 		// to be changed. Either their username or email will be taken.
 		return err["request"]["_response"];
-
 	} else if (err.request) {
 		console.log("No Response");
 		console.log(err.request);
@@ -53,10 +52,9 @@ const requests = {
 
 export const getRecipes = (
 	query: string,
-	tags?: string[]
-): Promise<models.SimpleRecipe[]> => {
-	return requests.get("/recipes", { query: query, tags: tags });
-};
+	offset: number
+): Promise<models.SimpleRecipe[]> =>
+	requests.get("/recipes", { query: query, tags: "", offset: offset });
 
 export const getRecipe = (id: string): Promise<models.Recipe> => {
 	return requests.get(`/recipes/${id}`);

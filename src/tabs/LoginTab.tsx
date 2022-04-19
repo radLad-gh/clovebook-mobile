@@ -1,6 +1,14 @@
 import React, { memo } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
-import { Button, Switch, Portal, Modal, Paragraph, Dialog, HelperText } from "react-native-paper";
+import {
+	Button,
+	Switch,
+	Portal,
+	Modal,
+	Paragraph,
+	Dialog,
+	HelperText,
+} from "react-native-paper";
 
 import Input from "../components/Input";
 import InputSecure from "../components/InputSecure";
@@ -61,17 +69,17 @@ const LoginTab = ({
 	const [correctLogin, setCorrectLogin] = React.useState(true);
 
 	const [modalPresent, setModalPresent] = React.useState(false);
-	const [forgotEmail, setForgotEmail] = React.useState('');
+	const [forgotEmail, setForgotEmail] = React.useState("");
 
 	const [dialogPresent, setDialogPresent] = React.useState(false);
 	// Watches the toggle switch for "Remember Me"
 	//const [rememberSwitch, setRememberSwitch] = React.useState(false);
 	//const onToggleSwitch = () => setRememberSwitch(!rememberSwitch);
 
-	function warnUser(condition : boolean) {
+	function warnUser(condition: boolean) {
 		setUserError(condition);
 		setPassError(condition);
-		setCorrectLogin(!condition)
+		setCorrectLogin(!condition);
 	}
 
 	const validate = () => {
@@ -102,7 +110,7 @@ const LoginTab = ({
 		sendResetEmail(forgotEmail);
 		setModalPresent(false);
 		setDialogPresent(true);
-	}
+	};
 
 	return (
 		<>
@@ -124,10 +132,15 @@ const LoginTab = ({
 						Submit
 					</Button>
 				</Modal>
-				<Dialog visible={dialogPresent} onDismiss={() => setDialogPresent(false)}>
+				<Dialog
+					visible={dialogPresent}
+					onDismiss={() => setDialogPresent(false)}
+				>
 					<Dialog.Title>Email Sent!</Dialog.Title>
 					<Dialog.Content>
-						<Text>Check your email for further instructions to reset your password</Text>
+						<Text>
+							Check your email for further instructions to reset your password
+						</Text>
 					</Dialog.Content>
 					<Dialog.Actions>
 						<Button onPress={() => setDialogPresent(false)}>Okay</Button>
@@ -171,7 +184,9 @@ const LoginTab = ({
 						mode="text"
 						compact={true}
 						uppercase={false}
-						onPress={() => {setModalPresent(true)}}
+						onPress={() => {
+							setModalPresent(true);
+						}}
 					>
 						Forgot Password
 					</Button>

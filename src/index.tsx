@@ -81,7 +81,7 @@ const App = () => {
 						</View>
 						<View style={styles.drawerSection}>
 							{loginValid ? (
-								<PaperDrawer.Section title="Clovebook">
+								<PaperDrawer.Section title="Clove">
 									<Button
 										icon="home"
 										mode="contained"
@@ -89,7 +89,7 @@ const App = () => {
 											styles.drawerButton,
 											{ backgroundColor: theme.colors.secondary },
 										]}
-										onPress={() => props.navigation.navigate("Clovebook")}
+										onPress={() => props.navigation.navigate("Clove")}
 									>
 										Home
 									</Button>
@@ -150,7 +150,7 @@ const App = () => {
 									setEditStatus(false);
 
 									// **HomeScreen needs to be set on logout**
-									props.navigation.navigate("Clovebook");
+									props.navigation.navigate("Clove");
 									setLoginValid(false);
 									props.navigation.closeDrawer();
 								}}
@@ -163,7 +163,7 @@ const App = () => {
 			>
 				{loginValid ? (
 					<Drawer.Screen
-						name="Clovebook"
+						name="Clove"
 						children={() => (
 							<HomeScreen
 								user={userInfo}
@@ -206,9 +206,7 @@ const App = () => {
 				/>
 				<Drawer.Screen
 					name="About"
-					children={() => (
-						<AboutScreen user={user} />
-					)}
+					children={() => <AboutScreen user={user} />}
 				/>
 			</Drawer.Navigator>
 		</NavigationContainer>

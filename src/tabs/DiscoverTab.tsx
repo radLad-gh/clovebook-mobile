@@ -1,26 +1,19 @@
-import React from "react";
-import { View, Text, Dimensions, ScrollView, BackHandler } from "react-native";
-import { Button, IconButton } from "react-native-paper";
-import { theme } from "../themes/Theme";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-import { Navigation } from "../types";
+import React, { useCallback, useState } from "react";
+import { RefreshControl, ScrollView, Text, View } from "react-native";
 import Featured from "../components/Featured";
 import RecipeCard from "../components/RecipeCard";
 import QueryBar from "../components/QueryBar";
-
+import * as local from "../validation/securestore";
 
 import { SimpleRecipe } from "../api/models";
 import { getFavoriteIDs, getRecipes } from "../api/requests";
-
-type TabProps = {
-	setHeaderStatus: Function;
-	setCurRecipe: Function;
-};
+import { theme } from "../themes/Theme";
+import { ActivityIndicator, Button } from "react-native-paper";
+import { TabProps } from "../types";
 
 // function getRandomRecipes() : SimpleRecipe[] {
 // 	const base = 97;
-	
+
 // 	let recipes = [] as SimpleRecipe[];
 // 	getRecipes(getRandomLetter()).then((response) => {
 // 		recipes = response;
@@ -30,10 +23,10 @@ type TabProps = {
 
 const getRandomLetter = () => {
 	const base = 97;
-	return String.fromCharCode((Math.floor(Math.random() * 26)) + base);
-}
+	return String.fromCharCode(Math.floor(Math.random() * 26) + base);
+};
 
-const shuffleResponse = (response : SimpleRecipe[]) => {
+const shuffleResponse = (response: SimpleRecipe[]) => {
 	const ret = new Set<SimpleRecipe>();
 
 	while (ret.size != 5) {
@@ -42,22 +35,33 @@ const shuffleResponse = (response : SimpleRecipe[]) => {
 	}
 
 	return Array.from(ret);
-}
+};
 
 // Tracks uniqueness of component key for recipe cards.
 let key = 0;
 
-const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
-	
+const DiscoverTab = ({
+	setHeaderStatus,
+	setCurRecipe,
+	favoriteStuff,
+}: TabProps) => {
 	const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
 	const [randomLetter, setRandomLetter] = React.useState("");
 
-	React.useEffect(() => {
-		getRecipes(getRandomLetter()).then((response) => {
-			setRecipes(shuffleResponse(response));
-		})
-	}, [randomLetter])
+	const [refreshing, setRefreshing] = useState(true);
 
+	const onRefresh = useCallback(() => {
+		setRefreshing(true);
+		setRandomLetter(getRandomLetter());
+	}, []);
+
+	React.useEffect(() => {
+		getRecipes(getRandomLetter(), 0).then((response) => {
+			setRecipes(shuffleResponse(response));
+			setRefreshing(false);
+		});
+		// searchRecipes();
+	}, [randomLetter]);
 
 	return (
 		<ScrollView
@@ -68,6 +72,9 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 				paddingRight: 15,
 				marginBottom: 60,
 			}}
+			refreshControl={
+				<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+			}
 		>
 			<Featured
 				imageSrc="https://picsum.photos/700"
@@ -78,16 +85,16 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 				style={{
 					marginTop: 10,
 					display: "flex",
-					flexDirection: 'row',
+					flexDirection: "row",
 					justifyContent: "space-between",
-					alignItems: 'center',
+					alignItems: "center",
 				}}
 			>
 				<Text style={{ fontSize: 20, color: theme.colors.text }}>
 					Find by Random
 				</Text>
 				<Button
-					style={{width: 150}}
+					style={{ width: 150 }}
 					icon="refresh"
 					mode="contained"
 					onPress={() => setRandomLetter(getRandomLetter())}
@@ -95,14 +102,19 @@ const DiscoverTab = ({ setHeaderStatus, setCurRecipe }: TabProps) => {
 					Refresh
 				</Button>
 			</View>
-			{recipes.map((recipe) => (
-				<RecipeCard
-					stub={recipe}
-					setHeaderStatus={setHeaderStatus}
-					setCurRecipe={setCurRecipe}
-					key={key++}
-				/>
-			))}
+			{!refreshing ? (
+				recipes.map((recipe, i) => (
+					<RecipeCard
+						stub={recipe}
+						setHeaderStatus={setHeaderStatus}
+						setCurRecipe={setCurRecipe}
+						favoriteStuff={favoriteStuff}
+						key={i}
+					/>
+				))
+			) : (
+				<ActivityIndicator animating={true} color={"#000"} />
+			)}
 		</ScrollView>
 	);
 };
