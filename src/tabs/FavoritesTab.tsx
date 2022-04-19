@@ -1,21 +1,19 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { SimpleRecipe } from "../api/models";
 import { getFavorites } from "../api/requests";
+import QueryBar from "../components/QueryBar";
 import RecipeCard from "../components/RecipeCard";
 import { theme } from "../themes/Theme";
 import { TabProps } from "../types";
 import * as local from "../validation/securestore";
-import { useFocusEffect } from "@react-navigation/native";
-import { Title } from "react-native-paper";
 
 const FavoritesTab = ({
 	setHeaderStatus,
 	setCurRecipe,
 	favoriteStuff,
 }: TabProps) => {
-	// const [recipes, setRecipes] = React.useState<SimpleRecipe[]>([]);
-	// TODO: add a search bar for this
 	const [recipes, setRecipes] = useState<SimpleRecipe[]>([]);
 	const [searchQuery, setQuery] = React.useState("");
 	const [isLoaded, setLoaded] = React.useState(false);
@@ -47,7 +45,12 @@ const FavoritesTab = ({
 		}
 	};
 
-	useFocusEffect(useCallback(() => initFavs(), []));
+	useFocusEffect(
+		useCallback(() => {
+			setLoaded(false);
+			initFavs();
+		}, [searchQuery])
+	);
 
 	useFocusEffect(
 		useCallback(() => {
@@ -76,20 +79,19 @@ const FavoritesTab = ({
 				paddingLeft: 15,
 				paddingRight: 15,
 				marginBottom: 60,
+				paddingTop: 3,
 			}}
 			refreshControl={
 				<RefreshControl refreshing={!isLoaded} onRefresh={onRefresh} />
 			}
 		>
+			<QueryBar submit={setQuery}></QueryBar>
 			{isLoaded ? (
 				cards.length === 0 ? (
 					<View
 						style={{
 							alignItems: "center",
-							alignSelf: "center",
-							justifyContent: "center",
-							flex: 1,
-							display: "flex",
+							paddingTop: 150,
 						}}
 					>
 						<Text
