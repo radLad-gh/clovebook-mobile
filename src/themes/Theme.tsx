@@ -112,13 +112,13 @@ const styles = StyleSheet.create({
 		borderRadius: cardBorderConstant,
 		borderBottomRightRadius: 3,
 		borderTopLeftRadius: 3,
-		fontFamily: "Helvetica Neue",
+		// fontFamily: "Helvetica Neue",
 	},
 
 	recipeTitle: {
 		margin: recipePadding,
 		fontSize: 48,
-		fontFamily: "Helvetica Neue",
+		// fontFamily: "Helvetica Neue",
 		color: theme.colors.text_light,
 		marginBottom: 6,
 		height: "auto",

@@ -1,5 +1,5 @@
-import { Button } from "react-native-paper";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Button } from "react-native-paper";
 import { theme } from "../themes/Theme";
 
 export function FavButton() {

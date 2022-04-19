@@ -3,7 +3,7 @@ import { AppRegistry } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import App from "./src";
 import { theme } from "./src/themes/Theme";
-import { name as appName } from "./app.json";
+import expo from "./app.json";
 
 export default function Main() {
 	return (
@@ -13,4 +13,4 @@ export default function Main() {
 	);
 }
 // TODO: This is arbitrary is it not?
-AppRegistry.registerComponent(appName, () => Main);
+AppRegistry.registerComponent(expo.expo.name, () => Main);

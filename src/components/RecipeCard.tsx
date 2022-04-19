@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
-import { Card, IconButton } from "react-native-paper";
+import { Image, Pressable, Text, View } from "react-native";
+import { IconButton } from "react-native-paper";
 import { SimpleRecipe } from "../api/models";
 import styles, { theme } from "../themes/Theme";
 import { FavUtils } from "../types";
@@ -59,14 +59,12 @@ export function RecipeCard(props: CardProps) {
 		const isFav = props.favoriteStuff.checkIfFav(id);
 		setFavorite(isFav);
 		setColor(isFav ? theme.colors.secondary : theme.colors.text_light);
-	}, [props.favoriteStuff]);
+	}, [props.favoriteStuff.favStubs]);
 
 	const toggleStar = () => {
 		props.favoriteStuff.updateFavorite(props.stub, !favorite);
 	};
 
-	let backCount = 0;
-	let backTimer: NodeJS.Timeout;
 	return (
 		// <Card
 		// 	onPress={openRecipe}

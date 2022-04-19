@@ -9,7 +9,7 @@ import {
 	View,
 } from "react-native";
 import { Subheading } from "react-native-paper";
-import { Recipe, SimpleRecipe, Nutrient } from "../api/models";
+import { Nutrient, Recipe, SimpleRecipe } from "../api/models";
 import { getRecipe } from "../api/requests";
 import styles, { theme } from "../themes/Theme";
 import { decimalToFraction } from "./UnitConverter";
@@ -63,41 +63,75 @@ const RecipeScreen = ({
 	interface NutritionProps {
 		nutrients: Nutrient[];
 	}
-	class NutritionFacts extends React.Component<NutritionProps, {}> {
-		render() {
-			return (
-				<View style={styles.infoBlock}>
-					<Subheading style={styles.blockLabels}>Nutrition</Subheading>
-					<View style={{ display: "flex" }}>
-						{this.props.nutrients.map((nutrient, i) =>
-							!importantNutrients.includes(nutrient.name) ||
-							(nutrient?.percentOfDailyNeeds === 0 &&
-								nutrient.amount === "") ? (
-								<></>
-							) : (
-								<Text key={"nutri" + i} style={styles.body}>
-									{nutrient.name}:
-									{nutrient.amount != "" ? (
-										<Text> {nutrient.amount}</Text>
-									) : (
-										<></>
-									)}{" "}
-									{/* Includes Daily Value for spoon recipes */}
-									{nutrient.percentOfDailyNeeds > 1 ? (
-										<Text>
-											({Math.round(nutrient?.percentOfDailyNeeds)}% of DV)
-										</Text>
-									) : (
-										""
-									)}
-								</Text>
-							)
-						)}
-					</View>
+
+	// class NutritionFacts extends React.Component<NutritionProps, {}> {
+	// 	render() {
+	// 		return (
+	// 			<View style={styles.infoBlock}>
+	// 				<Subheading style={styles.blockLabels}>Nutrition</Subheading>
+	// 				<View style={{ display: "flex" }}>
+	// 					{this.props.nutrients.map((nutrient, i) =>
+	// 						!importantNutrients.includes(nutrient.name) ||
+	// 						(nutrient?.percentOfDailyNeeds === 0 &&
+	// 							nutrient.amount === "") ? (
+	// 							<></>
+	// 						) : (
+	// 							<Text key={"nutri" + i} style={styles.body}>
+	// 								{nutrient.name}:
+	// 								{nutrient.amount != "" ? (
+	// 									<Text> {nutrient.amount}</Text>
+	// 								) : (
+	// 									<></>
+	// 								)}{" "}
+	// 								{/* Includes Daily Value for spoon recipes */}
+	// 								{nutrient.percentOfDailyNeeds > 1 ? (
+	// 									<Text>
+	// 										({Math.round(nutrient?.percentOfDailyNeeds)}% of DV)
+	// 									</Text>
+	// 								) : (
+	// 									""
+	// 								)}
+	// 							</Text>
+	// 						)
+	// 					)}
+	// 				</View>
+	// 			</View>
+	// 		);
+	// 	}
+	// }
+
+	const NutritionFacts = (props: NutritionProps) => {
+		return (
+			<View style={styles.infoBlock}>
+				<Subheading style={styles.blockLabels}>Nutrition</Subheading>
+				<View style={{ display: "flex" }}>
+					{props.nutrients.map((nutrient, i) =>
+						!importantNutrients.includes(nutrient.name) ||
+						(nutrient?.percentOfDailyNeeds === 0 && nutrient.amount === "") ? (
+							<></>
+						) : (
+							<Text key={nutrient.name} style={styles.body}>
+								{nutrient.name}:
+								{nutrient.amount !== "" ? (
+									<Text> {nutrient.amount}</Text>
+								) : (
+									<></>
+								)}{" "}
+								{/* Includes Daily Value for spoon recipes */}
+								{nutrient.percentOfDailyNeeds > 1 ? (
+									<Text>
+										({Math.round(nutrient?.percentOfDailyNeeds)}% of DV)
+									</Text>
+								) : (
+									""
+								)}
+							</Text>
+						)
+					)}
 				</View>
-			);
-		}
-	}
+			</View>
+		);
+	};
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -166,7 +200,7 @@ const RecipeScreen = ({
 				<View style={styles.infoBlock}>
 					<Subheading style={styles.blockLabels}>Instructions</Subheading>
 					{recipe?.instructions?.map((instruction, i) => (
-						<Text key={"instr" + i} style={styles.body}>
+						<Text key={instruction.description} style={styles.body}>
 							{i + 1}. {instruction.description}
 						</Text>
 					))}
@@ -194,7 +228,7 @@ const RecipeScreen = ({
 					<></>
 				)}
 
-				<Text>{JSON.stringify(recipe?.nutrients)}</Text>
+				{/* <Text>{JSON.stringify(recipe?.nutrients)}</Text> */}
 			</View>
 		</ScrollView>
 	);

@@ -1,12 +1,10 @@
-import React, { memo } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React, { memo } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
-import LoginTab from "../tabs/LoginTab";
-import JoinTab from "../tabs/JoinTab";
-import { theme } from "../themes/Theme";
-
 import { NewUser } from "../api/models";
+import JoinTab from "../tabs/JoinTab";
+import LoginTab from "../tabs/LoginTab";
+import { theme } from "../themes/Theme";
 
 type ScreenProps = {
 	getLoginValidity: Function;

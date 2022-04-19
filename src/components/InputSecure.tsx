@@ -1,9 +1,8 @@
 import React, { memo } from "react";
 import { StyleSheet } from "react-native";
 import { TextInput } from "react-native-paper";
-
-import Input from "./Input";
 import { theme } from "../themes/Theme";
+import Input from "./Input";
 
 type Props = {
 	label: string;
