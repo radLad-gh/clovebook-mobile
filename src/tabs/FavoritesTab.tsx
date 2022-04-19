@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { SimpleRecipe } from "../api/models";
 import { getFavorites } from "../api/requests";
@@ -49,15 +49,11 @@ const FavoritesTab = ({
 		useCallback(() => {
 			setLoaded(false);
 			initFavs();
-		}, [searchQuery])
-	);
-
-	useFocusEffect(
-		useCallback(() => {
+			// Unload when navigating away
 			return () => {
 				setLoaded(false);
 			};
-		}, [])
+		}, [searchQuery])
 	);
 
 	const cards = recipes.map((stub, i) => (
