@@ -1,26 +1,17 @@
-import * as React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
-import {
-	Drawer as PaperDrawer,
-	Divider,
-	Button,
-	Colors,
-} from "react-native-paper";
-import "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-
-import LoginScreen from "./screen/Login";
-import HomeScreen from "./screen/Home";
-import { theme } from "./themes/Theme";
-
+import { NavigationContainer } from "@react-navigation/native";
+import * as React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import "react-native-gesture-handler";
+import { Button, Divider, Drawer as PaperDrawer } from "react-native-paper";
 import { NewUser, User } from "./api/models";
-import * as local from "./validation/securestore";
-import * as SecureStore from "expo-secure-store";
-import ProfileScreen from "./screen/Profile";
 import { getUserByID } from "./api/requests";
 import AboutScreen from "./screen/About";
+import HomeScreen from "./screen/Home";
+import LoginScreen from "./screen/Login";
+import ProfileScreen from "./screen/Profile";
+import { theme } from "./themes/Theme";
+import * as local from "./validation/securestore";
 
 const Drawer = createDrawerNavigator();
 

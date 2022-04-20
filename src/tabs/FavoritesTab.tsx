@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { SimpleRecipe } from "../api/models";
 import { getFavorites } from "../api/requests";
@@ -56,16 +56,18 @@ const FavoritesTab = ({
 		}, [searchQuery])
 	);
 
-	const cards = recipes.map((stub, i) => (
-		<RecipeCard
-			stub={stub}
-			setHeaderStatus={setHeaderStatus}
-			setCurRecipe={setCurRecipe}
-			favoriteStuff={favoriteStuff}
-			fromFavsTabs={true}
-			key={i}
-		/>
-	));
+	const cards = recipes
+		? recipes.map((stub, i) => (
+				<RecipeCard
+					stub={stub}
+					setHeaderStatus={setHeaderStatus}
+					setCurRecipe={setCurRecipe}
+					favoriteStuff={favoriteStuff}
+					fromFavsTabs={true}
+					key={i}
+				/>
+		  ))
+		: [];
 
 	return (
 		<ScrollView

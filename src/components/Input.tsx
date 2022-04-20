@@ -1,7 +1,6 @@
 import React, { memo } from "react";
-import { Keyboard, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { TextInput } from "react-native-paper";
-import { theme } from "../themes/Theme";
 
 type Props = React.ComponentProps<typeof Input> & { errorText?: string };
 

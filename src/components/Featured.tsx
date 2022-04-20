@@ -2,8 +2,6 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Card } from "react-native-paper";
 import { theme } from "../themes/Theme";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { color } from "react-native-reanimated";
 
 const cardDimentionConstant = 133;
 

@@ -1,21 +1,16 @@
 import React from "react";
-import { Text, View, ScrollView } from "react-native";
-import { Title, TextInput, ToggleButton, FAB } from "react-native-paper";
-
-import { NewUser, User } from "../api/models";
-import * as local from "../validation/securestore";
-import { getUserByID } from "../api/requests";
+import { ScrollView, View } from "react-native";
+import { FAB, TextInput, Title } from "react-native-paper";
+import { User } from "../api/models";
 import { theme } from "../themes/Theme";
-import { ThemeColors } from "react-navigation";
 
 type ScreenProps = {
 	user: User;
-	editStatus: boolean
-	setEditStatus: Function
+	editStatus: boolean;
+	setEditStatus: Function;
 };
 
 const ProfileScreen = ({ user, editStatus, setEditStatus }: ScreenProps) => {
-	
 	return (
 		<>
 			<ScrollView
@@ -26,7 +21,9 @@ const ProfileScreen = ({ user, editStatus, setEditStatus }: ScreenProps) => {
 					paddingHorizontal: 15,
 				}}
 			>
-				<Title style={{fontSize: 25, paddingVertical: 5}}>Hello {user.firstName}.</Title>
+				<Title style={{ fontSize: 25, paddingVertical: 5 }}>
+					Hello {user.firstName}.
+				</Title>
 				<Title>Update your Info:</Title>
 				<View>
 					<TextInput

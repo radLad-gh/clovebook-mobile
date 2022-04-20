@@ -1,10 +1,9 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
-import { ScrollView, Text, View, RefreshControl } from "react-native";
+import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { ActivityIndicator, Button } from "react-native-paper";
 import { SimpleRecipe } from "../api/models";
 import { getRecipes } from "../api/requests";
-import Featured from "../components/Featured";
 import QueryBar from "../components/QueryBar";
 import RecipeCard from "../components/RecipeCard";
 import { theme } from "../themes/Theme";
@@ -62,7 +61,8 @@ const HomeTab = ({
 
 	useFocusEffect(
 		useCallback(() => {
-			// console.log("useFocusEffect triggered");
+			// searchRecipes();
+			// return () => setRefreshing(true);
 		}, [])
 	);
 

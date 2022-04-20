@@ -1,21 +1,15 @@
+import jwt_decode from "jwt-decode";
+import md5 from "md5";
 import React, { memo } from "react";
-import { StyleSheet, View, Image, Keyboard, ScrollView } from "react-native";
-import { Button, Modal, Portal, Text } from "react-native-paper";
-
+import { Image, Keyboard, ScrollView, StyleSheet, View } from "react-native";
+import { Button, Modal, Portal } from "react-native-paper";
+import { NewUser, Userpass } from "../api/models";
+import { doAuth, doLogin, doRegister } from "../api/requests";
+import * as VALID from "../api/validator";
 import Input from "../components/Input";
 import InputSecure from "../components/InputSecure";
 import { theme } from "../themes/Theme";
-import { doRegister, doAuth, doLogin } from "../api/requests";
-
-import { Navigation } from "../types";
-import { NewUser, Userpass } from "../api/models";
-
-import * as VALID from "../api/validator";
-
-import md5 from "md5";
-import jwt_decode from "jwt-decode";
 import * as local from "../validation/securestore";
-import * as SecureStore from "expo-secure-store";
 
 interface cbJWT {
 	userID: string;

@@ -1,28 +1,14 @@
+import jwt_decode from "jwt-decode";
+import md5 from "md5";
 import React, { memo } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
-import {
-	Button,
-	Switch,
-	Portal,
-	Modal,
-	Paragraph,
-	Dialog,
-	HelperText,
-} from "react-native-paper";
-
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Button, Dialog, HelperText, Modal, Portal } from "react-native-paper";
+import { NewUser } from "../api/models";
+import { doLogin, sendResetEmail } from "../api/requests";
 import Input from "../components/Input";
 import InputSecure from "../components/InputSecure";
 import { theme } from "../themes/Theme";
-import { SvgUri } from "react-native-svg";
-
-import { NewUser, Userpass } from "../api/models";
-import { doLogin, sendResetEmail } from "../api/requests";
-import md5 from "md5";
-import jwt_decode from "jwt-decode";
 import * as local from "../validation/securestore";
-import * as SecureStore from "expo-secure-store";
-
-import Logo from "../assets/logo.svg";
 
 interface cbJWT {
 	userID: string;

@@ -1,14 +1,11 @@
 import React, { useCallback, useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Button } from "react-native-paper";
+import { SimpleRecipe } from "../api/models";
+import { getRecipes } from "../api/requests";
 import Featured from "../components/Featured";
 import RecipeCard from "../components/RecipeCard";
-import QueryBar from "../components/QueryBar";
-import * as local from "../validation/securestore";
-
-import { SimpleRecipe } from "../api/models";
-import { getFavoriteIDs, getRecipes } from "../api/requests";
 import { theme } from "../themes/Theme";
-import { ActivityIndicator, Button } from "react-native-paper";
 import { TabProps } from "../types";
 
 // function getRandomRecipes() : SimpleRecipe[] {
@@ -79,7 +76,8 @@ const DiscoverTab = ({
 			<Featured
 				imageSrc="https://picsum.photos/700"
 				title="Random"
-				loadScreen={() => setRandomLetter(getRandomLetter())}
+				// loadScreen={() => setRandomLetter(getRandomLetter())}
+				loadScreen={onRefresh}
 			/>
 			<View
 				style={{
@@ -97,7 +95,8 @@ const DiscoverTab = ({
 					style={{ width: 150 }}
 					icon="refresh"
 					mode="contained"
-					onPress={() => setRandomLetter(getRandomLetter())}
+					// onPress={() => setRandomLetter(getRandomLetter())}
+					onPress={onRefresh}
 				>
 					Refresh
 				</Button>
