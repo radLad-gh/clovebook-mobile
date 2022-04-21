@@ -64,42 +64,6 @@ const RecipeScreen = ({
 		nutrients: Nutrient[];
 	}
 
-	// class NutritionFacts extends React.Component<NutritionProps, {}> {
-	// 	render() {
-	// 		return (
-	// 			<View style={styles.infoBlock}>
-	// 				<Subheading style={styles.blockLabels}>Nutrition</Subheading>
-	// 				<View style={{ display: "flex" }}>
-	// 					{this.props.nutrients.map((nutrient, i) =>
-	// 						!importantNutrients.includes(nutrient.name) ||
-	// 						(nutrient?.percentOfDailyNeeds === 0 &&
-	// 							nutrient.amount === "") ? (
-	// 							<></>
-	// 						) : (
-	// 							<Text key={"nutri" + i} style={styles.body}>
-	// 								{nutrient.name}:
-	// 								{nutrient.amount != "" ? (
-	// 									<Text> {nutrient.amount}</Text>
-	// 								) : (
-	// 									<></>
-	// 								)}{" "}
-	// 								{/* Includes Daily Value for spoon recipes */}
-	// 								{nutrient.percentOfDailyNeeds > 1 ? (
-	// 									<Text>
-	// 										({Math.round(nutrient?.percentOfDailyNeeds)}% of DV)
-	// 									</Text>
-	// 								) : (
-	// 									""
-	// 								)}
-	// 							</Text>
-	// 						)
-	// 					)}
-	// 				</View>
-	// 			</View>
-	// 		);
-	// 	}
-	// }
-
 	const NutritionFacts = (props: NutritionProps) => {
 		return (
 			<View style={styles.infoBlock}>
@@ -190,7 +154,7 @@ const RecipeScreen = ({
 					<Subheading style={styles.blockLabels}>Ingredients</Subheading>
 					{recipe?.ingredients?.map((ingredient, _) => (
 						<Text key={ingredient.name} style={styles.body}>
-							{ingredient.name}: {decimalToFraction(ingredient.amount).display}
+							{ingredient.name}: {decimalToFraction(ingredient.amount)}
 							{"\u00A0"}
 							{ingredient.unit}
 						</Text>

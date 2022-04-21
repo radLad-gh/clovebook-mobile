@@ -34,7 +34,7 @@ const LoginTab = ({
 		local
 			.getValueFor("user-session")
 			.then((result) => {
-				console.log("logintab result: " + result);
+				//console.log("logintab result: " + result);
 				if (result) {
 					setLoginValidity(true);
 				} else {

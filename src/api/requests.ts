@@ -13,24 +13,24 @@ const contentJSON = { "content-type": "application/json" };
 
 const handleError = (err: any) => {
 	if (err.response) {
-		console.log("Bad status code");
-		console.log(err.response);
+		//console.log("Bad status code");
+		//console.log(err.response);
 		// We want to return the error to let the user know what needs
 		// to be changed. Either their username or email will be taken.
 		return err["request"]["_response"];
 	} else if (err.request) {
-		console.log("No Response");
-		console.log(err.request);
+		//console.log("No Response");
+		//console.log(err.request);
 	} else {
-		console.log("Request setup failed");
-		console.log(err.message);
+		//console.log("Request setup failed");
+		//console.log(err.message);
 	}
-	console.log(err.config);
+	//console.log(err.config);
 };
 
 const requests = {
 	get: (url: string, params?: {}) => {
-		console.log("url:" + url + ", params:" + params);
+		//console.log("url:" + url + ", params:" + params);
 		return instance
 			.get(url, { params: params })
 			.then(resBody)
