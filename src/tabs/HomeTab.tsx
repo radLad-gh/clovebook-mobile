@@ -77,9 +77,9 @@ const HomeTab = ({
 			style={{
 				flexGrow: 1,
 				backgroundColor: theme.colors.background,
-				paddingLeft: 15,
-				paddingRight: 15,
-				marginBottom: 60,
+				paddingLeft: 18,
+				paddingRight: 18,
+				marginBottom: 50,
 				paddingTop: 3,
 			}}
 			onScroll={({ nativeEvent }) => {

@@ -165,7 +165,7 @@ const App = () => {
 						options={{
 							headerShown: headerStatus,
 							headerTintColor: theme.colors.text_light,
-							headerStyle: { backgroundColor: theme.colors.primary },
+							headerStyle: { backgroundColor: theme.colors.primary_dark },
 						}}
 					/>
 				) : (
@@ -202,7 +202,7 @@ const App = () => {
 					options={{
 						headerShown: headerStatus,
 						headerTintColor: theme.colors.text_light,
-						headerStyle: { backgroundColor: theme.colors.primary },
+						headerStyle: { backgroundColor: theme.colors.primary_dark },
 					}}
 				/>
 				<Drawer.Screen
@@ -211,7 +211,7 @@ const App = () => {
 					options={{
 						headerShown: headerStatus,
 						headerTintColor: theme.colors.text_light,
-						headerStyle: { backgroundColor: theme.colors.primary },
+						headerStyle: { backgroundColor: theme.colors.primary_dark },
 					}}
 				/>
 			</Drawer.Navigator>
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
 	},
 
 	drawerLogo: {
-		margin: -10,
+		 margin: -10,
 		height: 150,
 		width: 300,
 		marginTop: 35,

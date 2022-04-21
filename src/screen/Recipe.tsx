@@ -111,7 +111,9 @@ const RecipeScreen = ({
 		<ScrollView
 			style={{
 				flexGrow: 1,
-				backgroundColor: theme.colors.primary_darker,
+				backgroundColor: theme.colors.background,
+				paddingLeft: 20,
+				paddingRight: 20,
 			}}
 		>
 			<Image

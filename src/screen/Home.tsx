@@ -124,7 +124,7 @@ const HomeScreen = ({ setHeaderStatus }: HomeScreenProps) => {
 					/>
 				)}
 				options={{
-					headerStyle: {backgroundColor: theme.colors.primary},
+					headerStyle: {backgroundColor: theme.colors.primary_dark},
 					headerLeft: () => (
 						<IconButton
 							color={theme.colors.text_light}

@@ -26,14 +26,15 @@ const ProfileScreen = ({ user, editStatus, setEditStatus }: ScreenProps) => {
 					flexGrow: 1,
 					backgroundColor: theme.colors.background,
 					flex: 1,
-					paddingHorizontal: 15,
+					paddingLeft: 18,
+				paddingRight: 18,
 				}}
 			>
 				<Title style={{ fontSize: 25, paddingVertical: 5 }}>Hi {name}!</Title>
 				<Title>Update your Info:</Title>
 				<View>
 					<TextInput
-						label="Firstname"
+						label="First Name"
 						value={firstname}
 						onChangeText={setFirstname}
 						autoComplete={false}
@@ -45,7 +46,7 @@ const ProfileScreen = ({ user, editStatus, setEditStatus }: ScreenProps) => {
 						}}
 					/>
 					<TextInput
-						label="Lastname"
+						label="Last Name"
 						value={lastname}
 						onChangeText={setLastname}
 						autoComplete={false}

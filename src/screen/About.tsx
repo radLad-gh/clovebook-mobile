@@ -17,26 +17,26 @@ const AboutScreen = ({ user }: ScreenProps) => {
 					backgroundColor: theme.colors.background,
 					flex: 1,
 					paddingHorizontal: 15,
-					paddingTop: 5,
+					paddingTop: 10,
 				}}
 			>
-				<Title style={{ fontSize: 25, paddingTop: 5 }}>{user.firstName},</Title>
-				<Title style={{ fontSize: 18 }}>
-					We appreciate you checking out the app:
+				<Title style={{ fontSize: 22, paddingBottom: 12}}>
+					Thanks for checking out the app!
 				</Title>
 				<View>
 					<Paragraph>
-						Clovebook is a recipe finder and manager. Users can favorite, save,
-						and manage their favorite recipes. With Clovebook mobile, you can
-						bring this realm of recipes to any location as you please.
+						Clove is a recipe discovery, creation, and management app inspired by a classic cookbook. Users can favorite, save,
+						and manage recipes from both the internet and of their own creation. With Clove Mobile, you can
+						bring this trove of recipes to any location you please! We hope that you enjoy this app, 
+						and want to thank you for using it.
 					</Paragraph>
-					<Divider />
 					<Paragraph>
-						And a thanks for the team effort on the Clovebook Mobile Team. You
-						can find the GitHub to this project here:
+						Finally, we owe a big thank you to the team for all their effort on Clove. 
+						Made with love by Kate Fort, Layne Hoelscher, Tyler Clarke, Cathy Chian, Amelia Castilla, Ethan Bliss, and Justice Smith.
+						Find our project on GitHub:
 					</Paragraph>
 					<Text
-						style={{ color: "blue" }}
+						style={{ color: theme.colors.secondary_dark, fontSize: 20, paddingVertical: 10}}
 						onPress={() =>
 							Linking.openURL("https://github.com/jcode94/clovebook-mobile")
 						}

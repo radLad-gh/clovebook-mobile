@@ -113,7 +113,7 @@ const LoginTab = ({
 					<Button
 						mode="contained"
 						onPress={sendForgot}
-						style={{ alignSelf: "center", width: 200, marginTop: 10 }}
+						style={{ alignSelf: "center", width: 200, marginTop: 5 }}
 					>
 						Submit
 					</Button>
@@ -166,8 +166,9 @@ const LoginTab = ({
 						<Switch value={rememberSwitch} onValueChange={onToggleSwitch} />
 					</View> */}
 					<Button
-						style={styles.inputOptionForgot}
+						style={{marginTop: -10}}
 						mode="text"
+						color={theme.colors.accent}
 						compact={true}
 						uppercase={false}
 						onPress={() => {
@@ -180,6 +181,7 @@ const LoginTab = ({
 
 				<Button
 					mode="contained"
+					color={theme.colors.secondary}
 					style={{ alignSelf: "center", width: 200, marginTop: 75 }}
 					onPress={validate}
 				>
@@ -195,8 +197,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: theme.colors.background,
 		width: "100%",
+		padding: 20,
 		resizeMode: "contain",
-		paddingTop: 100,
+		paddingTop: 80,
 		marginBottom: -60,
 	},
 	inputContainer: {
@@ -216,12 +219,6 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		width: "50%",
 		paddingRight: 5,
-	},
-	inputOptionForgot: {
-		backgroundColor: theme.colors.secondary,
-		color: theme.colors.text,
-		marginTop: 5,
-		// marginLeft: 5,
 	},
 });
 

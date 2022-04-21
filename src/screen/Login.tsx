@@ -36,7 +36,7 @@ const LoginScreen = ({
 				tabBarStyle: {
 					backgroundColor: theme.colors.surface,
 					borderTopColor: theme.colors.selected,
-					height: 60,
+					height: 50,
 				},
 				tabBarActiveBackgroundColor: theme.colors.selected,
 				tabBarActiveTintColor: theme.colors.text_light,
@@ -57,6 +57,7 @@ const LoginScreen = ({
 						<Icon name={"login-variant"} color={color} size={size} />
 					),
 					tabBarHideOnKeyboard: false,
+					tabBarLabelStyle: {fontSize: 18}
 				}}
 			/>
 			<Tab.Screen
@@ -74,6 +75,7 @@ const LoginScreen = ({
 						<Icon name={"account-plus"} color={color} size={size} />
 					),
 					tabBarHideOnKeyboard: false,
+					tabBarLabelStyle: {fontSize: 18}
 				}}
 			/>
 		</Tab.Navigator>

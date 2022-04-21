@@ -30,8 +30,8 @@ const JoinTab = ({
 	setLoginValidity,
 }: TabProps) => {
 	// Field placeholders
-	const [firstPlaceHolder, setFirstPlaceHolder] = React.useState("Firstname");
-	const [lastPlaceHolder, setLastPlaceHolder] = React.useState("Lastname");
+	const [firstPlaceHolder, setFirstPlaceHolder] = React.useState("First Name");
+	const [lastPlaceHolder, setLastPlaceHolder] = React.useState("Last Name");
 	const [userPlaceHolder, setUserPlaceHolder] = React.useState("Username");
 	const [emailPlaceHolder, setEmailPlaceHolder] = React.useState("Email");
 	const [passPlaceholder, setPassPlaceholder] = React.useState("Password");
@@ -247,6 +247,7 @@ const JoinTab = ({
 						width: 200,
 						marginTop: 10,
 					}}
+					color={theme.colors.secondary}
 				>
 					Join
 				</Button>
@@ -261,12 +262,13 @@ const styles = StyleSheet.create({
 		backgroundColor: theme.colors.background,
 		width: "100%",
 		resizeMode: "contain",
-		paddingTop: 100,
+		paddingTop: 80,
 		marginBottom: -60,
 	},
 	inputContainer: {
 		backgroundColor: theme.colors.background,
 		flex: 1,
+		
 		paddingHorizontal: 25,
 		// Hacky way to get this page the way it looks.
 		paddingBottom: 250,

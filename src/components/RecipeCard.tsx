@@ -52,13 +52,13 @@ export function RecipeCard(props: CardProps) {
 		props.fromFavsTabs ? true : props.favoriteStuff.checkIfFav(id)
 	);
 	const [color, setColor] = React.useState(
-		favorite ? theme.colors.secondary : theme.colors.primary_darker
+		favorite ? theme.colors.secondary : theme.colors.primary
 	);
 
 	useEffect(() => {
 		const isFav = props.favoriteStuff.checkIfFav(id);
 		setFavorite(isFav);
-		setColor(isFav ? theme.colors.secondary : theme.colors.primary_darker);
+		setColor(isFav ? theme.colors.secondary : theme.colors.primary);
 	}, [props.favoriteStuff.favStubs]);
 
 	const toggleStar = () => {
@@ -80,7 +80,7 @@ export function RecipeCard(props: CardProps) {
 		<Pressable onPress={openRecipe} onLongPress={toggleStar}>
 			<View
 				style={{
-					backgroundColor: theme.colors.primary,
+					backgroundColor: theme.colors.surface,
 					marginTop: 14,
 					borderRadius: 15,
 					display: "flex",

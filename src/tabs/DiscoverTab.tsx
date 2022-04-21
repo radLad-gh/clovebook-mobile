@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { ActivityIndicator, Button } from "react-native-paper";
+import { ThemeColors } from "react-navigation";
 import { SimpleRecipe } from "../api/models";
 import { getRecipes } from "../api/requests";
 import Featured from "../components/Featured";
@@ -79,7 +80,7 @@ const DiscoverTab = ({
 				backgroundColor: theme.colors.background,
 				paddingLeft: 15,
 				paddingRight: 15,
-				marginBottom: 60,
+				marginBottom: 50,
 			}}
 			refreshControl={
 				<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -109,6 +110,7 @@ const DiscoverTab = ({
 					mode="contained"
 					// onPress={() => setRandomLetter(getRandomLetter())}
 					onPress={onRefresh}
+					color={theme.colors.secondary}
 				>
 					Refresh
 				</Button>

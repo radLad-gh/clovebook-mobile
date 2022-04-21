@@ -10,14 +10,15 @@ export const theme = {
 		primary_dark: "#73825D",
 		primary_darker: "#435643",
 		secondary: "#E5932A",
+		secondary_dark: "#D57313",
 		// Use text on light backgrounds. Otherwise, text_light.
-		text: "#303020",
+		text: "#282020",
 		text_light: "#FAF4EB",
 		accent: "#4f3c2f",
 		background: "#E2DFD4",
 		surface: "#FAF4EB",
 		selected: "#E5932A",
-		notifications: "#f13a59",
+		notifications: "#f15a29",
 	},
 };
 
@@ -64,12 +65,14 @@ const styles = StyleSheet.create({
 		elevation: 3,
 		shadowRadius: 2,
 		shadowOpacity: 0.2,
+		
 		shadowColor: theme.colors.accent,
 	},
 	// Image
 	cardCover: {
 		resizeMode: "cover",
 		borderRadius: cardBorderConstant,
+		borderBottomLeftRadius: 0,
 		height: 165,
 		///// Comment this back to make it horizontal
 		//height: "auto",
@@ -117,7 +120,7 @@ const styles = StyleSheet.create({
 		margin: recipePadding,
 		fontSize: 48,
 		// fontFamily: "Helvetica Neue",
-		color: theme.colors.text_light,
+		color: theme.colors.text,
 		marginBottom: 6,
 		height: "auto",
 	},

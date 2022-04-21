@@ -25,7 +25,7 @@ export const HomeTabs = ({
 				tabBarStyle: {
 					backgroundColor: theme.colors.surface,
 					borderTopColor: theme.colors.selected,
-					height: 60,
+					height: 50,
 					position: "absolute",
 				},
 				tabBarIcon: ({ focused, color, size }) => {
@@ -39,7 +39,7 @@ export const HomeTabs = ({
 						iconName = focused ? "heart" : "heart-outline";
 					}
 
-					return <Icon name={iconName as string} size={size} color={color} />;
+					return <Icon name={iconName as string} size={20} color={color} />;
 				},
 				tabBarActiveBackgroundColor: theme.colors.selected,
 				tabBarActiveTintColor: theme.colors.text_light,
@@ -54,7 +54,7 @@ export const HomeTabs = ({
 						favoriteStuff={favoriteStuff}
 					/>
 				)}
-				// options={{ tabBarHideOnKeyboard: true }}
+				options={{ tabBarLabelStyle: {fontSize: 18} }}
 			/>
 			<Tab.Screen
 				name="Home"
@@ -65,9 +65,9 @@ export const HomeTabs = ({
 						favoriteStuff={favoriteStuff}
 					/>
 				)}
-				// options={{
-				//   tabBarHideOnKeyboard: true,
-				// }}
+				options={{
+					tabBarLabelStyle: {fontSize: 18}
+				}}
 			/>
 			<Tab.Screen
 				name="Favorites"
@@ -78,7 +78,7 @@ export const HomeTabs = ({
 						favoriteStuff={favoriteStuff}
 					/>
 				)}
-				// options={{ tabBarHideOnKeyboard: true }}
+				options={{ tabBarLabelStyle: {fontSize: 18} }}
 			/>
 		</Tab.Navigator>
 	);
