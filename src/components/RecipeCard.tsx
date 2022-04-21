@@ -14,7 +14,14 @@ const Time = ({ numericTime }: { numericTime: number }) => {
 		mag = "h";
 	}
 	return (
-		<Text style={{ fontSize: 18, alignSelf: "flex-end", marginBottom: 16, color: theme.colors.primary_darker}}>
+		<Text
+			style={{
+				fontSize: 18,
+				alignSelf: "flex-end",
+				marginBottom: 16,
+				color: theme.colors.primary_darker,
+			}}
+		>
 			{numericTime + mag}
 		</Text>
 	);
