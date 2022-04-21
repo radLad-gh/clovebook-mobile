@@ -8,9 +8,9 @@ export async function getValueFor(key: string): Promise<string> {
 	// let result = await SecureStore.getItemAsync(key);
 	// return result;
 	let result = await SecureStore.getItemAsync(key);
-	result
-		? console.log("🔐 Here's your value 🔐 \n" + result)
-		: console.log("No values stored under that key.");
+	// result
+	// 	? console.log("🔐 Here's your value 🔐 \n" + result)
+	// 	: console.log("No values stored under that key.");
 	return result ? result : "";
 
 	//pointer = result;

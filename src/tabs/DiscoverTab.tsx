@@ -74,7 +74,7 @@ const DiscoverTab = ({
 			}
 		>
 			<Featured
-				imageSrc="https://picsum.photos/700"
+				imageSrc="https://picsum.photos/300"
 				title="Random"
 				// loadScreen={() => setRandomLetter(getRandomLetter())}
 				loadScreen={onRefresh}

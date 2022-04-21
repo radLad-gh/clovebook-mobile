@@ -14,7 +14,7 @@ const Time = ({ numericTime }: { numericTime: number }) => {
 		mag = "h";
 	}
 	return (
-		<Text style={{ fontSize: 18, alignSelf: "flex-end", marginBottom: 16 }}>
+		<Text style={{ fontSize: 18, alignSelf: "flex-end", marginBottom: 16, color: theme.colors.primary_darker}}>
 			{numericTime + mag}
 		</Text>
 	);
@@ -37,7 +37,7 @@ export function RecipeCard(props: CardProps) {
 	const openRecipe = () => {
 		props.setHeaderStatus(false);
 		props.setCurRecipe(props.stub);
-		navigation.navigate("Recipe" as never);
+		navigation.navigate(" " as never);
 	};
 
 	const cID = props.stub.cookbookID;
@@ -52,13 +52,13 @@ export function RecipeCard(props: CardProps) {
 		props.fromFavsTabs ? true : props.favoriteStuff.checkIfFav(id)
 	);
 	const [color, setColor] = React.useState(
-		favorite ? theme.colors.secondary : theme.colors.text_light
+		favorite ? theme.colors.secondary : theme.colors.primary_darker
 	);
 
 	useEffect(() => {
 		const isFav = props.favoriteStuff.checkIfFav(id);
 		setFavorite(isFav);
-		setColor(isFav ? theme.colors.secondary : theme.colors.text_light);
+		setColor(isFav ? theme.colors.secondary : theme.colors.primary_darker);
 	}, [props.favoriteStuff.favStubs]);
 
 	const toggleStar = () => {
@@ -83,9 +83,6 @@ export function RecipeCard(props: CardProps) {
 					backgroundColor: theme.colors.primary,
 					marginTop: 14,
 					borderRadius: 15,
-					//	height: cardDimensionConstant,
-					height: "auto",
-					width: "auto",
 					display: "flex",
 					flexDirection: "column",
 				}}
@@ -109,11 +106,7 @@ export function RecipeCard(props: CardProps) {
 					style={{
 						overflow: "hidden",
 						// height: cardDimensionConstant,
-						height: "auto",
-						maxHeight: 500,
-						width: "100%",
-						paddingLeft: 8,
-						flex: -1, // shrinks to proper size
+						paddingLeft: 5,
 						display: "flex",
 						flexDirection: "column",
 						alignItems: "stretch",

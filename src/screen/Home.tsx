@@ -5,6 +5,7 @@ import { IconButton } from "react-native-paper";
 import { defaultSimpleRecipe, NewUser, SimpleRecipe } from "../api/models";
 import { getFavoriteIDs, getFavorites, toggleFavorite } from "../api/requests";
 import { HomeTabs } from "../components/HomeTabs";
+import { theme } from "../themes/Theme";
 import * as local from "../validation/securestore";
 import RecipeScreen from "./Recipe";
 
@@ -99,7 +100,7 @@ const HomeScreen = ({ setHeaderStatus }: HomeScreenProps) => {
 			initFavs();
 		}
 	}, []);
-
+	
 	return favIDsLoaded && favStubsLoaded ? (
 		<Stack.Navigator>
 			<Stack.Screen
@@ -114,7 +115,7 @@ const HomeScreen = ({ setHeaderStatus }: HomeScreenProps) => {
 				)}
 			/>
 			<Stack.Screen
-				name="Recipe"
+				name=" "
 				children={() => (
 					<RecipeScreen
 						setHeaderStatus={setHeaderStatus}
@@ -123,8 +124,10 @@ const HomeScreen = ({ setHeaderStatus }: HomeScreenProps) => {
 					/>
 				)}
 				options={{
+					headerStyle: {backgroundColor: theme.colors.primary},
 					headerLeft: () => (
 						<IconButton
+							color={theme.colors.text_light}
 							icon="arrow-left"
 							size={25}
 							onPress={() => {

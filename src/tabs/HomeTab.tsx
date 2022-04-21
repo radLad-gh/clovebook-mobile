@@ -1,7 +1,7 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
-import { ActivityIndicator, Button } from "react-native-paper";
+import { ActivityIndicator, Button, Title } from "react-native-paper";
 import { SimpleRecipe } from "../api/models";
 import { getRecipes } from "../api/requests";
 import QueryBar from "../components/QueryBar";
@@ -100,25 +100,15 @@ const HomeTab = ({
 					marginBottom: -5,
 				}}
 			>
-				<Text
+				<Title
 					style={{
 						alignSelf: "center",
 						fontSize: 20,
 						color: theme.colors.text,
 					}}
 				>
-					Recent Favorites
-				</Text>
-				<Button
-					onPress={() => {
-						navigation.navigate("Favorites" as never);
-					}}
-					color={theme.colors.text}
-					compact={true}
-					style={{ alignSelf: "center", marginBottom: -5 }}
-				>
-					View More
-				</Button>
+					Featured Recipes
+				</Title>
 			</View>
 			{!refreshing ? (
 				recipes.map((recipe, i) => (
@@ -131,7 +121,7 @@ const HomeTab = ({
 					/>
 				))
 			) : (
-				<ActivityIndicator animating={true} color={"#000"} />
+				<ActivityIndicator animating={true} color={theme.colors.accent} />
 			)}
 		</ScrollView>
 	);
