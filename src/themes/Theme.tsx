@@ -6,18 +6,16 @@ export const theme = {
 	colors: {
 		...DefaultTheme.colors,
 		primary: "#aa9c8c",
-		primary_glow: "#e1eaeb",
 		primary_dark: "#82916B",
-		primary_darker: "#4f3c2f",
-		secondary: "#e77f38",
+		primary_darker: "#7f6c57",
+		secondary: "#db742f",
+		selected: "#db742f",
 		// Use text on light backgrounds. Otherwise, text_light.
 		text: "#493520",
-		text_light: "#d7cFc5",
+		text_light: "#F8F3EC",
 		accent: "#4f3c2f",
 		background: "#DBD2C7",
-		surface: "#FaEFE5",
-		selected: "#b6652e",
-		notifications: "#f13a59",
+		surface: "#F8F3EC",
 	},
 };
 
@@ -70,8 +68,7 @@ const styles = StyleSheet.create({
 	cardCover: {
 		resizeMode: "cover",
 		borderRadius: cardBorderConstant,
-		width: "auto",
-		height: 180,
+		height: 165,
 		///// Comment this back to make it horizontal
 		//height: "auto",
 		//width: cardDimensionConstant,
@@ -89,6 +86,7 @@ const styles = StyleSheet.create({
 		marginTop: 14,
 		marginRight: 12,
 		overflow: "hidden",
+		color: theme.colors.text,
 	},
 	// Text and heart
 	cardInfo: {

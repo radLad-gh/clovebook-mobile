@@ -164,6 +164,7 @@ const RecipeScreen = ({
 				style={{
 					width: "auto",
 					height: 400,
+					borderBottomLeftRadius: 32,
 					borderBottomRightRadius: 32,
 					shadowRadius: 5,
 				}}

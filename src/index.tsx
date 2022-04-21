@@ -57,7 +57,7 @@ const App = () => {
 			<Drawer.Navigator
 				screenOptions={{
 					drawerStyle: {
-						backgroundColor: theme.colors.primary_glow,
+						backgroundColor: theme.colors.background,
 					},
 				}}
 				// props is a preset set of props from the drawer.nav.
@@ -190,14 +190,29 @@ const App = () => {
 							setEditStatus={setEditStatus}
 						/>
 					)}
+					options={{
+						headerShown: headerStatus,
+						headerTintColor: theme.colors.text_light,
+						headerStyle: { backgroundColor: theme.colors.primary },
+					}}
 				/>
 				<Drawer.Screen
 					name="Settings"
 					children={() => <Text>Settings screen.</Text>}
+					options={{
+						headerShown: headerStatus,
+						headerTintColor: theme.colors.text_light,
+						headerStyle: { backgroundColor: theme.colors.primary },
+					}}
 				/>
 				<Drawer.Screen
 					name="About"
 					children={() => <AboutScreen user={user} />}
+					options={{
+						headerShown: headerStatus,
+						headerTintColor: theme.colors.text_light,
+						headerStyle: { backgroundColor: theme.colors.primary },
+					}}
 				/>
 			</Drawer.Navigator>
 		</NavigationContainer>

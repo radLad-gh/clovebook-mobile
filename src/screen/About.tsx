@@ -20,10 +20,10 @@ const AboutScreen = ({ user }: ScreenProps) => {
 					paddingTop: 5,
 				}}
 			>
-				<Title style={{ fontSize: 25, paddingVertical: 5 }}>
+				<Title style={{ fontSize: 25, paddingTop: 5 }}>
 					{user.firstName},
 				</Title>
-				<Title>We appreciate you checking out the app:</Title>
+				<Title style={{fontSize: 18}}>We appreciate you checking out the app:</Title>
 				<View>
 					<Paragraph>
 						Clovebook is recipe manager and finder. Users can favorite, save,

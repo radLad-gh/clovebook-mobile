@@ -107,3 +107,6 @@ export const getFavoriteIDs = (userID: string): Promise<string[]> =>
 
 export const getUserByID = (userID: string): Promise<models.User> =>
 	requests.get(`/users/${userID}`);
+
+export const updateUser = (userID: string, data: models.User) =>
+requests.put(`/users/${userID}`, data);

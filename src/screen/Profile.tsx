@@ -3,6 +3,7 @@ import { ScrollView, View } from "react-native";
 import { FAB, TextInput, Title } from "react-native-paper";
 import { User } from "../api/models";
 import { theme } from "../themes/Theme";
+import { updateUser } from "../api/requests";
 
 type ScreenProps = {
 	user: User;
@@ -11,6 +12,16 @@ type ScreenProps = {
 };
 
 const ProfileScreen = ({ user, editStatus, setEditStatus }: ScreenProps) => {
+	
+	const [firstname, setFirstname] = React.useState(user.firstName);
+	const [lastname, setLastname] = React.useState(user.lastName);
+	// let name = user.firstName;
+	const [name, setName] = React.useState(user.firstName);
+	
+	React.useEffect(() => {
+
+	}, [name]);
+
 	return (
 		<>
 			<ScrollView
@@ -22,13 +33,14 @@ const ProfileScreen = ({ user, editStatus, setEditStatus }: ScreenProps) => {
 				}}
 			>
 				<Title style={{ fontSize: 25, paddingVertical: 5 }}>
-					Hello {user.firstName}.
+					Hello {name}.
 				</Title>
 				<Title>Update your Info:</Title>
 				<View>
 					<TextInput
 						label="Firstname"
-						value={user.firstName}
+						value={firstname}
+						onChangeText={setFirstname}
 						autoComplete={false}
 						disabled={!editStatus}
 						theme={{
@@ -39,7 +51,8 @@ const ProfileScreen = ({ user, editStatus, setEditStatus }: ScreenProps) => {
 					/>
 					<TextInput
 						label="Lastname"
-						value={user.lastName}
+						value={lastname}
+						onChangeText={setLastname}
 						autoComplete={false}
 						disabled={!editStatus}
 						theme={{
@@ -84,6 +97,9 @@ const ProfileScreen = ({ user, editStatus, setEditStatus }: ScreenProps) => {
 				color={"white"}
 				onPress={() => {
 					setEditStatus(!editStatus);
+					// Send firstname and lastname to the server to update.
+					updateUser(user.userID, {...user, firstName: firstname, lastName: lastname});
+					setName(firstname);
 				}}
 			/>
 		</>
