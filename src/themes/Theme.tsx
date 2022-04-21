@@ -80,9 +80,10 @@ const styles = StyleSheet.create({
 		// borderBottomRightRadius: 0,
 	},
 	cardTitle: {
-		fontSize: 18,
+		fontSize: 22,
 		width: "auto",
 		paddingLeft: 10,
+		paddingRight: 10,
 		marginTop: 14,
 		marginRight: 12,
 		overflow: "hidden",

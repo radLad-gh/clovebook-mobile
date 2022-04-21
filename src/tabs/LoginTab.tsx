@@ -166,7 +166,9 @@ const LoginTab = ({
 						<Switch value={rememberSwitch} onValueChange={onToggleSwitch} />
 					</View> */}
 					<Button
-						style={styles.inputOptionForgot}
+						style={{
+							marginTop: 5,
+						}}
 						mode="text"
 						compact={true}
 						uppercase={false}
@@ -180,7 +182,12 @@ const LoginTab = ({
 
 				<Button
 					mode="contained"
-					style={{ alignSelf: "center", width: 200, marginTop: 75 }}
+					style={{
+						backgroundColor: theme.colors.secondary,
+						alignSelf: "center",
+						width: 200,
+						marginTop: 75,
+					}}
 					onPress={validate}
 				>
 					Log In
@@ -219,7 +226,7 @@ const styles = StyleSheet.create({
 	},
 	inputOptionForgot: {
 		backgroundColor: theme.colors.secondary,
-		color: theme.colors.text,
+
 		marginTop: 5,
 		// marginLeft: 5,
 	},
