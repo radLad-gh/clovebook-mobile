@@ -18,15 +18,26 @@ import { TabProps } from "../types";
 // 	});
 // }
 
-const getRandomLetter = () => {
+const getRandomLetter = (oldLetter: string) => {
 	const base = 97;
-	return String.fromCharCode(Math.floor(Math.random() * 26) + base);
+	let res = oldLetter;
+
+	// let i = 1;
+	while (res === oldLetter) {
+		res = String.fromCharCode(Math.floor(Math.random() * 26) + base);
+		// console.log("random letter " + i + " is " + res + ".");
+		// i += 1;
+	}
+
+	// const res = String.fromCharCode(Math.floor(Math.random() * 26) + base);
+	return res;
+	// return String.fromCharCode(Math.floor(Math.random() * 26) + base);
 };
 
 const shuffleResponse = (response: SimpleRecipe[]) => {
 	const ret = new Set<SimpleRecipe>();
 
-	while (ret.size != 5) {
+	while (ret.size != Math.min(response.length, 5)) {
 		let randomID = Math.floor(Math.random() * response.length);
 		ret.add(response[randomID]);
 	}
@@ -49,11 +60,12 @@ const DiscoverTab = ({
 
 	const onRefresh = useCallback(() => {
 		setRefreshing(true);
-		setRandomLetter(getRandomLetter());
+		// Get NEW random letter
+		setRandomLetter(getRandomLetter(randomLetter));
 	}, []);
 
 	React.useEffect(() => {
-		getRecipes(getRandomLetter(), 0).then((response) => {
+		getRecipes(randomLetter, 0).then((response) => {
 			setRecipes(shuffleResponse(response));
 			setRefreshing(false);
 		});

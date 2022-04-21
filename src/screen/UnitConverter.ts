@@ -37,7 +37,7 @@ export function decimalToFraction(value: number, donly = true) {
 
 	do {
 		var a = Math.floor(b);
-		console.log(a);
+		// console.log(a);
 		var aux = h1;
 		h1 = a * h1 + h2;
 		h2 = aux;
