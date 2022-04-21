@@ -6,7 +6,6 @@ export const theme = {
 	colors: {
 		...DefaultTheme.colors,
 		primary: "#aa9c8c",
-<<<<<<< HEAD
 		primary_glow: "#FACF50",
 		primary_dark: "#73825D",
 		primary_darker: "#435643",
@@ -17,26 +16,14 @@ export const theme = {
 		accent: "#4f3c2f",
 		background: "#E2DFD4",
 		surface: "#FAF4EB",
-		selected: "#80431A",
+		selected: "#E5932A",
 		notifications: "#f13a59",
-=======
-		primary_dark: "#82916B",
-		primary_darker: "#7f6c57",
-		secondary: "#db742f",
-		selected: "#db742f",
-		// Use text on light backgrounds. Otherwise, text_light.
-		text: "#493520",
-		text_light: "#F8F3EC",
-		accent: "#4f3c2f",
-		background: "#DBD2C7",
-		surface: "#F8F3EC",
->>>>>>> cbb4e071c51d07f8a143e5b8b74f84f52217b4ed
 	},
 };
 
 const recipePadding = 18;
 
-const cardBorderConstant = 10;
+const cardBorderConstant = 12;
 const cardDimensionConstant = 110;
 
 const styles = StyleSheet.create({
@@ -93,9 +80,7 @@ const styles = StyleSheet.create({
 		// borderBottomRightRadius: 0,
 	},
 	cardTitle: {
-		fontSize: 24,
-		// height: "auto",
-		// marginBottom: 4,
+		fontSize: 18,
 		width: "auto",
 		paddingLeft: 10,
 		marginTop: 14,
@@ -108,7 +93,7 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		width: "auto",
 		alignItems: "flex-start",
-		paddingLeft: cardDimensionConstant, // Position absolute, add 125 padding to "fit" correctly.
+		paddingLeft: cardDimensionConstant,
 	},
 
 	// Recipe Modal
@@ -116,7 +101,7 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		display: "flex",
 		height: "auto",
-		backgroundColor: theme.colors.primary,
+		backgroundColor: theme.colors.surface,
 		padding: recipePadding,
 		margin: recipePadding / 2,
 		marginLeft: recipePadding,

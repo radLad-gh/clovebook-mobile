@@ -20,13 +20,13 @@ const AboutScreen = ({ user }: ScreenProps) => {
 					paddingTop: 5,
 				}}
 			>
-				<Title style={{ fontSize: 25, paddingTop: 5 }}>
-					{user.firstName},
+				<Title style={{ fontSize: 25, paddingTop: 5 }}>{user.firstName},</Title>
+				<Title style={{ fontSize: 18 }}>
+					We appreciate you checking out the app:
 				</Title>
-				<Title style={{fontSize: 18}}>We appreciate you checking out the app:</Title>
 				<View>
 					<Paragraph>
-						Clovebook is recipe manager and finder. Users can favorite, save,
+						Clovebook is a recipe finder and manager. Users can favorite, save,
 						and manage their favorite recipes. With Clovebook mobile, you can
 						bring this realm of recipes to any location as you please.
 					</Paragraph>

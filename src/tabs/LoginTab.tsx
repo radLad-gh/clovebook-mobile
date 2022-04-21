@@ -113,7 +113,7 @@ const LoginTab = ({
 					<Button
 						mode="contained"
 						onPress={sendForgot}
-						style={{ alignSelf: "center", width: 200, marginTop: 25 }}
+						style={{ alignSelf: "center", width: 200, marginTop: 10 }}
 					>
 						Submit
 					</Button>
@@ -218,8 +218,10 @@ const styles = StyleSheet.create({
 		paddingRight: 5,
 	},
 	inputOptionForgot: {
+		backgroundColor: theme.colors.secondary,
+		color: theme.colors.text,
 		marginTop: 5,
-		marginLeft: 5,
+		// marginLeft: 5,
 	},
 });
 

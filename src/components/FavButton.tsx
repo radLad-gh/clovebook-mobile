@@ -7,7 +7,7 @@ export function FavButton() {
 		<Button>
 			<Ionicons
 				name="heart-outline"
-				size={12}
+				size={14}
 				color={theme.colors.background}
 			/>
 		</Button>

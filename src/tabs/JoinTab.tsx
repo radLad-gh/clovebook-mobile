@@ -117,8 +117,8 @@ const JoinTab = ({
 
 	const resetErrorMessages = () => {
 		// Reset error message/placeholder.
-		setFirstPlaceHolder("Firstname");
-		setLastPlaceHolder("Lastname");
+		setFirstPlaceHolder("First Name");
+		setLastPlaceHolder("Last Name");
 		setEmailPlaceHolder("Email");
 		setUserPlaceHolder("Username");
 		setPassPlaceholder("Password");
@@ -193,7 +193,6 @@ const JoinTab = ({
 					onChangeText={setPassword}
 					value={password}
 				></InputSecure>
-				<View style={styles.inputOptionsContainer}></View>
 
 				<Button
 					mode="contained"
@@ -243,7 +242,11 @@ const JoinTab = ({
 							authorize();
 						}
 					}}
-					style={{ alignSelf: "center", width: 200, marginTop: 25 }}
+					style={{
+						alignSelf: "center",
+						width: 200,
+						marginTop: 10,
+					}}
 				>
 					Join
 				</Button>

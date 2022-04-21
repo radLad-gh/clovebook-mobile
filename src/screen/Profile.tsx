@@ -12,15 +12,12 @@ type ScreenProps = {
 };
 
 const ProfileScreen = ({ user, editStatus, setEditStatus }: ScreenProps) => {
-	
 	const [firstname, setFirstname] = React.useState(user.firstName);
 	const [lastname, setLastname] = React.useState(user.lastName);
 	// let name = user.firstName;
 	const [name, setName] = React.useState(user.firstName);
-	
-	React.useEffect(() => {
 
-	}, [name]);
+	React.useEffect(() => {}, [name]);
 
 	return (
 		<>
@@ -32,9 +29,7 @@ const ProfileScreen = ({ user, editStatus, setEditStatus }: ScreenProps) => {
 					paddingHorizontal: 15,
 				}}
 			>
-				<Title style={{ fontSize: 25, paddingVertical: 5 }}>
-					Hello {name}.
-				</Title>
+				<Title style={{ fontSize: 25, paddingVertical: 5 }}>Hi {name}!</Title>
 				<Title>Update your Info:</Title>
 				<View>
 					<TextInput
@@ -91,14 +86,20 @@ const ProfileScreen = ({ user, editStatus, setEditStatus }: ScreenProps) => {
 					margin: 16,
 					right: 0,
 					bottom: 0,
-					backgroundColor: !editStatus ? theme.colors.secondary : "green",
+					backgroundColor: !editStatus
+						? theme.colors.secondary
+						: theme.colors.primary_dark,
 				}}
 				icon={!editStatus ? "pencil" : "content-save"}
 				color={"white"}
 				onPress={() => {
 					setEditStatus(!editStatus);
 					// Send firstname and lastname to the server to update.
-					updateUser(user.userID, {...user, firstName: firstname, lastName: lastname});
+					updateUser(user.userID, {
+						...user,
+						firstName: firstname,
+						lastName: lastname,
+					});
 					setName(firstname);
 				}}
 			/>
