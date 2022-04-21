@@ -68,31 +68,21 @@ const RecipeScreen = ({
 		return (
 			<View style={styles.infoBlock}>
 				<Subheading style={styles.blockLabels}>Nutrition</Subheading>
-				<View style={{ display: "flex" }}>
-					{props.nutrients.map((nutrient, i) =>
-						!importantNutrients.includes(nutrient.name) ||
-						(nutrient?.percentOfDailyNeeds === 0 && nutrient.amount === "") ? (
-							<></>
-						) : (
-							<Text key={nutrient.name} style={styles.body}>
-								{nutrient.name}:
-								{nutrient.amount !== "" ? (
-									<Text> {nutrient.amount}</Text>
-								) : (
-									<></>
-								)}{" "}
-								{/* Includes Daily Value for spoon recipes */}
-								{nutrient.percentOfDailyNeeds > 1 ? (
-									<Text>
-										({Math.round(nutrient?.percentOfDailyNeeds)}% of DV)
-									</Text>
-								) : (
-									""
-								)}
-							</Text>
-						)
-					)}
-				</View>
+				{props.nutrients.map((nutrient, i) =>
+					!importantNutrients.includes(nutrient.name) ||
+					(nutrient?.percentOfDailyNeeds < 1 &&
+						(nutrient.amount as string) === "") ? (
+						<></>
+					) : (
+						<Text key={"nutri" + i} style={styles.body}>
+							{/* Includes Daily Value for spoon recipes */}
+							{`${nutrient.name}: ${nutrient.amount}` +
+								(nutrient.percentOfDailyNeeds > 1
+									? `${Math.round(nutrient?.percentOfDailyNeeds)}% DV`
+									: "")}
+						</Text>
+					)
+				)}
 			</View>
 		);
 	};
